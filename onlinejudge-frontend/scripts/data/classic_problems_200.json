@@ -1,0 +1,5402 @@
+[
+  {
+    "title": "斐波那契数列第 n 项（校园数据版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定正整数 n，求斐波那契数列第 n 项。定义 F1=1，F2=1，Fn=F(n-1)+F(n-2)。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 60，结果在 64 位整数范围内。\n\n【解题提示】\n可使用迭代动态规划，时间复杂度 O(n)，空间复杂度 O(1)。",
+    "inputFormat": "输入一个整数 n（1 <= n <= 60）。",
+    "outputFormat": "输出 F_n 的值。",
+    "sampleInput": "24",
+    "sampleOutput": "46368",
+    "timeLimit": 1000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "27",
+        "output": "196418"
+      },
+      {
+        "input": "24",
+        "output": "46368"
+      },
+      {
+        "input": "24",
+        "output": "46368"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "斐波那契数列第 n 项（工程调试版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定正整数 n，求斐波那契数列第 n 项。定义 F1=1，F2=1，Fn=F(n-1)+F(n-2)。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 60，结果在 64 位整数范围内。\n\n【解题提示】\n可使用迭代动态规划，时间复杂度 O(n)，空间复杂度 O(1)。",
+    "inputFormat": "输入一个整数 n（1 <= n <= 60）。",
+    "outputFormat": "输出 F_n 的值。",
+    "sampleInput": "10",
+    "sampleOutput": "55",
+    "timeLimit": 1000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "24",
+        "output": "46368"
+      },
+      {
+        "input": "14",
+        "output": "377"
+      },
+      {
+        "input": "18",
+        "output": "2584"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "斐波那契数列第 n 项（竞赛热身版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定正整数 n，求斐波那契数列第 n 项。定义 F1=1，F2=1，Fn=F(n-1)+F(n-2)。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 60，结果在 64 位整数范围内。\n\n【解题提示】\n可使用迭代动态规划，时间复杂度 O(n)，空间复杂度 O(1)。",
+    "inputFormat": "输入一个整数 n（1 <= n <= 60）。",
+    "outputFormat": "输出 F_n 的值。",
+    "sampleInput": "24",
+    "sampleOutput": "46368",
+    "timeLimit": 1000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "17",
+        "output": "1597"
+      },
+      {
+        "input": "26",
+        "output": "121393"
+      },
+      {
+        "input": "24",
+        "output": "46368"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "斐波那契数列第 n 项（实验记录版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定正整数 n，求斐波那契数列第 n 项。定义 F1=1，F2=1，Fn=F(n-1)+F(n-2)。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 60，结果在 64 位整数范围内。\n\n【解题提示】\n可使用迭代动态规划，时间复杂度 O(n)，空间复杂度 O(1)。",
+    "inputFormat": "输入一个整数 n（1 <= n <= 60）。",
+    "outputFormat": "输出 F_n 的值。",
+    "sampleInput": "18",
+    "sampleOutput": "2584",
+    "timeLimit": 1000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "29",
+        "output": "514229"
+      },
+      {
+        "input": "13",
+        "output": "233"
+      },
+      {
+        "input": "12",
+        "output": "144"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "斐波那契数列第 n 项（上线检查版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定正整数 n，求斐波那契数列第 n 项。定义 F1=1，F2=1，Fn=F(n-1)+F(n-2)。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 60，结果在 64 位整数范围内。\n\n【解题提示】\n可使用迭代动态规划，时间复杂度 O(n)，空间复杂度 O(1)。",
+    "inputFormat": "输入一个整数 n（1 <= n <= 60）。",
+    "outputFormat": "输出 F_n 的值。",
+    "sampleInput": "15",
+    "sampleOutput": "610",
+    "timeLimit": 1000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "21",
+        "output": "10946"
+      },
+      {
+        "input": "15",
+        "output": "610"
+      },
+      {
+        "input": "27",
+        "output": "196418"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "斐波那契数列第 n 项（评测样例版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定正整数 n，求斐波那契数列第 n 项。定义 F1=1，F2=1，Fn=F(n-1)+F(n-2)。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 60，结果在 64 位整数范围内。\n\n【解题提示】\n可使用迭代动态规划，时间复杂度 O(n)，空间复杂度 O(1)。",
+    "inputFormat": "输入一个整数 n（1 <= n <= 60）。",
+    "outputFormat": "输出 F_n 的值。",
+    "sampleInput": "22",
+    "sampleOutput": "17711",
+    "timeLimit": 1000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "23",
+        "output": "28657"
+      },
+      {
+        "input": "31",
+        "output": "1346269"
+      },
+      {
+        "input": "29",
+        "output": "514229"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "斐波那契数列第 n 项（课程作业版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定正整数 n，求斐波那契数列第 n 项。定义 F1=1，F2=1，Fn=F(n-1)+F(n-2)。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 60，结果在 64 位整数范围内。\n\n【解题提示】\n可使用迭代动态规划，时间复杂度 O(n)，空间复杂度 O(1)。",
+    "inputFormat": "输入一个整数 n（1 <= n <= 60）。",
+    "outputFormat": "输出 F_n 的值。",
+    "sampleInput": "39",
+    "sampleOutput": "63245986",
+    "timeLimit": 1000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "17",
+        "output": "1597"
+      },
+      {
+        "input": "26",
+        "output": "121393"
+      },
+      {
+        "input": "34",
+        "output": "5702887"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "斐波那契数列第 n 项（算法训练版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定正整数 n，求斐波那契数列第 n 项。定义 F1=1，F2=1，Fn=F(n-1)+F(n-2)。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 60，结果在 64 位整数范围内。\n\n【解题提示】\n可使用迭代动态规划，时间复杂度 O(n)，空间复杂度 O(1)。",
+    "inputFormat": "输入一个整数 n（1 <= n <= 60）。",
+    "outputFormat": "输出 F_n 的值。",
+    "sampleInput": "30",
+    "sampleOutput": "832040",
+    "timeLimit": 1000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "29",
+        "output": "514229"
+      },
+      {
+        "input": "31",
+        "output": "1346269"
+      },
+      {
+        "input": "39",
+        "output": "63245986"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "斐波那契数列第 n 项（强化挑战版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定正整数 n，求斐波那契数列第 n 项。定义 F1=1，F2=1，Fn=F(n-1)+F(n-2)。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 60，结果在 64 位整数范围内。\n\n【解题提示】\n可使用迭代动态规划，时间复杂度 O(n)，空间复杂度 O(1)。",
+    "inputFormat": "输入一个整数 n（1 <= n <= 60）。",
+    "outputFormat": "输出 F_n 的值。",
+    "sampleInput": "23",
+    "sampleOutput": "28657",
+    "timeLimit": 1000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "35",
+        "output": "9227465"
+      },
+      {
+        "input": "41",
+        "output": "165580141"
+      },
+      {
+        "input": "37",
+        "output": "24157817"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "斐波那契数列第 n 项（综合实战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定正整数 n，求斐波那契数列第 n 项。定义 F1=1，F2=1，Fn=F(n-1)+F(n-2)。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 60，结果在 64 位整数范围内。\n\n【解题提示】\n可使用迭代动态规划，时间复杂度 O(n)，空间复杂度 O(1)。",
+    "inputFormat": "输入一个整数 n（1 <= n <= 60）。",
+    "outputFormat": "输出 F_n 的值。",
+    "sampleInput": "24",
+    "sampleOutput": "46368",
+    "timeLimit": 1000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "30",
+        "output": "832040"
+      },
+      {
+        "input": "33",
+        "output": "3524578"
+      },
+      {
+        "input": "40",
+        "output": "102334155"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "爬楼梯方案数（校园数据版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n每次可以爬 1 或 2 阶台阶，求到达第 n 阶台阶的不同方案数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 45。\n\n【解题提示】\n这是经典递推问题，可转化为斐波那契型动态规划。",
+    "inputFormat": "输入一个整数 n（1 <= n <= 45）。",
+    "outputFormat": "输出方案总数。",
+    "sampleInput": "25",
+    "sampleOutput": "121393",
+    "timeLimit": 1000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "30",
+        "output": "1346269"
+      },
+      {
+        "input": "8",
+        "output": "34"
+      },
+      {
+        "input": "13",
+        "output": "377"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "爬楼梯方案数（工程调试版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n每次可以爬 1 或 2 阶台阶，求到达第 n 阶台阶的不同方案数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 45。\n\n【解题提示】\n这是经典递推问题，可转化为斐波那契型动态规划。",
+    "inputFormat": "输入一个整数 n（1 <= n <= 45）。",
+    "outputFormat": "输出方案总数。",
+    "sampleInput": "9",
+    "sampleOutput": "55",
+    "timeLimit": 1000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "30",
+        "output": "1346269"
+      },
+      {
+        "input": "16",
+        "output": "1597"
+      },
+      {
+        "input": "27",
+        "output": "317811"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "爬楼梯方案数（竞赛热身版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n每次可以爬 1 或 2 阶台阶，求到达第 n 阶台阶的不同方案数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 45。\n\n【解题提示】\n这是经典递推问题，可转化为斐波那契型动态规划。",
+    "inputFormat": "输入一个整数 n（1 <= n <= 45）。",
+    "outputFormat": "输出方案总数。",
+    "sampleInput": "32",
+    "sampleOutput": "3524578",
+    "timeLimit": 1000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "21",
+        "output": "17711"
+      },
+      {
+        "input": "31",
+        "output": "2178309"
+      },
+      {
+        "input": "20",
+        "output": "10946"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "爬楼梯方案数（实验记录版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n每次可以爬 1 或 2 阶台阶，求到达第 n 阶台阶的不同方案数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 45。\n\n【解题提示】\n这是经典递推问题，可转化为斐波那契型动态规划。",
+    "inputFormat": "输入一个整数 n（1 <= n <= 45）。",
+    "outputFormat": "输出方案总数。",
+    "sampleInput": "17",
+    "sampleOutput": "2584",
+    "timeLimit": 1000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "15",
+        "output": "987"
+      },
+      {
+        "input": "24",
+        "output": "75025"
+      },
+      {
+        "input": "19",
+        "output": "6765"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "爬楼梯方案数（上线检查版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n每次可以爬 1 或 2 阶台阶，求到达第 n 阶台阶的不同方案数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 45。\n\n【解题提示】\n这是经典递推问题，可转化为斐波那契型动态规划。",
+    "inputFormat": "输入一个整数 n（1 <= n <= 45）。",
+    "outputFormat": "输出方案总数。",
+    "sampleInput": "13",
+    "sampleOutput": "377",
+    "timeLimit": 1000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "27",
+        "output": "317811"
+      },
+      {
+        "input": "17",
+        "output": "2584"
+      },
+      {
+        "input": "27",
+        "output": "317811"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "爬楼梯方案数（评测样例版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n每次可以爬 1 或 2 阶台阶，求到达第 n 阶台阶的不同方案数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 45。\n\n【解题提示】\n这是经典递推问题，可转化为斐波那契型动态规划。",
+    "inputFormat": "输入一个整数 n（1 <= n <= 45）。",
+    "outputFormat": "输出方案总数。",
+    "sampleInput": "19",
+    "sampleOutput": "6765",
+    "timeLimit": 1000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "15",
+        "output": "987"
+      },
+      {
+        "input": "31",
+        "output": "2178309"
+      },
+      {
+        "input": "36",
+        "output": "24157817"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "爬楼梯方案数（课程作业版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n每次可以爬 1 或 2 阶台阶，求到达第 n 阶台阶的不同方案数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 45。\n\n【解题提示】\n这是经典递推问题，可转化为斐波那契型动态规划。",
+    "inputFormat": "输入一个整数 n（1 <= n <= 45）。",
+    "outputFormat": "输出方案总数。",
+    "sampleInput": "35",
+    "sampleOutput": "14930352",
+    "timeLimit": 1000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "21",
+        "output": "17711"
+      },
+      {
+        "input": "31",
+        "output": "2178309"
+      },
+      {
+        "input": "18",
+        "output": "4181"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "爬楼梯方案数（算法训练版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n每次可以爬 1 或 2 阶台阶，求到达第 n 阶台阶的不同方案数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 45。\n\n【解题提示】\n这是经典递推问题，可转化为斐波那契型动态规划。",
+    "inputFormat": "输入一个整数 n（1 <= n <= 45）。",
+    "outputFormat": "输出方案总数。",
+    "sampleInput": "22",
+    "sampleOutput": "28657",
+    "timeLimit": 1000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "32",
+        "output": "3524578"
+      },
+      {
+        "input": "23",
+        "output": "46368"
+      },
+      {
+        "input": "14",
+        "output": "610"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "爬楼梯方案数（强化挑战版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n每次可以爬 1 或 2 阶台阶，求到达第 n 阶台阶的不同方案数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 45。\n\n【解题提示】\n这是经典递推问题，可转化为斐波那契型动态规划。",
+    "inputFormat": "输入一个整数 n（1 <= n <= 45）。",
+    "outputFormat": "输出方案总数。",
+    "sampleInput": "30",
+    "sampleOutput": "1346269",
+    "timeLimit": 1000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "24",
+        "output": "75025"
+      },
+      {
+        "input": "19",
+        "output": "6765"
+      },
+      {
+        "input": "34",
+        "output": "9227465"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "爬楼梯方案数（综合实战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n每次可以爬 1 或 2 阶台阶，求到达第 n 阶台阶的不同方案数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 45。\n\n【解题提示】\n这是经典递推问题，可转化为斐波那契型动态规划。",
+    "inputFormat": "输入一个整数 n（1 <= n <= 45）。",
+    "outputFormat": "输出方案总数。",
+    "sampleInput": "28",
+    "sampleOutput": "514229",
+    "timeLimit": 1000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "40",
+        "output": "165580141"
+      },
+      {
+        "input": "29",
+        "output": "832040"
+      },
+      {
+        "input": "25",
+        "output": "121393"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "最大公约数（校园数据版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定两个正整数 a、b，求它们的最大公约数（GCD）。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^9。\n\n【解题提示】\n推荐使用欧几里得算法（辗转相除法）。",
+    "inputFormat": "输入一行，包含两个正整数 a 和 b。",
+    "outputFormat": "输出最大公约数。",
+    "sampleInput": "56373 3299",
+    "sampleOutput": "1",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "32141 9248",
+        "output": "1"
+      },
+      {
+        "input": "23276 29854",
+        "output": "506"
+      },
+      {
+        "input": "11410 52687",
+        "output": "1"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "最大公约数（工程调试版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定两个正整数 a、b，求它们的最大公约数（GCD）。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^9。\n\n【解题提示】\n推荐使用欧几里得算法（辗转相除法）。",
+    "inputFormat": "输入一行，包含两个正整数 a 和 b。",
+    "outputFormat": "输出最大公约数。",
+    "sampleInput": "7843 53839",
+    "sampleOutput": "1",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "44013 4981",
+        "output": "17"
+      },
+      {
+        "input": "47039 59531",
+        "output": "1"
+      },
+      {
+        "input": "41516 40107",
+        "output": "1"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "最大公约数（竞赛热身版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定两个正整数 a、b，求它们的最大公约数（GCD）。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^9。\n\n【解题提示】\n推荐使用欧几里得算法（辗转相除法）。",
+    "inputFormat": "输入一行，包含两个正整数 a 和 b。",
+    "outputFormat": "输出最大公约数。",
+    "sampleInput": "24005 35033",
+    "sampleOutput": "1",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "15759 6074",
+        "output": "1"
+      },
+      {
+        "input": "61641 29595",
+        "output": "3"
+      },
+      {
+        "input": "46330 36736",
+        "output": "82"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "最大公约数（实验记录版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定两个正整数 a、b，求它们的最大公约数（GCD）。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^9。\n\n【解题提示】\n推荐使用欧几里得算法（辗转相除法）。",
+    "inputFormat": "输入一行，包含两个正整数 a 和 b。",
+    "outputFormat": "输出最大公约数。",
+    "sampleInput": "9671 47576",
+    "sampleOutput": "19",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "23079 7488",
+        "output": "3"
+      },
+      {
+        "input": "8968 23334",
+        "output": "2"
+      },
+      {
+        "input": "73915 33164",
+        "output": "1"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "最大公约数（上线检查版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定两个正整数 a、b，求它们的最大公约数（GCD）。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^9。\n\n【解题提示】\n推荐使用欧几里得算法（辗转相除法）。",
+    "inputFormat": "输入一行，包含两个正整数 a 和 b。",
+    "outputFormat": "输出最大公约数。",
+    "sampleInput": "1088 65763",
+    "sampleOutput": "1",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "53013 77931",
+        "output": "3"
+      },
+      {
+        "input": "47406 23045",
+        "output": "1"
+      },
+      {
+        "input": "34074 39779",
+        "output": "1"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "最大公约数（评测样例版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定两个正整数 a、b，求它们的最大公约数（GCD）。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^9。\n\n【解题提示】\n推荐使用欧几里得算法（辗转相除法）。",
+    "inputFormat": "输入一行，包含两个正整数 a 和 b。",
+    "outputFormat": "输出最大公约数。",
+    "sampleInput": "29042 96159",
+    "sampleOutput": "1",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "45826 9818",
+        "output": "2"
+      },
+      {
+        "input": "53729 26625",
+        "output": "1"
+      },
+      {
+        "input": "5038 48225",
+        "output": "1"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "最大公约数（课程作业版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定两个正整数 a、b，求它们的最大公约数（GCD）。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^9。\n\n【解题提示】\n推荐使用欧几里得算法（辗转相除法）。",
+    "inputFormat": "输入一行，包含两个正整数 a 和 b。",
+    "outputFormat": "输出最大公约数。",
+    "sampleInput": "99120 53367",
+    "sampleOutput": "3",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "22367 56742",
+        "output": "1"
+      },
+      {
+        "input": "5599 90991",
+        "output": "1"
+      },
+      {
+        "input": "88578 82633",
+        "output": "1"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "最大公约数（算法训练版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定两个正整数 a、b，求它们的最大公约数（GCD）。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^9。\n\n【解题提示】\n推荐使用欧几里得算法（辗转相除法）。",
+    "inputFormat": "输入一行，包含两个正整数 a 和 b。",
+    "outputFormat": "输出最大公约数。",
+    "sampleInput": "7593 78885",
+    "sampleOutput": "3",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "6491 28396",
+        "output": "1"
+      },
+      {
+        "input": "51622 55265",
+        "output": "1"
+      },
+      {
+        "input": "77092 5359",
+        "output": "1"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "最大公约数（强化挑战版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定两个正整数 a、b，求它们的最大公约数（GCD）。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^9。\n\n【解题提示】\n推荐使用欧几里得算法（辗转相除法）。",
+    "inputFormat": "输入一行，包含两个正整数 a 和 b。",
+    "outputFormat": "输出最大公约数。",
+    "sampleInput": "116719 51035",
+    "sampleOutput": "1",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "59465 40836",
+        "output": "1"
+      },
+      {
+        "input": "104288 16515",
+        "output": "1"
+      },
+      {
+        "input": "17696 99090",
+        "output": "2"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "最大公约数（综合实战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定两个正整数 a、b，求它们的最大公约数（GCD）。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^9。\n\n【解题提示】\n推荐使用欧几里得算法（辗转相除法）。",
+    "inputFormat": "输入一行，包含两个正整数 a 和 b。",
+    "outputFormat": "输出最大公约数。",
+    "sampleInput": "101035 55563",
+    "sampleOutput": "1",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "92887 52757",
+        "output": "1"
+      },
+      {
+        "input": "129187 85155",
+        "output": "1"
+      },
+      {
+        "input": "105591 13500",
+        "output": "3"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "最小公倍数（校园数据版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定两个正整数 a、b，求它们的最小公倍数（LCM）。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^9。\n\n【解题提示】\n可利用关系 lcm(a,b)=a/gcd(a,b)*b，并注意溢出顺序。",
+    "inputFormat": "输入一行，包含两个正整数 a 和 b。",
+    "outputFormat": "输出最小公倍数。",
+    "sampleInput": "3625 2171",
+    "sampleOutput": "7869875",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "778 2079",
+        "output": "1617462"
+      },
+      {
+        "input": "1990 3532",
+        "output": "3514340"
+      },
+      {
+        "input": "3213 209",
+        "output": "671517"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "最小公倍数（工程调试版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定两个正整数 a、b，求它们的最小公倍数（LCM）。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^9。\n\n【解题提示】\n可利用关系 lcm(a,b)=a/gcd(a,b)*b，并注意溢出顺序。",
+    "inputFormat": "输入一行，包含两个正整数 a 和 b。",
+    "outputFormat": "输出最小公倍数。",
+    "sampleInput": "3961 2774",
+    "sampleOutput": "10987814",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "2006 4385",
+        "output": "8796310"
+      },
+      {
+        "input": "2911 4691",
+        "output": "13655501"
+      },
+      {
+        "input": "3295 4797",
+        "output": "15806115"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "最小公倍数（竞赛热身版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定两个正整数 a、b，求它们的最小公倍数（LCM）。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^9。\n\n【解题提示】\n可利用关系 lcm(a,b)=a/gcd(a,b)*b，并注意溢出顺序。",
+    "inputFormat": "输入一行，包含两个正整数 a 和 b。",
+    "outputFormat": "输出最小公倍数。",
+    "sampleInput": "1255 3723",
+    "sampleOutput": "4672365",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "6137 4328",
+        "output": "26560936"
+      },
+      {
+        "input": "4898 4967",
+        "output": "24328366"
+      },
+      {
+        "input": "2985 1272",
+        "output": "1265640"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "最小公倍数（实验记录版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定两个正整数 a、b，求它们的最小公倍数（LCM）。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^9。\n\n【解题提示】\n可利用关系 lcm(a,b)=a/gcd(a,b)*b，并注意溢出顺序。",
+    "inputFormat": "输入一行，包含两个正整数 a 和 b。",
+    "outputFormat": "输出最小公倍数。",
+    "sampleInput": "2413 2020",
+    "sampleOutput": "4874260",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "3199 5614",
+        "output": "2565598"
+      },
+      {
+        "input": "7848 4846",
+        "output": "19015704"
+      },
+      {
+        "input": "4895 414",
+        "output": "2026530"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "最小公倍数（上线检查版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定两个正整数 a、b，求它们的最小公倍数（LCM）。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^9。\n\n【解题提示】\n可利用关系 lcm(a,b)=a/gcd(a,b)*b，并注意溢出顺序。",
+    "inputFormat": "输入一行，包含两个正整数 a 和 b。",
+    "outputFormat": "输出最小公倍数。",
+    "sampleInput": "7833 3983",
+    "sampleOutput": "4456977",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "7822 4333",
+        "output": "33892726"
+      },
+      {
+        "input": "5014 9852",
+        "output": "24698964"
+      },
+      {
+        "input": "307 1552",
+        "output": "476464"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "最小公倍数（评测样例版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定两个正整数 a、b，求它们的最小公倍数（LCM）。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^9。\n\n【解题提示】\n可利用关系 lcm(a,b)=a/gcd(a,b)*b，并注意溢出顺序。",
+    "inputFormat": "输入一行，包含两个正整数 a 和 b。",
+    "outputFormat": "输出最小公倍数。",
+    "sampleInput": "8764 2964",
+    "sampleOutput": "6494124",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "10254 9956",
+        "output": "51044412"
+      },
+      {
+        "input": "2139 11200",
+        "output": "23956800"
+      },
+      {
+        "input": "2036 8991",
+        "output": "18305676"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "最小公倍数（课程作业版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定两个正整数 a、b，求它们的最小公倍数（LCM）。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^9。\n\n【解题提示】\n可利用关系 lcm(a,b)=a/gcd(a,b)*b，并注意溢出顺序。",
+    "inputFormat": "输入一行，包含两个正整数 a 和 b。",
+    "outputFormat": "输出最小公倍数。",
+    "sampleInput": "9122 8060",
+    "sampleOutput": "36761660",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "4513 12130",
+        "output": "54742690"
+      },
+      {
+        "input": "9158 345",
+        "output": "3159510"
+      },
+      {
+        "input": "8435 9099",
+        "output": "76750065"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "最小公倍数（算法训练版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定两个正整数 a、b，求它们的最小公倍数（LCM）。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^9。\n\n【解题提示】\n可利用关系 lcm(a,b)=a/gcd(a,b)*b，并注意溢出顺序。",
+    "inputFormat": "输入一行，包含两个正整数 a 和 b。",
+    "outputFormat": "输出最小公倍数。",
+    "sampleInput": "5772 1953",
+    "sampleOutput": "3757572",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "1488 7105",
+        "output": "10572240"
+      },
+      {
+        "input": "7890 12105",
+        "output": "6367230"
+      },
+      {
+        "input": "11177 3880",
+        "output": "43366760"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "最小公倍数（强化挑战版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定两个正整数 a、b，求它们的最小公倍数（LCM）。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^9。\n\n【解题提示】\n可利用关系 lcm(a,b)=a/gcd(a,b)*b，并注意溢出顺序。",
+    "inputFormat": "输入一行，包含两个正整数 a 和 b。",
+    "outputFormat": "输出最小公倍数。",
+    "sampleInput": "12433 7758",
+    "sampleOutput": "96455214",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "515 7645",
+        "output": "787435"
+      },
+      {
+        "input": "2781 11770",
+        "output": "32732370"
+      },
+      {
+        "input": "7265 7123",
+        "output": "51748595"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "最小公倍数（综合实战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定两个正整数 a、b，求它们的最小公倍数（LCM）。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^9。\n\n【解题提示】\n可利用关系 lcm(a,b)=a/gcd(a,b)*b，并注意溢出顺序。",
+    "inputFormat": "输入一行，包含两个正整数 a 和 b。",
+    "outputFormat": "输出最小公倍数。",
+    "sampleInput": "13524 8368",
+    "sampleOutput": "28292208",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "1400 14315",
+        "output": "572600"
+      },
+      {
+        "input": "9189 9327",
+        "output": "28568601"
+      },
+      {
+        "input": "11231 5516",
+        "output": "61950196"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "快速幂取模（校园数据版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定 a、b、m，求 a^b mod m。请使用快速幂思想。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^12，2 <= m <= 10^9+7。\n\n【解题提示】\n使用二进制快速幂，将指数按二进制拆分。",
+    "inputFormat": "输入一行，三个整数 a b m。",
+    "outputFormat": "输出一个整数，表示 a^b mod m。",
+    "sampleInput": "97169 22817 396445752",
+    "sampleOutput": "368576417",
+    "timeLimit": 1500,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "65034 20794 367647139",
+        "output": "9305944"
+      },
+      {
+        "input": "4920 94997 853363251",
+        "output": "797615379"
+      },
+      {
+        "input": "190 69736 629742853",
+        "output": "530296794"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "快速幂取模（工程调试版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定 a、b、m，求 a^b mod m。请使用快速幂思想。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^12，2 <= m <= 10^9+7。\n\n【解题提示】\n使用二进制快速幂，将指数按二进制拆分。",
+    "inputFormat": "输入一行，三个整数 a b m。",
+    "outputFormat": "输出一个整数，表示 a^b mod m。",
+    "sampleInput": "76908 1935 307390499",
+    "sampleOutput": "118039870",
+    "timeLimit": 1500,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "48512 88912 99786297",
+        "output": "87287248"
+      },
+      {
+        "input": "65316 6951 28092342",
+        "output": "26602056"
+      },
+      {
+        "input": "18174 34929 505365597",
+        "output": "306839484"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "快速幂取模（竞赛热身版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定 a、b、m，求 a^b mod m。请使用快速幂思想。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^12，2 <= m <= 10^9+7。\n\n【解题提示】\n使用二进制快速幂，将指数按二进制拆分。",
+    "inputFormat": "输入一行，三个整数 a b m。",
+    "outputFormat": "输出一个整数，表示 a^b mod m。",
+    "sampleInput": "27802 86930 173369745",
+    "sampleOutput": "10981504",
+    "timeLimit": 1500,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "60746 75854 809090094",
+        "output": "477455620"
+      },
+      {
+        "input": "3578 37886 566999854",
+        "output": "133001622"
+      },
+      {
+        "input": "14568 87706 948923086",
+        "output": "741421780"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "快速幂取模（实验记录版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定 a、b、m，求 a^b mod m。请使用快速幂思想。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^12，2 <= m <= 10^9+7。\n\n【解题提示】\n使用二进制快速幂，将指数按二进制拆分。",
+    "inputFormat": "输入一行，三个整数 a b m。",
+    "outputFormat": "输出一个整数，表示 a^b mod m。",
+    "sampleInput": "7381 85700 970303165",
+    "sampleOutput": "331685506",
+    "timeLimit": 1500,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "62486 74034 868845293",
+        "output": "741571038"
+      },
+      {
+        "input": "62158 70882 507901648",
+        "output": "302789808"
+      },
+      {
+        "input": "6844 39723 186131612",
+        "output": "105445484"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "快速幂取模（上线检查版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定 a、b、m，求 a^b mod m。请使用快速幂思想。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^12，2 <= m <= 10^9+7。\n\n【解题提示】\n使用二进制快速幂，将指数按二进制拆分。",
+    "inputFormat": "输入一行，三个整数 a b m。",
+    "outputFormat": "输出一个整数，表示 a^b mod m。",
+    "sampleInput": "49095 16111 519162944",
+    "sampleOutput": "17752503",
+    "timeLimit": 1500,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "33086 104934 993109015",
+        "output": "850016566"
+      },
+      {
+        "input": "78815 91280 991804577",
+        "output": "4323989"
+      },
+      {
+        "input": "63379 47922 720983193",
+        "output": "27784408"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "快速幂取模（评测样例版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定 a、b、m，求 a^b mod m。请使用快速幂思想。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^12，2 <= m <= 10^9+7。\n\n【解题提示】\n使用二进制快速幂，将指数按二进制拆分。",
+    "inputFormat": "输入一行，三个整数 a b m。",
+    "outputFormat": "输出一个整数，表示 a^b mod m。",
+    "sampleInput": "69213 34304 304299954",
+    "sampleOutput": "35768511",
+    "timeLimit": 1500,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "25563 22331 829555877",
+        "output": "455115629"
+      },
+      {
+        "input": "32434 52472 110752375",
+        "output": "76034781"
+      },
+      {
+        "input": "50755 67606 176861925",
+        "output": "31588375"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "快速幂取模（课程作业版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定 a、b、m，求 a^b mod m。请使用快速幂思想。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^12，2 <= m <= 10^9+7。\n\n【解题提示】\n使用二进制快速幂，将指数按二进制拆分。",
+    "inputFormat": "输入一行，三个整数 a b m。",
+    "outputFormat": "输出一个整数，表示 a^b mod m。",
+    "sampleInput": "40468 66194 881663214",
+    "sampleOutput": "13499356",
+    "timeLimit": 1500,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "7087 78968 737370837",
+        "output": "422201383"
+      },
+      {
+        "input": "56450 13269 588878783",
+        "output": "191456331"
+      },
+      {
+        "input": "13516 57606 615325553",
+        "output": "581448733"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "快速幂取模（算法训练版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定 a、b、m，求 a^b mod m。请使用快速幂思想。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^12，2 <= m <= 10^9+7。\n\n【解题提示】\n使用二进制快速幂，将指数按二进制拆分。",
+    "inputFormat": "输入一行，三个整数 a b m。",
+    "outputFormat": "输出一个整数，表示 a^b mod m。",
+    "sampleInput": "13689 19174 260536739",
+    "sampleOutput": "242572243",
+    "timeLimit": 1500,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "14795 17149 271803911",
+        "output": "125249991"
+      },
+      {
+        "input": "44405 11770 941792779",
+        "output": "279956398"
+      },
+      {
+        "input": "106732 93502 518292399",
+        "output": "191427988"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "快速幂取模（强化挑战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定 a、b、m，求 a^b mod m。请使用快速幂思想。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^12，2 <= m <= 10^9+7。\n\n【解题提示】\n使用二进制快速幂，将指数按二进制拆分。",
+    "inputFormat": "输入一行，三个整数 a b m。",
+    "outputFormat": "输出一个整数，表示 a^b mod m。",
+    "sampleInput": "96936 52474 91041302",
+    "sampleOutput": "90817334",
+    "timeLimit": 1500,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "52697 27122 676362794",
+        "output": "419585627"
+      },
+      {
+        "input": "74644 418 432714920",
+        "output": "170201496"
+      },
+      {
+        "input": "95503 2378 715120979",
+        "output": "78017773"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "快速幂取模（综合实战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定 a、b、m，求 a^b mod m。请使用快速幂思想。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= a, b <= 10^12，2 <= m <= 10^9+7。\n\n【解题提示】\n使用二进制快速幂，将指数按二进制拆分。",
+    "inputFormat": "输入一行，三个整数 a b m。",
+    "outputFormat": "输出一个整数，表示 a^b mod m。",
+    "sampleInput": "67907 60680 285072895",
+    "sampleOutput": "15106936",
+    "timeLimit": 1500,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "66687 70198 386305905",
+        "output": "223729404"
+      },
+      {
+        "input": "54737 45073 97760589",
+        "output": "4185401"
+      },
+      {
+        "input": "49630 21458 74539278",
+        "output": "67938280"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "素数判定（校园数据版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n判断给定整数 n 是否为素数。是素数输出 YES，否则输出 NO。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n2 <= n <= 10^9。\n\n【解题提示】\n试除到 sqrt(n) 即可，偶数可提前特判。",
+    "inputFormat": "输入一个整数 n（2 <= n <= 10^9）。",
+    "outputFormat": "输出 YES 或 NO。",
+    "sampleInput": "73545",
+    "sampleOutput": "NO",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "18868",
+        "output": "NO"
+      },
+      {
+        "input": "34107",
+        "output": "NO"
+      },
+      {
+        "input": "168170",
+        "output": "NO"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "素数判定（工程调试版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n判断给定整数 n 是否为素数。是素数输出 YES，否则输出 NO。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n2 <= n <= 10^9。\n\n【解题提示】\n试除到 sqrt(n) 即可，偶数可提前特判。",
+    "inputFormat": "输入一个整数 n（2 <= n <= 10^9）。",
+    "outputFormat": "输出 YES 或 NO。",
+    "sampleInput": "248450",
+    "sampleOutput": "NO",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "185302",
+        "output": "NO"
+      },
+      {
+        "input": "253457",
+        "output": "NO"
+      },
+      {
+        "input": "177870",
+        "output": "NO"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "素数判定（竞赛热身版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n判断给定整数 n 是否为素数。是素数输出 YES，否则输出 NO。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n2 <= n <= 10^9。\n\n【解题提示】\n试除到 sqrt(n) 即可，偶数可提前特判。",
+    "inputFormat": "输入一个整数 n（2 <= n <= 10^9）。",
+    "outputFormat": "输出 YES 或 NO。",
+    "sampleInput": "252956",
+    "sampleOutput": "NO",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "223088",
+        "output": "NO"
+      },
+      {
+        "input": "237323",
+        "output": "NO"
+      },
+      {
+        "input": "383208",
+        "output": "NO"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "素数判定（实验记录版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n判断给定整数 n 是否为素数。是素数输出 YES，否则输出 NO。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n2 <= n <= 10^9。\n\n【解题提示】\n试除到 sqrt(n) 即可，偶数可提前特判。",
+    "inputFormat": "输入一个整数 n（2 <= n <= 10^9）。",
+    "outputFormat": "输出 YES 或 NO。",
+    "sampleInput": "329744",
+    "sampleOutput": "NO",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "160289",
+        "output": "NO"
+      },
+      {
+        "input": "31896",
+        "output": "NO"
+      },
+      {
+        "input": "51638",
+        "output": "NO"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "素数判定（上线检查版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n判断给定整数 n 是否为素数。是素数输出 YES，否则输出 NO。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n2 <= n <= 10^9。\n\n【解题提示】\n试除到 sqrt(n) 即可，偶数可提前特判。",
+    "inputFormat": "输入一个整数 n（2 <= n <= 10^9）。",
+    "outputFormat": "输出 YES 或 NO。",
+    "sampleInput": "8775",
+    "sampleOutput": "NO",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "336727",
+        "output": "YES"
+      },
+      {
+        "input": "113793",
+        "output": "NO"
+      },
+      {
+        "input": "563999",
+        "output": "YES"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "素数判定（评测样例版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n判断给定整数 n 是否为素数。是素数输出 YES，否则输出 NO。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n2 <= n <= 10^9。\n\n【解题提示】\n试除到 sqrt(n) 即可，偶数可提前特判。",
+    "inputFormat": "输入一个整数 n（2 <= n <= 10^9）。",
+    "outputFormat": "输出 YES 或 NO。",
+    "sampleInput": "537383",
+    "sampleOutput": "NO",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "212395",
+        "output": "NO"
+      },
+      {
+        "input": "684025",
+        "output": "NO"
+      },
+      {
+        "input": "429291",
+        "output": "NO"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "素数判定（课程作业版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n判断给定整数 n 是否为素数。是素数输出 YES，否则输出 NO。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n2 <= n <= 10^9。\n\n【解题提示】\n试除到 sqrt(n) 即可，偶数可提前特判。",
+    "inputFormat": "输入一个整数 n（2 <= n <= 10^9）。",
+    "outputFormat": "输出 YES 或 NO。",
+    "sampleInput": "8060",
+    "sampleOutput": "NO",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "769032",
+        "output": "NO"
+      },
+      {
+        "input": "398797",
+        "output": "NO"
+      },
+      {
+        "input": "794489",
+        "output": "NO"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "素数判定（算法训练版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n判断给定整数 n 是否为素数。是素数输出 YES，否则输出 NO。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n2 <= n <= 10^9。\n\n【解题提示】\n试除到 sqrt(n) 即可，偶数可提前特判。",
+    "inputFormat": "输入一个整数 n（2 <= n <= 10^9）。",
+    "outputFormat": "输出 YES 或 NO。",
+    "sampleInput": "266607",
+    "sampleOutput": "NO",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "714317",
+        "output": "NO"
+      },
+      {
+        "input": "766450",
+        "output": "NO"
+      },
+      {
+        "input": "283029",
+        "output": "NO"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "素数判定（强化挑战版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n判断给定整数 n 是否为素数。是素数输出 YES，否则输出 NO。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n2 <= n <= 10^9。\n\n【解题提示】\n试除到 sqrt(n) 即可，偶数可提前特判。",
+    "inputFormat": "输入一个整数 n（2 <= n <= 10^9）。",
+    "outputFormat": "输出 YES 或 NO。",
+    "sampleInput": "222070",
+    "sampleOutput": "NO",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "345981",
+        "output": "NO"
+      },
+      {
+        "input": "248211",
+        "output": "NO"
+      },
+      {
+        "input": "141782",
+        "output": "NO"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "素数判定（综合实战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n判断给定整数 n 是否为素数。是素数输出 YES，否则输出 NO。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n2 <= n <= 10^9。\n\n【解题提示】\n试除到 sqrt(n) 即可，偶数可提前特判。",
+    "inputFormat": "输入一个整数 n（2 <= n <= 10^9）。",
+    "outputFormat": "输出 YES 或 NO。",
+    "sampleInput": "981462",
+    "sampleOutput": "NO",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "600465",
+        "output": "NO"
+      },
+      {
+        "input": "779595",
+        "output": "NO"
+      },
+      {
+        "input": "1093746",
+        "output": "NO"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "统计不超过 n 的素数个数（校园数据版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定整数 n，求区间 [2, n] 内素数的数量。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n2 <= n <= 10^6。\n\n【解题提示】\n推荐使用埃氏筛法，时间复杂度约 O(n log log n)。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出素数个数。",
+    "sampleInput": "4252",
+    "sampleOutput": "582",
+    "timeLimit": 1500,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "780",
+        "output": "137"
+      },
+      {
+        "input": "2697",
+        "output": "392"
+      },
+      {
+        "input": "3865",
+        "output": "536"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "统计不超过 n 的素数个数（工程调试版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定整数 n，求区间 [2, n] 内素数的数量。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n2 <= n <= 10^6。\n\n【解题提示】\n推荐使用埃氏筛法，时间复杂度约 O(n log log n)。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出素数个数。",
+    "sampleInput": "2568",
+    "sampleOutput": "375",
+    "timeLimit": 1500,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "310",
+        "output": "63"
+      },
+      {
+        "input": "2976",
+        "output": "429"
+      },
+      {
+        "input": "431",
+        "output": "83"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "统计不超过 n 的素数个数（竞赛热身版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定整数 n，求区间 [2, n] 内素数的数量。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n2 <= n <= 10^6。\n\n【解题提示】\n推荐使用埃氏筛法，时间复杂度约 O(n log log n)。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出素数个数。",
+    "sampleInput": "4466",
+    "sampleOutput": "607",
+    "timeLimit": 1500,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "5969",
+        "output": "781"
+      },
+      {
+        "input": "2248",
+        "output": "334"
+      },
+      {
+        "input": "5497",
+        "output": "725"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "统计不超过 n 的素数个数（实验记录版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定整数 n，求区间 [2, n] 内素数的数量。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n2 <= n <= 10^6。\n\n【解题提示】\n推荐使用埃氏筛法，时间复杂度约 O(n log log n)。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出素数个数。",
+    "sampleInput": "5087",
+    "sampleOutput": "680",
+    "timeLimit": 1500,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "2958",
+        "output": "426"
+      },
+      {
+        "input": "7202",
+        "output": "919"
+      },
+      {
+        "input": "6511",
+        "output": "842"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "统计不超过 n 的素数个数（上线检查版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定整数 n，求区间 [2, n] 内素数的数量。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n2 <= n <= 10^6。\n\n【解题提示】\n推荐使用埃氏筛法，时间复杂度约 O(n log log n)。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出素数个数。",
+    "sampleInput": "4513",
+    "sampleOutput": "612",
+    "timeLimit": 1500,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "2081",
+        "output": "313"
+      },
+      {
+        "input": "704",
+        "output": "126"
+      },
+      {
+        "input": "865",
+        "output": "150"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "统计不超过 n 的素数个数（评测样例版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定整数 n，求区间 [2, n] 内素数的数量。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n2 <= n <= 10^6。\n\n【解题提示】\n推荐使用埃氏筛法，时间复杂度约 O(n log log n)。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出素数个数。",
+    "sampleInput": "2736",
+    "sampleOutput": "399",
+    "timeLimit": 1500,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "7202",
+        "output": "919"
+      },
+      {
+        "input": "1592",
+        "output": "250"
+      },
+      {
+        "input": "3507",
+        "output": "489"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "统计不超过 n 的素数个数（课程作业版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定整数 n，求区间 [2, n] 内素数的数量。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n2 <= n <= 10^6。\n\n【解题提示】\n推荐使用埃氏筛法，时间复杂度约 O(n log log n)。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出素数个数。",
+    "sampleInput": "704",
+    "sampleOutput": "126",
+    "timeLimit": 1500,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "6271",
+        "output": "816"
+      },
+      {
+        "input": "6664",
+        "output": "859"
+      },
+      {
+        "input": "6393",
+        "output": "833"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "统计不超过 n 的素数个数（算法训练版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定整数 n，求区间 [2, n] 内素数的数量。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n2 <= n <= 10^6。\n\n【解题提示】\n推荐使用埃氏筛法，时间复杂度约 O(n log log n)。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出素数个数。",
+    "sampleInput": "1509",
+    "sampleOutput": "239",
+    "timeLimit": 1500,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "2143",
+        "output": "324"
+      },
+      {
+        "input": "7111",
+        "output": "911"
+      },
+      {
+        "input": "1027",
+        "output": "172"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "统计不超过 n 的素数个数（强化挑战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定整数 n，求区间 [2, n] 内素数的数量。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n2 <= n <= 10^6。\n\n【解题提示】\n推荐使用埃氏筛法，时间复杂度约 O(n log log n)。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出素数个数。",
+    "sampleInput": "10054",
+    "sampleOutput": "1233",
+    "timeLimit": 1500,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "9104",
+        "output": "1129"
+      },
+      {
+        "input": "7388",
+        "output": "938"
+      },
+      {
+        "input": "3948",
+        "output": "548"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "统计不超过 n 的素数个数（综合实战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定整数 n，求区间 [2, n] 内素数的数量。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n2 <= n <= 10^6。\n\n【解题提示】\n推荐使用埃氏筛法，时间复杂度约 O(n log log n)。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出素数个数。",
+    "sampleInput": "2371",
+    "sampleOutput": "351",
+    "timeLimit": 1500,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "4964",
+        "output": "663"
+      },
+      {
+        "input": "5669",
+        "output": "747"
+      },
+      {
+        "input": "10570",
+        "output": "1290"
+      }
+    ],
+    "source": "经典算法题型 - 数论"
+  },
+  {
+    "title": "二进制中 1 的个数（校园数据版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定非负整数 n，输出其二进制表示中 1 的个数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n0 <= n <= 2^63-1。\n\n【解题提示】\n可逐位统计，或使用 lowbit 思路优化。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出一个整数。",
+    "sampleInput": "106676796",
+    "sampleOutput": "14",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "324441065",
+        "output": "16"
+      },
+      {
+        "input": "962737071",
+        "output": "17"
+      },
+      {
+        "input": "191421844",
+        "output": "15"
+      }
+    ],
+    "source": "经典算法题型 - 位运算"
+  },
+  {
+    "title": "二进制中 1 的个数（工程调试版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定非负整数 n，输出其二进制表示中 1 的个数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n0 <= n <= 2^63-1。\n\n【解题提示】\n可逐位统计，或使用 lowbit 思路优化。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出一个整数。",
+    "sampleInput": "566192923",
+    "sampleOutput": "18",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "798173080",
+        "output": "16"
+      },
+      {
+        "input": "1059570664",
+        "output": "18"
+      },
+      {
+        "input": "753203991",
+        "output": "18"
+      }
+    ],
+    "source": "经典算法题型 - 位运算"
+  },
+  {
+    "title": "二进制中 1 的个数（竞赛热身版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定非负整数 n，输出其二进制表示中 1 的个数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n0 <= n <= 2^63-1。\n\n【解题提示】\n可逐位统计，或使用 lowbit 思路优化。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出一个整数。",
+    "sampleInput": "683958529",
+    "sampleOutput": "9",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "1079232864",
+        "output": "11"
+      },
+      {
+        "input": "17339118",
+        "output": "11"
+      },
+      {
+        "input": "691582388",
+        "output": "15"
+      }
+    ],
+    "source": "经典算法题型 - 位运算"
+  },
+  {
+    "title": "二进制中 1 的个数（实验记录版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定非负整数 n，输出其二进制表示中 1 的个数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n0 <= n <= 2^63-1。\n\n【解题提示】\n可逐位统计，或使用 lowbit 思路优化。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出一个整数。",
+    "sampleInput": "725855482",
+    "sampleOutput": "17",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "539797286",
+        "output": "12"
+      },
+      {
+        "input": "889483139",
+        "output": "14"
+      },
+      {
+        "input": "237775263",
+        "output": "15"
+      }
+    ],
+    "source": "经典算法题型 - 位运算"
+  },
+  {
+    "title": "二进制中 1 的个数（上线检查版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定非负整数 n，输出其二进制表示中 1 的个数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n0 <= n <= 2^63-1。\n\n【解题提示】\n可逐位统计，或使用 lowbit 思路优化。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出一个整数。",
+    "sampleInput": "460629486",
+    "sampleOutput": "18",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "409532890",
+        "output": "16"
+      },
+      {
+        "input": "1350278085",
+        "output": "17"
+      },
+      {
+        "input": "848313115",
+        "output": "14"
+      }
+    ],
+    "source": "经典算法题型 - 位运算"
+  },
+  {
+    "title": "二进制中 1 的个数（评测样例版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定非负整数 n，输出其二进制表示中 1 的个数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n0 <= n <= 2^63-1。\n\n【解题提示】\n可逐位统计，或使用 lowbit 思路优化。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出一个整数。",
+    "sampleInput": "660998843",
+    "sampleOutput": "16",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "1586617741",
+        "output": "18"
+      },
+      {
+        "input": "1447336767",
+        "output": "17"
+      },
+      {
+        "input": "516382381",
+        "output": "19"
+      }
+    ],
+    "source": "经典算法题型 - 位运算"
+  },
+  {
+    "title": "二进制中 1 的个数（课程作业版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定非负整数 n，输出其二进制表示中 1 的个数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n0 <= n <= 2^63-1。\n\n【解题提示】\n可逐位统计，或使用 lowbit 思路优化。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出一个整数。",
+    "sampleInput": "984314303",
+    "sampleOutput": "20",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "1647298426",
+        "output": "18"
+      },
+      {
+        "input": "54299868",
+        "output": "14"
+      },
+      {
+        "input": "408788459",
+        "output": "18"
+      }
+    ],
+    "source": "经典算法题型 - 位运算"
+  },
+  {
+    "title": "二进制中 1 的个数（算法训练版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定非负整数 n，输出其二进制表示中 1 的个数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n0 <= n <= 2^63-1。\n\n【解题提示】\n可逐位统计，或使用 lowbit 思路优化。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出一个整数。",
+    "sampleInput": "1119221070",
+    "sampleOutput": "17",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "1453610304",
+        "output": "12"
+      },
+      {
+        "input": "982782261",
+        "output": "13"
+      },
+      {
+        "input": "1785673159",
+        "output": "19"
+      }
+    ],
+    "source": "经典算法题型 - 位运算"
+  },
+  {
+    "title": "二进制中 1 的个数（强化挑战版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定非负整数 n，输出其二进制表示中 1 的个数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n0 <= n <= 2^63-1。\n\n【解题提示】\n可逐位统计，或使用 lowbit 思路优化。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出一个整数。",
+    "sampleInput": "1339130779",
+    "sampleOutput": "17",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "1751830113",
+        "output": "15"
+      },
+      {
+        "input": "989298049",
+        "output": "19"
+      },
+      {
+        "input": "1449409909",
+        "output": "17"
+      }
+    ],
+    "source": "经典算法题型 - 位运算"
+  },
+  {
+    "title": "二进制中 1 的个数（综合实战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定非负整数 n，输出其二进制表示中 1 的个数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n0 <= n <= 2^63-1。\n\n【解题提示】\n可逐位统计，或使用 lowbit 思路优化。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出一个整数。",
+    "sampleInput": "1753054411",
+    "sampleOutput": "19",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "1005791200",
+        "output": "18"
+      },
+      {
+        "input": "358936401",
+        "output": "16"
+      },
+      {
+        "input": "1122804395",
+        "output": "15"
+      }
+    ],
+    "source": "经典算法题型 - 位运算"
+  },
+  {
+    "title": "十进制转二进制（校园数据版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n将十进制正整数 n 转换为二进制字符串。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 10^9。\n\n【解题提示】\n可使用除 2 取余，或直接利用语言内置转换。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出 n 的二进制表示（不含前导 0）。",
+    "sampleInput": "1163091",
+    "sampleOutput": "100011011111101010011",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "443745",
+        "output": "1101100010101100001"
+      },
+      {
+        "input": "68596",
+        "output": "10000101111110100"
+      },
+      {
+        "input": "710273",
+        "output": "10101101011010000001"
+      }
+    ],
+    "source": "经典算法题型 - 位运算"
+  },
+  {
+    "title": "十进制转二进制（工程调试版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n将十进制正整数 n 转换为二进制字符串。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 10^9。\n\n【解题提示】\n可使用除 2 取余，或直接利用语言内置转换。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出 n 的二进制表示（不含前导 0）。",
+    "sampleInput": "684085",
+    "sampleOutput": "10100111000000110101",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "1353286",
+        "output": "101001010011001000110"
+      },
+      {
+        "input": "1565283",
+        "output": "101111110001001100011"
+      },
+      {
+        "input": "1481881",
+        "output": "101101001110010011001"
+      }
+    ],
+    "source": "经典算法题型 - 位运算"
+  },
+  {
+    "title": "十进制转二进制（竞赛热身版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n将十进制正整数 n 转换为二进制字符串。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 10^9。\n\n【解题提示】\n可使用除 2 取余，或直接利用语言内置转换。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出 n 的二进制表示（不含前导 0）。",
+    "sampleInput": "2040516",
+    "sampleOutput": "111110010001011000100",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "1301953",
+        "output": "100111101110111000001"
+      },
+      {
+        "input": "1228504",
+        "output": "100101011111011011000"
+      },
+      {
+        "input": "1279099",
+        "output": "100111000010001111011"
+      }
+    ],
+    "source": "经典算法题型 - 位运算"
+  },
+  {
+    "title": "十进制转二进制（实验记录版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n将十进制正整数 n 转换为二进制字符串。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 10^9。\n\n【解题提示】\n可使用除 2 取余，或直接利用语言内置转换。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出 n 的二进制表示（不含前导 0）。",
+    "sampleInput": "1613882",
+    "sampleOutput": "110001010000000111010",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "1499739",
+        "output": "101101110001001011011"
+      },
+      {
+        "input": "1826203",
+        "output": "110111101110110011011"
+      },
+      {
+        "input": "496756",
+        "output": "1111001010001110100"
+      }
+    ],
+    "source": "经典算法题型 - 位运算"
+  },
+  {
+    "title": "十进制转二进制（上线检查版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n将十进制正整数 n 转换为二进制字符串。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 10^9。\n\n【解题提示】\n可使用除 2 取余，或直接利用语言内置转换。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出 n 的二进制表示（不含前导 0）。",
+    "sampleInput": "3270108",
+    "sampleOutput": "1100011110010111011100",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "801453",
+        "output": "11000011101010101101"
+      },
+      {
+        "input": "2673099",
+        "output": "1010001100100111001011"
+      },
+      {
+        "input": "3343422",
+        "output": "1100110000010000111110"
+      }
+    ],
+    "source": "经典算法题型 - 位运算"
+  },
+  {
+    "title": "十进制转二进制（评测样例版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n将十进制正整数 n 转换为二进制字符串。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 10^9。\n\n【解题提示】\n可使用除 2 取余，或直接利用语言内置转换。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出 n 的二进制表示（不含前导 0）。",
+    "sampleInput": "3522155",
+    "sampleOutput": "1101011011111001101011",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "2359104",
+        "output": "1000111111111101000000"
+      },
+      {
+        "input": "1775100",
+        "output": "110110001010111111100"
+      },
+      {
+        "input": "1222166",
+        "output": "100101010011000010110"
+      }
+    ],
+    "source": "经典算法题型 - 位运算"
+  },
+  {
+    "title": "十进制转二进制（课程作业版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n将十进制正整数 n 转换为二进制字符串。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 10^9。\n\n【解题提示】\n可使用除 2 取余，或直接利用语言内置转换。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出 n 的二进制表示（不含前导 0）。",
+    "sampleInput": "1718494",
+    "sampleOutput": "110100011100011011110",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "4218173",
+        "output": "10000000101110100111101"
+      },
+      {
+        "input": "4435608",
+        "output": "10000111010111010011000"
+      },
+      {
+        "input": "2568204",
+        "output": "1001110011000000001100"
+      }
+    ],
+    "source": "经典算法题型 - 位运算"
+  },
+  {
+    "title": "十进制转二进制（算法训练版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n将十进制正整数 n 转换为二进制字符串。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 10^9。\n\n【解题提示】\n可使用除 2 取余，或直接利用语言内置转换。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出 n 的二进制表示（不含前导 0）。",
+    "sampleInput": "326378",
+    "sampleOutput": "1001111101011101010",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "338196",
+        "output": "1010010100100010100"
+      },
+      {
+        "input": "4926394",
+        "output": "10010110010101110111010"
+      },
+      {
+        "input": "5870",
+        "output": "1011011101110"
+      }
+    ],
+    "source": "经典算法题型 - 位运算"
+  },
+  {
+    "title": "十进制转二进制（强化挑战版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n将十进制正整数 n 转换为二进制字符串。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 10^9。\n\n【解题提示】\n可使用除 2 取余，或直接利用语言内置转换。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出 n 的二进制表示（不含前导 0）。",
+    "sampleInput": "5491070",
+    "sampleOutput": "10100111100100101111110",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "2824319",
+        "output": "1010110001100001111111"
+      },
+      {
+        "input": "5311283",
+        "output": "10100010000101100110011"
+      },
+      {
+        "input": "3189349",
+        "output": "1100001010101001100101"
+      }
+    ],
+    "source": "经典算法题型 - 位运算"
+  },
+  {
+    "title": "十进制转二进制（综合实战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n将十进制正整数 n 转换为二进制字符串。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 10^9。\n\n【解题提示】\n可使用除 2 取余，或直接利用语言内置转换。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出 n 的二进制表示（不含前导 0）。",
+    "sampleInput": "1245799",
+    "sampleOutput": "100110000001001100111",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "3521486",
+        "output": "1101011011101111001110"
+      },
+      {
+        "input": "4508428",
+        "output": "10001001100101100001100"
+      },
+      {
+        "input": "4381020",
+        "output": "10000101101100101011100"
+      }
+    ],
+    "source": "经典算法题型 - 位运算"
+  },
+  {
+    "title": "整数反转（校园数据版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定一个非负整数 n，输出其数字反转后的结果。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n0 <= n <= 10^9。\n\n【解题提示】\n字符串法最直观，也可用数学取模法实现。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出反转后的整数。",
+    "sampleInput": "318097",
+    "sampleOutput": "790813",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "338378",
+        "output": "873833"
+      },
+      {
+        "input": "338088",
+        "output": "880833"
+      },
+      {
+        "input": "257906",
+        "output": "609752"
+      }
+    ],
+    "source": "经典算法题型 - 基础算法"
+  },
+  {
+    "title": "整数反转（工程调试版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定一个非负整数 n，输出其数字反转后的结果。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n0 <= n <= 10^9。\n\n【解题提示】\n字符串法最直观，也可用数学取模法实现。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出反转后的整数。",
+    "sampleInput": "63026",
+    "sampleOutput": "62036",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "532406",
+        "output": "604235"
+      },
+      {
+        "input": "1024623",
+        "output": "3264201"
+      },
+      {
+        "input": "132218",
+        "output": "812231"
+      }
+    ],
+    "source": "经典算法题型 - 基础算法"
+  },
+  {
+    "title": "整数反转（竞赛热身版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定一个非负整数 n，输出其数字反转后的结果。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n0 <= n <= 10^9。\n\n【解题提示】\n字符串法最直观，也可用数学取模法实现。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出反转后的整数。",
+    "sampleInput": "726556",
+    "sampleOutput": "655627",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "355422",
+        "output": "224553"
+      },
+      {
+        "input": "547173",
+        "output": "371745"
+      },
+      {
+        "input": "921184",
+        "output": "481129"
+      }
+    ],
+    "source": "经典算法题型 - 基础算法"
+  },
+  {
+    "title": "整数反转（实验记录版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定一个非负整数 n，输出其数字反转后的结果。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n0 <= n <= 10^9。\n\n【解题提示】\n字符串法最直观，也可用数学取模法实现。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出反转后的整数。",
+    "sampleInput": "570361",
+    "sampleOutput": "163075",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "255106",
+        "output": "601552"
+      },
+      {
+        "input": "1234050",
+        "output": "504321"
+      },
+      {
+        "input": "82199",
+        "output": "99128"
+      }
+    ],
+    "source": "经典算法题型 - 基础算法"
+  },
+  {
+    "title": "整数反转（上线检查版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定一个非负整数 n，输出其数字反转后的结果。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n0 <= n <= 10^9。\n\n【解题提示】\n字符串法最直观，也可用数学取模法实现。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出反转后的整数。",
+    "sampleInput": "959090",
+    "sampleOutput": "90959",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "172375",
+        "output": "573271"
+      },
+      {
+        "input": "172365",
+        "output": "563271"
+      },
+      {
+        "input": "1412504",
+        "output": "4052141"
+      }
+    ],
+    "source": "经典算法题型 - 基础算法"
+  },
+  {
+    "title": "整数反转（评测样例版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定一个非负整数 n，输出其数字反转后的结果。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n0 <= n <= 10^9。\n\n【解题提示】\n字符串法最直观，也可用数学取模法实现。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出反转后的整数。",
+    "sampleInput": "840256",
+    "sampleOutput": "652048",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "346047",
+        "output": "740643"
+      },
+      {
+        "input": "791314",
+        "output": "413197"
+      },
+      {
+        "input": "359319",
+        "output": "913953"
+      }
+    ],
+    "source": "经典算法题型 - 基础算法"
+  },
+  {
+    "title": "整数反转（课程作业版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定一个非负整数 n，输出其数字反转后的结果。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n0 <= n <= 10^9。\n\n【解题提示】\n字符串法最直观，也可用数学取模法实现。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出反转后的整数。",
+    "sampleInput": "856857",
+    "sampleOutput": "758658",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "577578",
+        "output": "875775"
+      },
+      {
+        "input": "583432",
+        "output": "234385"
+      },
+      {
+        "input": "22099",
+        "output": "99022"
+      }
+    ],
+    "source": "经典算法题型 - 基础算法"
+  },
+  {
+    "title": "整数反转（算法训练版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定一个非负整数 n，输出其数字反转后的结果。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n0 <= n <= 10^9。\n\n【解题提示】\n字符串法最直观，也可用数学取模法实现。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出反转后的整数。",
+    "sampleInput": "1657477",
+    "sampleOutput": "7747561",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "1246148",
+        "output": "8416421"
+      },
+      {
+        "input": "815858",
+        "output": "858518"
+      },
+      {
+        "input": "1184408",
+        "output": "8044811"
+      }
+    ],
+    "source": "经典算法题型 - 基础算法"
+  },
+  {
+    "title": "整数反转（强化挑战版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定一个非负整数 n，输出其数字反转后的结果。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n0 <= n <= 10^9。\n\n【解题提示】\n字符串法最直观，也可用数学取模法实现。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出反转后的整数。",
+    "sampleInput": "1318951",
+    "sampleOutput": "1598131",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "1687352",
+        "output": "2537861"
+      },
+      {
+        "input": "185630",
+        "output": "36581"
+      },
+      {
+        "input": "390160",
+        "output": "61093"
+      }
+    ],
+    "source": "经典算法题型 - 基础算法"
+  },
+  {
+    "title": "整数反转（综合实战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定一个非负整数 n，输出其数字反转后的结果。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n0 <= n <= 10^9。\n\n【解题提示】\n字符串法最直观，也可用数学取模法实现。",
+    "inputFormat": "输入一个整数 n。",
+    "outputFormat": "输出反转后的整数。",
+    "sampleInput": "1651434",
+    "sampleOutput": "4341561",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "1777380",
+        "output": "837771"
+      },
+      {
+        "input": "120042",
+        "output": "240021"
+      },
+      {
+        "input": "1659887",
+        "output": "7889561"
+      }
+    ],
+    "source": "经典算法题型 - 基础算法"
+  },
+  {
+    "title": "回文串判定（校园数据版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定一个仅包含小写字母的字符串，判断是否为回文串。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= |s| <= 10^5。\n\n【解题提示】\n双指针从两端向中间收缩即可。",
+    "inputFormat": "输入一行字符串 s。",
+    "outputFormat": "若是回文串输出 YES，否则输出 NO。",
+    "sampleInput": "vjaryyyyxvd",
+    "sampleOutput": "NO",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "pvvccvvp",
+        "output": "YES"
+      },
+      {
+        "input": "pqci",
+        "output": "NO"
+      },
+      {
+        "input": "lkkl",
+        "output": "YES"
+      }
+    ],
+    "source": "经典算法题型 - 字符串"
+  },
+  {
+    "title": "回文串判定（工程调试版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定一个仅包含小写字母的字符串，判断是否为回文串。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= |s| <= 10^5。\n\n【解题提示】\n双指针从两端向中间收缩即可。",
+    "inputFormat": "输入一行字符串 s。",
+    "outputFormat": "若是回文串输出 YES，否则输出 NO。",
+    "sampleInput": "phcchp",
+    "sampleOutput": "YES",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "mefz",
+        "output": "NO"
+      },
+      {
+        "input": "wnyddynw",
+        "output": "YES"
+      },
+      {
+        "input": "qajpabdp",
+        "output": "NO"
+      }
+    ],
+    "source": "经典算法题型 - 字符串"
+  },
+  {
+    "title": "回文串判定（竞赛热身版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定一个仅包含小写字母的字符串，判断是否为回文串。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= |s| <= 10^5。\n\n【解题提示】\n双指针从两端向中间收缩即可。",
+    "inputFormat": "输入一行字符串 s。",
+    "outputFormat": "若是回文串输出 YES，否则输出 NO。",
+    "sampleInput": "ewuwwdbo",
+    "sampleOutput": "NO",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "otrollorto",
+        "output": "YES"
+      },
+      {
+        "input": "ascrskj",
+        "output": "NO"
+      },
+      {
+        "input": "xxwtmtwxx",
+        "output": "YES"
+      }
+    ],
+    "source": "经典算法题型 - 字符串"
+  },
+  {
+    "title": "回文串判定（实验记录版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定一个仅包含小写字母的字符串，判断是否为回文串。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= |s| <= 10^5。\n\n【解题提示】\n双指针从两端向中间收缩即可。",
+    "inputFormat": "输入一行字符串 s。",
+    "outputFormat": "若是回文串输出 YES，否则输出 NO。",
+    "sampleInput": "mxxrfbfrxxm",
+    "sampleOutput": "YES",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "fskhsdiiabg",
+        "output": "NO"
+      },
+      {
+        "input": "uoenfaccafneou",
+        "output": "YES"
+      },
+      {
+        "input": "cfuvoxk",
+        "output": "NO"
+      }
+    ],
+    "source": "经典算法题型 - 字符串"
+  },
+  {
+    "title": "回文串判定（上线检查版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定一个仅包含小写字母的字符串，判断是否为回文串。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= |s| <= 10^5。\n\n【解题提示】\n双指针从两端向中间收缩即可。",
+    "inputFormat": "输入一行字符串 s。",
+    "outputFormat": "若是回文串输出 YES，否则输出 NO。",
+    "sampleInput": "kbbfq",
+    "sampleOutput": "NO",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "njjn",
+        "output": "YES"
+      },
+      {
+        "input": "wojq",
+        "output": "NO"
+      },
+      {
+        "input": "ywxddhddxwy",
+        "output": "YES"
+      }
+    ],
+    "source": "经典算法题型 - 字符串"
+  },
+  {
+    "title": "回文串判定（评测样例版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定一个仅包含小写字母的字符串，判断是否为回文串。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= |s| <= 10^5。\n\n【解题提示】\n双指针从两端向中间收缩即可。",
+    "inputFormat": "输入一行字符串 s。",
+    "outputFormat": "若是回文串输出 YES，否则输出 NO。",
+    "sampleInput": "jujjjuj",
+    "sampleOutput": "YES",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "thttzdqhalpzf",
+        "output": "NO"
+      },
+      {
+        "input": "jynfmddmfnyj",
+        "output": "YES"
+      },
+      {
+        "input": "nxfymstuvixjq",
+        "output": "NO"
+      }
+    ],
+    "source": "经典算法题型 - 字符串"
+  },
+  {
+    "title": "回文串判定（课程作业版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定一个仅包含小写字母的字符串，判断是否为回文串。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= |s| <= 10^5。\n\n【解题提示】\n双指针从两端向中间收缩即可。",
+    "inputFormat": "输入一行字符串 s。",
+    "outputFormat": "若是回文串输出 YES，否则输出 NO。",
+    "sampleInput": "nirickjxoaiypiy",
+    "sampleOutput": "NO",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "xmyemzzmeymx",
+        "output": "YES"
+      },
+      {
+        "input": "apcihlitllku",
+        "output": "NO"
+      },
+      {
+        "input": "fjexuyrjjryuxejf",
+        "output": "YES"
+      }
+    ],
+    "source": "经典算法题型 - 字符串"
+  },
+  {
+    "title": "回文串判定（算法训练版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定一个仅包含小写字母的字符串，判断是否为回文串。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= |s| <= 10^5。\n\n【解题提示】\n双指针从两端向中间收缩即可。",
+    "inputFormat": "输入一行字符串 s。",
+    "outputFormat": "若是回文串输出 YES，否则输出 NO。",
+    "sampleInput": "iiii",
+    "sampleOutput": "YES",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "mxkoqielluzcvubsk",
+        "output": "NO"
+      },
+      {
+        "input": "sdfikkzvzkkifds",
+        "output": "YES"
+      },
+      {
+        "input": "jexubtfmxjtabms",
+        "output": "NO"
+      }
+    ],
+    "source": "经典算法题型 - 字符串"
+  },
+  {
+    "title": "回文串判定（强化挑战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定一个仅包含小写字母的字符串，判断是否为回文串。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= |s| <= 10^5。\n\n【解题提示】\n双指针从两端向中间收缩即可。",
+    "inputFormat": "输入一行字符串 s。",
+    "outputFormat": "若是回文串输出 YES，否则输出 NO。",
+    "sampleInput": "ukdjzbwqlsyvuhojfq",
+    "sampleOutput": "NO",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "wfnmgxixgmnfw",
+        "output": "YES"
+      },
+      {
+        "input": "adgujqkqud",
+        "output": "NO"
+      },
+      {
+        "input": "rroskiiksorr",
+        "output": "YES"
+      }
+    ],
+    "source": "经典算法题型 - 字符串"
+  },
+  {
+    "title": "回文串判定（综合实战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定一个仅包含小写字母的字符串，判断是否为回文串。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= |s| <= 10^5。\n\n【解题提示】\n双指针从两端向中间收缩即可。",
+    "inputFormat": "输入一行字符串 s。",
+    "outputFormat": "若是回文串输出 YES，否则输出 NO。",
+    "sampleInput": "qivulllluviq",
+    "sampleOutput": "YES",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "ontszwyxryrdatq",
+        "output": "NO"
+      },
+      {
+        "input": "tqjoydjvvjdyojqt",
+        "output": "YES"
+      },
+      {
+        "input": "wpkxacibmxbxdydcqq",
+        "output": "NO"
+      }
+    ],
+    "source": "经典算法题型 - 字符串"
+  },
+  {
+    "title": "数组元素和（校园数据版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定长度为 n 的整数数组，求所有元素之和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5，数组元素绝对值不超过 10^9。\n\n【解题提示】\n线性扫描即可，注意总和可能需要 64 位整数。",
+    "inputFormat": "第一行输入 n；第二行输入 n 个整数。",
+    "outputFormat": "输出数组元素和。",
+    "sampleInput": "7\n26 -51 149 53 -88 -95 -151",
+    "sampleOutput": "-157",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "12\n-199 -161 -7 -33 -185 75 92 157 -104 152 -120 -19",
+        "output": "-352"
+      },
+      {
+        "input": "6\n45 -96 -33 166 170 -188",
+        "output": "64"
+      },
+      {
+        "input": "11\n-35 107 -26 170 158 29 154 -18 93 166 182",
+        "output": "980"
+      }
+    ],
+    "source": "经典算法题型 - 数组"
+  },
+  {
+    "title": "数组元素和（工程调试版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定长度为 n 的整数数组，求所有元素之和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5，数组元素绝对值不超过 10^9。\n\n【解题提示】\n线性扫描即可，注意总和可能需要 64 位整数。",
+    "inputFormat": "第一行输入 n；第二行输入 n 个整数。",
+    "outputFormat": "输出数组元素和。",
+    "sampleInput": "5\n42 112 190 37 88",
+    "sampleOutput": "469",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "10\n-15 -184 -22 -16 -150 -84 79 -7 189 -26",
+        "output": "-236"
+      },
+      {
+        "input": "5\n6 10 -63 135 -168",
+        "output": "-80"
+      },
+      {
+        "input": "12\n26 -101 44 -55 153 177 103 106 188 -32 76 -29",
+        "output": "656"
+      }
+    ],
+    "source": "经典算法题型 - 数组"
+  },
+  {
+    "title": "数组元素和（竞赛热身版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定长度为 n 的整数数组，求所有元素之和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5，数组元素绝对值不超过 10^9。\n\n【解题提示】\n线性扫描即可，注意总和可能需要 64 位整数。",
+    "inputFormat": "第一行输入 n；第二行输入 n 个整数。",
+    "outputFormat": "输出数组元素和。",
+    "sampleInput": "11\n19 133 -27 58 -122 42 27 -31 38 -193 146",
+    "sampleOutput": "90",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "14\n-65 5 -141 -116 -32 188 36 186 92 -8 67 -191 -49 22",
+        "output": "-6"
+      },
+      {
+        "input": "13\n-152 147 -69 -79 -111 154 153 -136 -62 44 -135 -97 -14",
+        "output": "-357"
+      },
+      {
+        "input": "7\n-74 -195 109 150 2 145 -179",
+        "output": "-42"
+      }
+    ],
+    "source": "经典算法题型 - 数组"
+  },
+  {
+    "title": "数组元素和（实验记录版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定长度为 n 的整数数组，求所有元素之和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5，数组元素绝对值不超过 10^9。\n\n【解题提示】\n线性扫描即可，注意总和可能需要 64 位整数。",
+    "inputFormat": "第一行输入 n；第二行输入 n 个整数。",
+    "outputFormat": "输出数组元素和。",
+    "sampleInput": "16\n33 -142 -7 135 133 -41 57 92 -121 137 -41 111 10 -113 128 -48",
+    "sampleOutput": "323",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "13\n131 198 -151 -72 -93 184 152 -152 -25 200 125 61 83",
+        "output": "641"
+      },
+      {
+        "input": "8\n53 -38 109 -39 -15 -148 24 -187",
+        "output": "-241"
+      },
+      {
+        "input": "17\n-31 -14 -20 -89 78 -55 28 84 70 102 112 -85 -108 187 108 -134 -60",
+        "output": "173"
+      }
+    ],
+    "source": "经典算法题型 - 数组"
+  },
+  {
+    "title": "数组元素和（上线检查版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定长度为 n 的整数数组，求所有元素之和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5，数组元素绝对值不超过 10^9。\n\n【解题提示】\n线性扫描即可，注意总和可能需要 64 位整数。",
+    "inputFormat": "第一行输入 n；第二行输入 n 个整数。",
+    "outputFormat": "输出数组元素和。",
+    "sampleInput": "11\n-66 122 -119 97 92 -63 -45 149 184 69 -126",
+    "sampleOutput": "294",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "15\n57 -64 -65 -17 159 134 -100 136 -88 36 65 -23 60 -57 -71",
+        "output": "162"
+      },
+      {
+        "input": "10\n61 73 161 -12 -116 109 47 167 -191 -94",
+        "output": "205"
+      },
+      {
+        "input": "19\n-126 -49 -114 138 182 -2 186 -134 -18 47 135 -182 117 56 -199 -170 -157 179 -6",
+        "output": "-117"
+      }
+    ],
+    "source": "经典算法题型 - 数组"
+  },
+  {
+    "title": "数组元素和（评测样例版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定长度为 n 的整数数组，求所有元素之和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5，数组元素绝对值不超过 10^9。\n\n【解题提示】\n线性扫描即可，注意总和可能需要 64 位整数。",
+    "inputFormat": "第一行输入 n；第二行输入 n 个整数。",
+    "outputFormat": "输出数组元素和。",
+    "sampleInput": "17\n185 -101 -190 -44 180 -23 170 56 -167 -66 -54 182 -51 -130 0 53 -95",
+    "sampleOutput": "-95",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "15\n-146 75 -81 -147 48 13 42 168 -171 172 -168 -186 -193 -57 -110",
+        "output": "-741"
+      },
+      {
+        "input": "19\n-54 -108 193 74 34 -77 -44 -35 -19 -31 -147 -101 144 14 152 108 84 198 -120",
+        "output": "265"
+      },
+      {
+        "input": "11\n171 -7 -193 122 -135 156 6 38 43 15 20",
+        "output": "236"
+      }
+    ],
+    "source": "经典算法题型 - 数组"
+  },
+  {
+    "title": "数组元素和（课程作业版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定长度为 n 的整数数组，求所有元素之和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5，数组元素绝对值不超过 10^9。\n\n【解题提示】\n线性扫描即可，注意总和可能需要 64 位整数。",
+    "inputFormat": "第一行输入 n；第二行输入 n 个整数。",
+    "outputFormat": "输出数组元素和。",
+    "sampleInput": "7\n-102 -16 -113 -77 86 24 0",
+    "sampleOutput": "-198",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "10\n-94 -79 77 -145 177 -111 -31 -69 -197 52",
+        "output": "-420"
+      },
+      {
+        "input": "20\n42 -51 -4 65 -94 -160 -120 132 6 -200 -95 -179 -70 51 12 -76 -152 12 57 -105",
+        "output": "-929"
+      },
+      {
+        "input": "20\n175 145 19 -65 -157 -153 73 23 -116 -75 30 -132 14 22 64 -181 -154 -7 197 -68",
+        "output": "-346"
+      }
+    ],
+    "source": "经典算法题型 - 数组"
+  },
+  {
+    "title": "数组元素和（算法训练版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定长度为 n 的整数数组，求所有元素之和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5，数组元素绝对值不超过 10^9。\n\n【解题提示】\n线性扫描即可，注意总和可能需要 64 位整数。",
+    "inputFormat": "第一行输入 n；第二行输入 n 个整数。",
+    "outputFormat": "输出数组元素和。",
+    "sampleInput": "17\n-50 -4 -162 125 115 17 -134 -163 59 67 -51 -187 8 164 -166 102 21",
+    "sampleOutput": "-239",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "25\n-176 -72 -38 140 195 74 11 64 -39 -40 -144 84 96 14 -107 149 72 -179 1 -20 148 145 33 -123 40",
+        "output": "328"
+      },
+      {
+        "input": "20\n-72 176 -19 -113 116 79 -48 -190 -163 143 -122 -138 46 181 200 -4 198 149 -27 -15",
+        "output": "377"
+      },
+      {
+        "input": "17\n-143 -116 118 138 119 -17 195 91 -152 -102 178 -86 -177 -198 -26 -62 118",
+        "output": "-122"
+      }
+    ],
+    "source": "经典算法题型 - 数组"
+  },
+  {
+    "title": "数组元素和（强化挑战版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定长度为 n 的整数数组，求所有元素之和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5，数组元素绝对值不超过 10^9。\n\n【解题提示】\n线性扫描即可，注意总和可能需要 64 位整数。",
+    "inputFormat": "第一行输入 n；第二行输入 n 个整数。",
+    "outputFormat": "输出数组元素和。",
+    "sampleInput": "7\n-7 185 4 82 -165 124 -152",
+    "sampleOutput": "71",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "20\n43 -175 -79 40 -31 25 -179 -164 51 -50 -156 103 129 14 79 3 199 56 36 167",
+        "output": "111"
+      },
+      {
+        "input": "14\n-176 47 -172 80 -125 0 -123 27 -24 64 -110 -58 97 -183",
+        "output": "-656"
+      },
+      {
+        "input": "24\n-150 -82 -160 96 -31 77 100 182 34 -6 157 -128 107 65 -102 -17 110 -73 -169 163 140 -14 -145 0",
+        "output": "154"
+      }
+    ],
+    "source": "经典算法题型 - 数组"
+  },
+  {
+    "title": "数组元素和（综合实战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定长度为 n 的整数数组，求所有元素之和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5，数组元素绝对值不超过 10^9。\n\n【解题提示】\n线性扫描即可，注意总和可能需要 64 位整数。",
+    "inputFormat": "第一行输入 n；第二行输入 n 个整数。",
+    "outputFormat": "输出数组元素和。",
+    "sampleInput": "5\n-148 -175 78 78 124",
+    "sampleOutput": "-43",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "14\n-51 58 176 28 -154 -114 -44 139 25 42 -43 -62 126 34",
+        "output": "160"
+      },
+      {
+        "input": "15\n52 37 1 -181 -190 139 178 -197 24 109 81 194 42 -46 -155",
+        "output": "88"
+      },
+      {
+        "input": "28\n115 -68 191 -67 -86 -106 -6 -26 40 -144 -192 76 183 -86 82 57 -75 -32 137 116 -152 -85 -47 -34 -181 -155 65 23",
+        "output": "-457"
+      }
+    ],
+    "source": "经典算法题型 - 数组"
+  },
+  {
+    "title": "数组极差（校园数据版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个整数，求最大值与最小值的差。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n一次遍历同时维护最小值与最大值。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出 max - min。",
+    "sampleInput": "11\n-6 235 390 401 -365 -45 410 168 -425 -310 441",
+    "sampleOutput": "866",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "7\n-377 85 245 319 454 400 -463",
+        "output": "917"
+      },
+      {
+        "input": "14\n245 234 24 -364 -98 302 -79 -425 342 -408 -500 83 -282 160",
+        "output": "842"
+      },
+      {
+        "input": "16\n-446 153 280 -343 -33 -352 -374 -260 -238 -318 58 343 282 -65 321 -238",
+        "output": "789"
+      }
+    ],
+    "source": "经典算法题型 - 数组"
+  },
+  {
+    "title": "数组极差（工程调试版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个整数，求最大值与最小值的差。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n一次遍历同时维护最小值与最大值。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出 max - min。",
+    "sampleInput": "16\n493 468 99 238 111 407 147 21 -306 -1 314 327 476 -268 267 370",
+    "sampleOutput": "799",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "8\n-107 -242 78 -328 357 112 -274 -180",
+        "output": "685"
+      },
+      {
+        "input": "7\n113 -149 -244 7 -88 -475 459",
+        "output": "934"
+      },
+      {
+        "input": "16\n269 491 -212 -132 407 354 459 -213 -227 324 -366 -167 84 -211 -228 -102",
+        "output": "857"
+      }
+    ],
+    "source": "经典算法题型 - 数组"
+  },
+  {
+    "title": "数组极差（竞赛热身版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个整数，求最大值与最小值的差。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n一次遍历同时维护最小值与最大值。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出 max - min。",
+    "sampleInput": "6\n334 -295 -90 449 278 -457",
+    "sampleOutput": "906",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "9\n-297 215 -214 -7 -146 -420 -210 -417 -274",
+        "output": "635"
+      },
+      {
+        "input": "12\n-341 -37 404 -38 62 262 -159 -174 -214 26 -91 22",
+        "output": "745"
+      },
+      {
+        "input": "18\n-389 -144 0 236 5 142 -265 249 344 -276 406 379 -458 192 -453 -143 259 221",
+        "output": "864"
+      }
+    ],
+    "source": "经典算法题型 - 数组"
+  },
+  {
+    "title": "数组极差（实验记录版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个整数，求最大值与最小值的差。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n一次遍历同时维护最小值与最大值。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出 max - min。",
+    "sampleInput": "11\n20 250 -171 -269 149 -116 317 -209 373 -255 358",
+    "sampleOutput": "642",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "8\n-139 -407 469 -424 -198 240 316 -302",
+        "output": "893"
+      },
+      {
+        "input": "14\n82 -273 342 362 -116 -155 3 46 -169 -317 132 -180 -297 97",
+        "output": "679"
+      },
+      {
+        "input": "6\n-235 -465 -142 156 -229 487",
+        "output": "952"
+      }
+    ],
+    "source": "经典算法题型 - 数组"
+  },
+  {
+    "title": "数组极差（上线检查版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个整数，求最大值与最小值的差。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n一次遍历同时维护最小值与最大值。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出 max - min。",
+    "sampleInput": "15\n297 338 -406 -176 -462 104 337 -364 -100 -111 -297 -326 168 -472 167",
+    "sampleOutput": "810",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "14\n359 179 -330 157 359 -443 395 -479 50 -165 -196 169 -166 61",
+        "output": "874"
+      },
+      {
+        "input": "16\n-156 405 -189 27 -335 389 276 -227 33 395 -330 -74 211 377 -26 -93",
+        "output": "740"
+      },
+      {
+        "input": "17\n4 -240 -481 230 386 10 -389 -372 480 260 -122 140 125 -124 440 -368 227",
+        "output": "961"
+      }
+    ],
+    "source": "经典算法题型 - 数组"
+  },
+  {
+    "title": "数组极差（评测样例版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个整数，求最大值与最小值的差。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n一次遍历同时维护最小值与最大值。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出 max - min。",
+    "sampleInput": "8\n482 -417 -176 116 -314 -148 -408 -30",
+    "sampleOutput": "899",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "15\n-20 166 -334 445 -119 304 -272 309 25 451 -437 -285 -305 -486 -443",
+        "output": "937"
+      },
+      {
+        "input": "11\n371 10 444 99 -490 384 -253 -109 214 -193 -202",
+        "output": "934"
+      },
+      {
+        "input": "9\n-399 -403 -192 365 -112 -442 203 -376 294",
+        "output": "807"
+      }
+    ],
+    "source": "经典算法题型 - 数组"
+  },
+  {
+    "title": "数组极差（课程作业版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个整数，求最大值与最小值的差。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n一次遍历同时维护最小值与最大值。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出 max - min。",
+    "sampleInput": "16\n-261 -219 -388 -500 -173 -37 -52 -57 394 3 139 310 482 -479 -338 -23",
+    "sampleOutput": "982",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "9\n188 -347 -67 56 143 -218 169 433 -28",
+        "output": "780"
+      },
+      {
+        "input": "12\n385 94 -410 -484 -222 -286 218 487 380 -356 120 90",
+        "output": "971"
+      },
+      {
+        "input": "17\n-394 -208 -208 164 -163 240 241 437 -387 114 355 468 -422 169 213 -21 -308",
+        "output": "890"
+      }
+    ],
+    "source": "经典算法题型 - 数组"
+  },
+  {
+    "title": "数组极差（算法训练版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个整数，求最大值与最小值的差。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n一次遍历同时维护最小值与最大值。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出 max - min。",
+    "sampleInput": "13\n-130 381 427 -383 297 -338 -31 34 105 329 -468 -214 -474",
+    "sampleOutput": "901",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "18\n44 -143 188 332 306 168 -134 458 488 -71 -394 -380 -197 331 -473 495 228 103",
+        "output": "968"
+      },
+      {
+        "input": "20\n244 8 495 45 393 -460 328 175 -66 -287 -18 -179 -234 450 -234 9 149 333 -365 4",
+        "output": "955"
+      },
+      {
+        "input": "15\n-415 155 258 478 310 500 -479 419 -103 487 -247 208 -257 -376 167",
+        "output": "979"
+      }
+    ],
+    "source": "经典算法题型 - 数组"
+  },
+  {
+    "title": "数组极差（强化挑战版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个整数，求最大值与最小值的差。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n一次遍历同时维护最小值与最大值。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出 max - min。",
+    "sampleInput": "14\n444 -496 -114 139 -283 -499 485 298 -85 229 115 -449 -283 -414",
+    "sampleOutput": "984",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "6\n494 484 -73 -128 -252 171",
+        "output": "746"
+      },
+      {
+        "input": "7\n-494 78 -466 -31 421 -185 -274",
+        "output": "915"
+      },
+      {
+        "input": "11\n343 -363 -134 243 -150 283 321 177 334 -383 -128",
+        "output": "726"
+      }
+    ],
+    "source": "经典算法题型 - 数组"
+  },
+  {
+    "title": "数组极差（综合实战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个整数，求最大值与最小值的差。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n一次遍历同时维护最小值与最大值。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出 max - min。",
+    "sampleInput": "17\n309 -384 463 96 152 -97 231 -115 95 -148 463 126 443 -113 -117 468 -137",
+    "sampleOutput": "852",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "23\n70 -109 330 165 172 491 155 230 -152 -227 -199 234 -53 217 -109 418 -107 464 352 494 97 -59 -422",
+        "output": "916"
+      },
+      {
+        "input": "14\n-109 450 -53 270 369 310 -457 68 368 -375 144 -169 471 176",
+        "output": "928"
+      },
+      {
+        "input": "13\n-352 -108 -402 319 22 -444 162 -148 216 -487 139 481 -425",
+        "output": "968"
+      }
+    ],
+    "source": "经典算法题型 - 数组"
+  },
+  {
+    "title": "单次区间求和（校园数据版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定数组和一个查询区间 [l, r]（1-based），输出区间元素和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5，1 <= l <= r <= n。\n\n【解题提示】\n可直接遍历区间；若扩展到多次查询建议前缀和。",
+    "inputFormat": "第一行 n；第二行 n 个整数；第三行 l r。",
+    "outputFormat": "输出区间和。",
+    "sampleInput": "18\n-20 -14 16 -43 43 33 -46 22 -32 36 62 24 -2 0 51 -13 73 -41\n7 14",
+    "sampleOutput": "64",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "13\n84 -41 98 -37 8 -39 27 85 24 11 -42 -32 -37\n2 9",
+        "output": "125"
+      },
+      {
+        "input": "17\n-19 58 -10 96 104 -43 96 51 38 18 83 119 94 34 114 117 40\n4 11",
+        "output": "443"
+      },
+      {
+        "input": "8\n-3 119 8 -20 31 83 115 84\n4 4",
+        "output": "-20"
+      }
+    ],
+    "source": "经典算法题型 - 前缀和"
+  },
+  {
+    "title": "单次区间求和（工程调试版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定数组和一个查询区间 [l, r]（1-based），输出区间元素和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5，1 <= l <= r <= n。\n\n【解题提示】\n可直接遍历区间；若扩展到多次查询建议前缀和。",
+    "inputFormat": "第一行 n；第二行 n 个整数；第三行 l r。",
+    "outputFormat": "输出区间和。",
+    "sampleInput": "17\n74 34 50 81 14 50 28 72 30 -2 12 20 69 -50 78 93 -10\n5 10",
+    "sampleOutput": "192",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "9\n72 -48 48 -12 20 0 -22 13 46\n3 5",
+        "output": "56"
+      },
+      {
+        "input": "13\n-33 71 113 100 -37 75 -41 118 110 97 38 88 17\n3 12",
+        "output": "661"
+      },
+      {
+        "input": "16\n12 -12 69 18 -18 -9 -15 -5 26 30 -47 47 11 65 -3 30\n1 11",
+        "output": "49"
+      }
+    ],
+    "source": "经典算法题型 - 前缀和"
+  },
+  {
+    "title": "单次区间求和（竞赛热身版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定数组和一个查询区间 [l, r]（1-based），输出区间元素和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5，1 <= l <= r <= n。\n\n【解题提示】\n可直接遍历区间；若扩展到多次查询建议前缀和。",
+    "inputFormat": "第一行 n；第二行 n 个整数；第三行 l r。",
+    "outputFormat": "输出区间和。",
+    "sampleInput": "19\n106 54 76 4 95 35 -18 33 27 86 8 -29 -18 111 -35 22 -20 96 42\n13 17",
+    "sampleOutput": "60",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "13\n108 35 7 62 61 -27 -7 63 22 105 -22 21 115\n3 12",
+        "output": "285"
+      },
+      {
+        "input": "10\n117 9 -25 33 85 -1 -25 60 73 -30\n1 9",
+        "output": "326"
+      },
+      {
+        "input": "16\n95 118 11 9 -47 9 114 24 97 -50 19 14 49 103 117 -7\n10 10",
+        "output": "-50"
+      }
+    ],
+    "source": "经典算法题型 - 前缀和"
+  },
+  {
+    "title": "单次区间求和（实验记录版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定数组和一个查询区间 [l, r]（1-based），输出区间元素和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5，1 <= l <= r <= n。\n\n【解题提示】\n可直接遍历区间；若扩展到多次查询建议前缀和。",
+    "inputFormat": "第一行 n；第二行 n 个整数；第三行 l r。",
+    "outputFormat": "输出区间和。",
+    "sampleInput": "16\n55 60 -50 1 101 -40 104 -21 6 102 28 88 48 50 75 39\n11 14",
+    "sampleOutput": "214",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "13\n112 13 55 34 95 88 75 -13 -25 -13 32 21 47\n7 8",
+        "output": "62"
+      },
+      {
+        "input": "18\n47 83 18 14 34 36 57 0 53 -44 30 28 -48 -41 62 -6 78 43\n11 14",
+        "output": "-31"
+      },
+      {
+        "input": "11\n65 95 45 29 -15 -13 54 -9 53 87 -38\n2 7",
+        "output": "195"
+      }
+    ],
+    "source": "经典算法题型 - 前缀和"
+  },
+  {
+    "title": "单次区间求和（上线检查版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定数组和一个查询区间 [l, r]（1-based），输出区间元素和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5，1 <= l <= r <= n。\n\n【解题提示】\n可直接遍历区间；若扩展到多次查询建议前缀和。",
+    "inputFormat": "第一行 n；第二行 n 个整数；第三行 l r。",
+    "outputFormat": "输出区间和。",
+    "sampleInput": "25\n23 10 75 -22 -18 95 6 54 22 89 21 -14 18 -27 33 -2 -44 103 96 48 -26 2 88 66 -34\n4 5",
+    "sampleOutput": "-40",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "19\n60 101 92 119 2 34 36 20 41 96 50 29 30 29 11 26 92 90 17\n10 14",
+        "output": "234"
+      },
+      {
+        "input": "18\n14 55 87 114 -42 30 -24 66 73 67 10 66 50 105 104 -36 2 75\n2 15",
+        "output": "761"
+      },
+      {
+        "input": "13\n37 30 88 -32 60 114 80 73 -38 119 33 71 91\n8 9",
+        "output": "35"
+      }
+    ],
+    "source": "经典算法题型 - 前缀和"
+  },
+  {
+    "title": "单次区间求和（评测样例版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定数组和一个查询区间 [l, r]（1-based），输出区间元素和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5，1 <= l <= r <= n。\n\n【解题提示】\n可直接遍历区间；若扩展到多次查询建议前缀和。",
+    "inputFormat": "第一行 n；第二行 n 个整数；第三行 l r。",
+    "outputFormat": "输出区间和。",
+    "sampleInput": "12\n64 115 50 79 11 -34 42 -22 20 24 86 43\n2 11",
+    "sampleOutput": "371",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "20\n-25 110 87 71 92 -18 61 -25 -44 -28 30 75 56 77 7 117 23 15 113 12\n12 14",
+        "output": "208"
+      },
+      {
+        "input": "10\n58 -36 101 102 -50 23 79 -37 -43 75\n1 6",
+        "output": "198"
+      },
+      {
+        "input": "18\n71 4 1 59 -20 33 -33 47 22 78 6 30 75 -23 0 89 41 -41\n6 17",
+        "output": "365"
+      }
+    ],
+    "source": "经典算法题型 - 前缀和"
+  },
+  {
+    "title": "单次区间求和（课程作业版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定数组和一个查询区间 [l, r]（1-based），输出区间元素和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5，1 <= l <= r <= n。\n\n【解题提示】\n可直接遍历区间；若扩展到多次查询建议前缀和。",
+    "inputFormat": "第一行 n；第二行 n 个整数；第三行 l r。",
+    "outputFormat": "输出区间和。",
+    "sampleInput": "15\n104 81 78 -48 113 65 55 117 -22 23 -24 6 -21 7 43\n8 8",
+    "sampleOutput": "117",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "8\n-43 -36 -36 -31 112 46 65 68\n7 8",
+        "output": "133"
+      },
+      {
+        "input": "19\n82 56 -18 -7 4 42 7 -42 94 93 105 104 120 -4 -21 112 120 73 3\n11 16",
+        "output": "416"
+      },
+      {
+        "input": "8\n54 73 -44 -45 75 32 7 117\n3 4",
+        "output": "-89"
+      }
+    ],
+    "source": "经典算法题型 - 前缀和"
+  },
+  {
+    "title": "单次区间求和（算法训练版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定数组和一个查询区间 [l, r]（1-based），输出区间元素和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5，1 <= l <= r <= n。\n\n【解题提示】\n可直接遍历区间；若扩展到多次查询建议前缀和。",
+    "inputFormat": "第一行 n；第二行 n 个整数；第三行 l r。",
+    "outputFormat": "输出区间和。",
+    "sampleInput": "22\n109 18 17 86 43 22 75 -24 16 76 1 31 110 -6 7 97 6 67 21 26 -21 15\n2 13",
+    "sampleOutput": "471",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "22\n5 -26 69 6 84 118 32 7 113 -38 72 -23 102 -24 81 72 9 71 106 -4 -9 34\n12 14",
+        "output": "55"
+      },
+      {
+        "input": "11\n85 115 -27 110 107 104 114 -4 -24 30 112\n3 6",
+        "output": "294"
+      },
+      {
+        "input": "10\n28 48 99 -13 -22 -6 -12 12 99 94\n3 4",
+        "output": "86"
+      }
+    ],
+    "source": "经典算法题型 - 前缀和"
+  },
+  {
+    "title": "单次区间求和（强化挑战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定数组和一个查询区间 [l, r]（1-based），输出区间元素和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5，1 <= l <= r <= n。\n\n【解题提示】\n可直接遍历区间；若扩展到多次查询建议前缀和。",
+    "inputFormat": "第一行 n；第二行 n 个整数；第三行 l r。",
+    "outputFormat": "输出区间和。",
+    "sampleInput": "20\n-45 33 113 47 -9 8 57 13 111 38 44 114 26 107 94 59 -25 54 -33 40\n6 17",
+    "sampleOutput": "646",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "25\n67 118 68 88 -19 81 -7 -33 37 20 -24 7 -35 17 11 55 10 72 13 50 24 90 -32 38 23\n6 9",
+        "output": "78"
+      },
+      {
+        "input": "9\n102 62 59 46 95 -24 115 26 47\n4 6",
+        "output": "117"
+      },
+      {
+        "input": "15\n49 11 114 7 98 -21 -30 100 -38 66 -45 37 -31 -20 97\n3 10",
+        "output": "296"
+      }
+    ],
+    "source": "经典算法题型 - 前缀和"
+  },
+  {
+    "title": "单次区间求和（综合实战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定数组和一个查询区间 [l, r]（1-based），输出区间元素和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5，1 <= l <= r <= n。\n\n【解题提示】\n可直接遍历区间；若扩展到多次查询建议前缀和。",
+    "inputFormat": "第一行 n；第二行 n 个整数；第三行 l r。",
+    "outputFormat": "输出区间和。",
+    "sampleInput": "17\n73 17 -10 -3 -8 -37 58 -19 -19 -33 82 6 112 -10 119 81 102\n7 14",
+    "sampleOutput": "177",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "21\n6 29 87 1 60 83 115 -27 49 44 -43 108 6 68 -40 72 63 25 9 92 102\n6 7",
+        "output": "198"
+      },
+      {
+        "input": "13\n20 -9 -28 85 31 -19 30 -11 -27 29 -43 -38 -48\n8 9",
+        "output": "-38"
+      },
+      {
+        "input": "25\n-48 -17 -41 37 -5 87 41 99 43 -7 -28 20 97 53 113 32 68 94 -16 78 3 13 51 110 61\n10 13",
+        "output": "82"
+      }
+    ],
+    "source": "经典算法题型 - 前缀和"
+  },
+  {
+    "title": "最大子段和（校园数据版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定一个整数数组，求连续子数组的最大和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\nKadane 算法可在线性时间内求解。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出最大子段和。",
+    "sampleInput": "11\n40 42 13 -38 37 1 -33 2 4 24 4",
+    "sampleOutput": "96",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "13\n44 43 19 -39 25 22 -18 -22 10 38 -4 -32 4",
+        "output": "122"
+      },
+      {
+        "input": "8\n12 8 40 -25 26 -28 -15 -21",
+        "output": "61"
+      },
+      {
+        "input": "12\n-3 -13 -18 44 -36 0 30 19 10 12 27 20",
+        "output": "126"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "最大子段和（工程调试版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定一个整数数组，求连续子数组的最大和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\nKadane 算法可在线性时间内求解。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出最大子段和。",
+    "sampleInput": "9\n-38 12 7 -6 17 -13 -11 25 -26",
+    "sampleOutput": "31",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "21\n-18 21 39 -23 -20 -10 33 31 -8 -3 40 -8 -5 17 4 12 -13 42 4 5 22",
+        "output": "180"
+      },
+      {
+        "input": "10\n15 13 32 25 -29 -29 -12 9 37 -36",
+        "output": "85"
+      },
+      {
+        "input": "19\n20 27 14 -29 37 -9 -1 17 34 -26 4 -11 -38 41 40 23 18 -20 19",
+        "output": "161"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "最大子段和（竞赛热身版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定一个整数数组，求连续子数组的最大和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\nKadane 算法可在线性时间内求解。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出最大子段和。",
+    "sampleInput": "14\n-28 17 16 33 35 17 9 19 1 5 -19 34 33 21",
+    "sampleOutput": "221",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "20\n11 19 30 24 39 23 -8 -36 34 23 25 -17 -31 25 40 15 26 5 29 1",
+        "output": "277"
+      },
+      {
+        "input": "16\n13 3 4 26 -30 -21 27 -26 -8 30 30 45 -9 23 32 44",
+        "output": "195"
+      },
+      {
+        "input": "14\n-39 32 -37 16 27 -7 -21 -27 39 -13 -3 22 -10 44",
+        "output": "79"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "最大子段和（实验记录版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定一个整数数组，求连续子数组的最大和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\nKadane 算法可在线性时间内求解。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出最大子段和。",
+    "sampleInput": "9\n5 -37 -18 -29 4 -18 -18 6 14",
+    "sampleOutput": "20",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "18\n29 6 0 -32 -6 -25 -40 -36 31 40 -24 -27 -13 -8 -1 -10 44 -18",
+        "output": "71"
+      },
+      {
+        "input": "19\n-38 -2 2 37 43 -11 -29 12 -25 -30 34 -28 -5 -10 28 -17 -1 24 28",
+        "output": "82"
+      },
+      {
+        "input": "19\n-1 39 0 16 -10 20 0 27 29 45 40 44 -32 29 -36 -4 -35 1 -28",
+        "output": "250"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "最大子段和（上线检查版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定一个整数数组，求连续子数组的最大和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\nKadane 算法可在线性时间内求解。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出最大子段和。",
+    "sampleInput": "13\n25 2 37 -23 -22 -23 45 14 -37 -2 44 -29 -38",
+    "sampleOutput": "64",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "15\n8 -9 27 43 7 -12 7 -13 -10 -22 3 -5 -17 -1 8",
+        "output": "77"
+      },
+      {
+        "input": "10\n-11 36 -5 14 -25 -20 6 32 -14 35",
+        "output": "59"
+      },
+      {
+        "input": "24\n22 4 -12 -20 21 -26 -9 13 19 3 35 23 7 -19 23 -7 6 -37 -1 34 -15 -39 -21 -7",
+        "output": "104"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "最大子段和（评测样例版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定一个整数数组，求连续子数组的最大和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\nKadane 算法可在线性时间内求解。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出最大子段和。",
+    "sampleInput": "19\n1 -13 4 -40 33 9 8 -36 7 36 -1 -13 20 38 -34 -23 19 -15 -32",
+    "sampleOutput": "101",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "18\n30 -3 3 27 10 33 28 27 44 -5 -7 25 8 -6 -6 4 -14 -22",
+        "output": "220"
+      },
+      {
+        "input": "18\n16 -20 8 3 -32 15 7 17 -11 36 -33 12 40 -9 -32 -17 -8 -40",
+        "output": "83"
+      },
+      {
+        "input": "25\n37 -16 3 -9 20 -18 26 -32 -37 5 23 10 -24 22 34 -19 -35 -8 -26 8 -3 16 -39 21 11",
+        "output": "70"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "最大子段和（课程作业版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定一个整数数组，求连续子数组的最大和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\nKadane 算法可在线性时间内求解。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出最大子段和。",
+    "sampleInput": "8\n-10 -7 -29 2 7 5 -30 -39",
+    "sampleOutput": "14",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "12\n9 -13 -15 40 -29 -8 -22 17 -27 33 19 10",
+        "output": "62"
+      },
+      {
+        "input": "23\n42 -31 26 -40 25 -40 -14 -6 -36 -16 -5 -29 -22 -16 1 -32 1 -5 -19 -23 21 36 -15",
+        "output": "57"
+      },
+      {
+        "input": "26\n45 -4 33 -21 30 -2 -12 -21 -10 37 28 40 -9 -29 -26 -8 23 -37 12 16 34 31 24 33 45 -28",
+        "output": "252"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "最大子段和（算法训练版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定一个整数数组，求连续子数组的最大和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\nKadane 算法可在线性时间内求解。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出最大子段和。",
+    "sampleInput": "27\n-5 27 -22 -35 38 35 -37 5 -16 37 3 -6 30 30 21 29 27 -16 17 -27 26 17 -37 -12 25 -22 -11",
+    "sampleOutput": "213",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "9\n14 21 20 -34 38 1 5 -10 21",
+        "output": "76"
+      },
+      {
+        "input": "12\n41 -33 16 35 -14 19 2 2 16 -24 7 13",
+        "output": "84"
+      },
+      {
+        "input": "13\n17 -33 -22 33 -34 -20 -11 11 38 23 -31 -27 -6",
+        "output": "72"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "最大子段和（强化挑战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定一个整数数组，求连续子数组的最大和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\nKadane 算法可在线性时间内求解。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出最大子段和。",
+    "sampleInput": "22\n36 41 -32 45 35 26 -7 26 28 44 -35 1 -36 -21 -5 -30 22 4 4 2 13 22",
+    "sampleOutput": "242",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "11\n45 -38 -25 -4 -19 8 38 26 -33 -7 40",
+        "output": "72"
+      },
+      {
+        "input": "14\n13 21 27 -7 -39 -31 -21 25 -11 -30 41 24 -15 15",
+        "output": "65"
+      },
+      {
+        "input": "25\n2 -31 -26 -21 -31 10 22 1 -14 44 37 24 29 20 1 7 -18 5 29 20 3 10 20 -14 -15",
+        "output": "250"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "最大子段和（综合实战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定一个整数数组，求连续子数组的最大和。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\nKadane 算法可在线性时间内求解。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出最大子段和。",
+    "sampleInput": "28\n42 43 25 35 -24 -10 31 32 1 36 -2 26 -12 29 9 36 -39 -32 20 -7 40 -5 21 39 8 7 -21 -23",
+    "sampleOutput": "349",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "29\n-25 -24 19 39 -6 38 42 26 -24 -28 3 -9 -5 -10 -8 -30 30 -24 27 0 -24 36 -28 -26 -38 2 7 16 -23",
+        "output": "158"
+      },
+      {
+        "input": "11\n3 30 -3 17 16 -22 8 -8 45 25 -14",
+        "output": "111"
+      },
+      {
+        "input": "14\n11 -17 32 13 -23 0 -34 39 27 25 -23 34 4 -32",
+        "output": "106"
+      }
+    ],
+    "source": "经典算法题型 - 动态规划"
+  },
+  {
+    "title": "第一个大于等于 x 的位置（校园数据版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定有序数组，求第一个满足 a[i] >= x 的位置（1-based），不存在输出 -1。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n标准 lower_bound 模板题。",
+    "inputFormat": "第一行 n x；第二行 n 个递增（可重复）整数。",
+    "outputFormat": "输出位置或 -1。",
+    "sampleInput": "18 81\n1 3 13 20 26 39 42 44 57 69 71 72 93 124 129 143 155 170",
+    "sampleOutput": "13",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "12 112\n25 26 56 76 83 87 98 102 125 158 158 170",
+        "output": "9"
+      },
+      {
+        "input": "11 63\n3 3 16 35 123 126 132 155 159 162 168",
+        "output": "5"
+      },
+      {
+        "input": "16 20\n3 3 5 11 19 27 35 58 66 66 71 95 104 108 110 136",
+        "output": "6"
+      }
+    ],
+    "source": "经典算法题型 - 二分查找"
+  },
+  {
+    "title": "第一个大于等于 x 的位置（工程调试版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定有序数组，求第一个满足 a[i] >= x 的位置（1-based），不存在输出 -1。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n标准 lower_bound 模板题。",
+    "inputFormat": "第一行 n x；第二行 n 个递增（可重复）整数。",
+    "outputFormat": "输出位置或 -1。",
+    "sampleInput": "9 181\n52 75 105 107 123 138 168 174 190",
+    "sampleOutput": "9",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "10 115\n27 32 43 113 126 137 141 144 187 188",
+        "output": "5"
+      },
+      {
+        "input": "15 16\n3 7 9 31 69 80 94 98 122 130 132 152 153 173 175",
+        "output": "4"
+      },
+      {
+        "input": "18 176\n11 11 25 45 46 48 59 87 99 105 108 115 126 128 153 171 180 180",
+        "output": "17"
+      }
+    ],
+    "source": "经典算法题型 - 二分查找"
+  },
+  {
+    "title": "第一个大于等于 x 的位置（竞赛热身版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定有序数组，求第一个满足 a[i] >= x 的位置（1-based），不存在输出 -1。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n标准 lower_bound 模板题。",
+    "inputFormat": "第一行 n x；第二行 n 个递增（可重复）整数。",
+    "outputFormat": "输出位置或 -1。",
+    "sampleInput": "16 50\n1 18 32 41 51 53 53 85 95 123 154 174 188 192 199 209",
+    "sampleOutput": "5",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "24 98\n18 23 37 41 42 60 63 69 69 72 86 101 109 131 131 141 153 157 176 184 199 200 202 208",
+        "output": "12"
+      },
+      {
+        "input": "22 18\n12 18 19 19 30 43 51 52 76 86 106 145 149 150 155 157 167 169 171 179 191 208",
+        "output": "2"
+      },
+      {
+        "input": "28 205\n3 8 12 17 20 23 32 44 45 68 68 87 99 100 102 106 114 128 139 141 149 151 162 173 183 200 201 208",
+        "output": "28"
+      }
+    ],
+    "source": "经典算法题型 - 二分查找"
+  },
+  {
+    "title": "第一个大于等于 x 的位置（实验记录版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定有序数组，求第一个满足 a[i] >= x 的位置（1-based），不存在输出 -1。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n标准 lower_bound 模板题。",
+    "inputFormat": "第一行 n x；第二行 n 个递增（可重复）整数。",
+    "outputFormat": "输出位置或 -1。",
+    "sampleInput": "27 146\n19 39 42 52 55 56 61 67 70 73 82 82 87 108 155 162 164 165 167 167 177 182 187 189 193 199 205",
+    "sampleOutput": "15",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "23 230\n6 8 36 43 44 55 55 61 68 79 96 105 111 132 132 153 161 162 167 195 212 221 222",
+        "output": "-1"
+      },
+      {
+        "input": "20 201\n9 18 26 37 41 66 74 80 98 101 104 108 110 118 134 162 162 184 199 204",
+        "output": "20"
+      },
+      {
+        "input": "10 106\n4 36 57 71 107 123 128 161 173 230",
+        "output": "5"
+      }
+    ],
+    "source": "经典算法题型 - 二分查找"
+  },
+  {
+    "title": "第一个大于等于 x 的位置（上线检查版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定有序数组，求第一个满足 a[i] >= x 的位置（1-based），不存在输出 -1。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n标准 lower_bound 模板题。",
+    "inputFormat": "第一行 n x；第二行 n 个递增（可重复）整数。",
+    "outputFormat": "输出位置或 -1。",
+    "sampleInput": "22 68\n32 33 35 58 59 77 89 98 105 113 115 116 127 141 147 148 148 192 202 209 217 237",
+    "sampleOutput": "6",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "27 205\n12 24 35 40 49 59 78 101 101 112 118 119 137 150 158 160 162 170 172 174 179 197 199 205 221 235 239",
+        "output": "24"
+      },
+      {
+        "input": "20 106\n11 19 20 27 30 40 63 73 102 113 114 117 126 148 183 205 217 219 241 247",
+        "output": "10"
+      },
+      {
+        "input": "13 25\n41 46 51 95 104 127 138 144 165 178 214 229 235",
+        "output": "1"
+      }
+    ],
+    "source": "经典算法题型 - 二分查找"
+  },
+  {
+    "title": "第一个大于等于 x 的位置（评测样例版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定有序数组，求第一个满足 a[i] >= x 的位置（1-based），不存在输出 -1。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n标准 lower_bound 模板题。",
+    "inputFormat": "第一行 n x；第二行 n 个递增（可重复）整数。",
+    "outputFormat": "输出位置或 -1。",
+    "sampleInput": "17 63\n14 27 38 50 52 69 110 115 122 138 146 159 161 223 229 265 268",
+    "sampleOutput": "6",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "24 17\n4 10 12 48 56 74 78 91 94 95 119 124 126 140 142 149 156 170 176 189 217 220 221 256",
+        "output": "4"
+      },
+      {
+        "input": "29 25\n16 19 29 29 65 79 82 112 116 117 126 144 145 155 159 169 178 179 180 187 209 209 210 216 217 230 239 250 269",
+        "output": "3"
+      },
+      {
+        "input": "16 249\n14 36 44 67 69 79 101 109 118 134 137 152 188 210 240 254",
+        "output": "16"
+      }
+    ],
+    "source": "经典算法题型 - 二分查找"
+  },
+  {
+    "title": "第一个大于等于 x 的位置（课程作业版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定有序数组，求第一个满足 a[i] >= x 的位置（1-based），不存在输出 -1。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n标准 lower_bound 模板题。",
+    "inputFormat": "第一行 n x；第二行 n 个递增（可重复）整数。",
+    "outputFormat": "输出位置或 -1。",
+    "sampleInput": "32 175\n11 13 31 46 53 58 58 63 70 104 111 119 130 155 163 170 173 185 187 191 193 227 228 250 266 270 283 285 288 289 290 290",
+    "sampleOutput": "18",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "26 78\n2 11 31 60 61 64 77 102 151 156 158 162 169 170 172 172 174 197 207 228 229 238 238 246 254 289",
+        "output": "8"
+      },
+      {
+        "input": "15 229\n15 23 28 44 55 60 83 141 147 174 181 186 210 212 231",
+        "output": "15"
+      },
+      {
+        "input": "28 64\n13 13 15 21 24 30 36 38 58 60 67 71 79 88 136 148 167 178 191 202 204 217 237 239 243 255 263 288",
+        "output": "11"
+      }
+    ],
+    "source": "经典算法题型 - 二分查找"
+  },
+  {
+    "title": "第一个大于等于 x 的位置（算法训练版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定有序数组，求第一个满足 a[i] >= x 的位置（1-based），不存在输出 -1。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n标准 lower_bound 模板题。",
+    "inputFormat": "第一行 n x；第二行 n 个递增（可重复）整数。",
+    "outputFormat": "输出位置或 -1。",
+    "sampleInput": "20 120\n23 33 33 60 96 97 99 127 131 150 196 216 238 245 251 273 275 284 295 308",
+    "sampleOutput": "8",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "24 103\n11 23 37 38 41 79 138 150 197 199 210 214 215 224 224 232 237 250 258 260 287 289 298 303",
+        "output": "7"
+      },
+      {
+        "input": "22 136\n29 41 102 103 113 114 129 137 137 150 161 161 170 176 193 214 222 252 273 286 295 303",
+        "output": "8"
+      },
+      {
+        "input": "26 234\n3 4 31 33 45 68 91 104 115 120 124 128 145 159 159 177 181 185 262 268 269 295 297 298 304 306",
+        "output": "19"
+      }
+    ],
+    "source": "经典算法题型 - 二分查找"
+  },
+  {
+    "title": "第一个大于等于 x 的位置（强化挑战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定有序数组，求第一个满足 a[i] >= x 的位置（1-based），不存在输出 -1。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n标准 lower_bound 模板题。",
+    "inputFormat": "第一行 n x；第二行 n 个递增（可重复）整数。",
+    "outputFormat": "输出位置或 -1。",
+    "sampleInput": "16 53\n73 75 82 102 181 183 186 190 196 214 247 250 256 257 323 327",
+    "sampleOutput": "1",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "31 56\n5 30 39 42 59 65 83 98 98 107 123 130 139 143 149 167 173 179 183 198 203 205 205 206 226 252 288 299 305 310 312",
+        "output": "5"
+      },
+      {
+        "input": "14 54\n4 9 57 60 74 160 164 164 189 244 250 252 327 327",
+        "output": "3"
+      },
+      {
+        "input": "23 134\n8 10 10 17 28 48 54 59 76 101 104 106 171 197 200 222 256 256 264 275 277 298 316",
+        "output": "13"
+      }
+    ],
+    "source": "经典算法题型 - 二分查找"
+  },
+  {
+    "title": "第一个大于等于 x 的位置（综合实战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定有序数组，求第一个满足 a[i] >= x 的位置（1-based），不存在输出 -1。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n标准 lower_bound 模板题。",
+    "inputFormat": "第一行 n x；第二行 n 个递增（可重复）整数。",
+    "outputFormat": "输出位置或 -1。",
+    "sampleInput": "23 279\n2 13 25 36 70 78 97 113 122 147 159 190 205 205 227 264 269 274 311 313 317 323 348",
+    "sampleOutput": "19",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "21 41\n29 34 48 74 84 90 101 114 132 165 178 182 205 207 264 267 292 305 318 322 347",
+        "output": "3"
+      },
+      {
+        "input": "26 22\n25 38 40 42 42 61 97 104 106 128 135 136 169 176 194 229 258 274 277 280 281 299 310 315 331 346",
+        "output": "1"
+      },
+      {
+        "input": "35 262\n1 9 14 55 59 69 78 85 103 108 111 119 121 131 133 146 156 158 172 179 196 201 218 264 268 274 274 285 285 302 305 324 333 335 338",
+        "output": "24"
+      }
+    ],
+    "source": "经典算法题型 - 二分查找"
+  },
+  {
+    "title": "整数排序（校园数据版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个整数，请按从小到大排序后输出。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n可使用快速排序、归并排序或语言内置排序。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出一行，按升序排列后的数组。",
+    "sampleInput": "9\n-222 167 -51 165 -31 -125 274 267 -298",
+    "sampleOutput": "-298 -222 -125 -51 -31 165 167 267 274",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "16\n-95 138 106 -55 296 -119 165 210 115 137 -212 62 -180 170 -231 -29",
+        "output": "-231 -212 -180 -119 -95 -55 -29 62 106 115 137 138 165 170 210 296"
+      },
+      {
+        "input": "15\n-91 -233 -286 164 -270 -39 -55 -219 -294 -123 194 -295 -41 37 -156",
+        "output": "-295 -294 -286 -270 -233 -219 -156 -123 -91 -55 -41 -39 37 164 194"
+      },
+      {
+        "input": "9\n-170 -170 -64 -145 109 153 -255 -252 -145",
+        "output": "-255 -252 -170 -170 -145 -145 -64 109 153"
+      }
+    ],
+    "source": "经典算法题型 - 排序"
+  },
+  {
+    "title": "整数排序（工程调试版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个整数，请按从小到大排序后输出。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n可使用快速排序、归并排序或语言内置排序。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出一行，按升序排列后的数组。",
+    "sampleInput": "16\n166 -197 -292 -294 -59 -102 -2 -34 165 -55 116 283 -142 -233 -112 145",
+    "sampleOutput": "-294 -292 -233 -197 -142 -112 -102 -59 -55 -34 -2 116 145 165 166 283",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "16\n-144 24 -194 6 116 95 -255 -292 96 -230 56 272 -54 92 79 87",
+        "output": "-292 -255 -230 -194 -144 -54 6 24 56 79 87 92 95 96 116 272"
+      },
+      {
+        "input": "16\n242 -128 114 -52 -281 173 -164 295 -258 79 -173 202 -92 231 51 172",
+        "output": "-281 -258 -173 -164 -128 -92 -52 51 79 114 172 173 202 231 242 295"
+      },
+      {
+        "input": "9\n-213 -271 -139 250 250 30 130 263 238",
+        "output": "-271 -213 -139 30 130 238 250 250 263"
+      }
+    ],
+    "source": "经典算法题型 - 排序"
+  },
+  {
+    "title": "整数排序（竞赛热身版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个整数，请按从小到大排序后输出。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n可使用快速排序、归并排序或语言内置排序。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出一行，按升序排列后的数组。",
+    "sampleInput": "13\n-44 28 288 -228 -235 247 209 261 281 140 133 -73 -235",
+    "sampleOutput": "-235 -235 -228 -73 -44 28 133 140 209 247 261 281 288",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "8\n-262 82 50 227 -255 -267 -281 158",
+        "output": "-281 -267 -262 -255 50 82 158 227"
+      },
+      {
+        "input": "20\n188 -283 -67 69 -48 -249 259 76 -148 167 -101 -199 -261 -233 64 -77 -149 260 203 -23",
+        "output": "-283 -261 -249 -233 -199 -149 -148 -101 -77 -67 -48 -23 64 69 76 167 188 203 259 260"
+      },
+      {
+        "input": "19\n241 -46 203 143 -222 177 59 -64 40 235 6 199 -217 -296 -87 231 18 -84 252",
+        "output": "-296 -222 -217 -87 -84 -64 -46 6 18 40 59 143 177 199 203 231 235 241 252"
+      }
+    ],
+    "source": "经典算法题型 - 排序"
+  },
+  {
+    "title": "整数排序（实验记录版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个整数，请按从小到大排序后输出。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n可使用快速排序、归并排序或语言内置排序。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出一行，按升序排列后的数组。",
+    "sampleInput": "21\n93 -77 -169 28 139 -233 99 -292 123 115 12 -170 -34 159 78 50 -232 -238 -35 -34 201",
+    "sampleOutput": "-292 -238 -233 -232 -170 -169 -77 -35 -34 -34 12 28 50 78 93 99 115 123 139 159 201",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "23\n-263 89 124 189 -109 -221 101 276 -12 236 -65 188 -62 294 -97 244 252 -6 -5 -1 -52 -67 -273",
+        "output": "-273 -263 -221 -109 -97 -67 -65 -62 -52 -12 -6 -5 -1 89 101 124 188 189 236 244 252 276 294"
+      },
+      {
+        "input": "19\n-31 -38 282 34 -164 -35 -172 -111 210 -116 -120 -117 78 -231 -174 -3 47 -132 15",
+        "output": "-231 -174 -172 -164 -132 -120 -117 -116 -111 -38 -35 -31 -3 15 34 47 78 210 282"
+      },
+      {
+        "input": "12\n-123 235 197 -141 91 -78 10 25 246 -202 118 6",
+        "output": "-202 -141 -123 -78 6 10 25 91 118 197 235 246"
+      }
+    ],
+    "source": "经典算法题型 - 排序"
+  },
+  {
+    "title": "整数排序（上线检查版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个整数，请按从小到大排序后输出。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n可使用快速排序、归并排序或语言内置排序。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出一行，按升序排列后的数组。",
+    "sampleInput": "19\n246 -33 126 -254 -272 -13 -53 -211 -19 -259 -295 -174 245 112 26 17 -261 198 102",
+    "sampleOutput": "-295 -272 -261 -259 -254 -211 -174 -53 -33 -19 -13 17 26 102 112 126 198 245 246",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "8\n24 296 -29 287 -129 -126 87 235",
+        "output": "-129 -126 -29 24 87 235 287 296"
+      },
+      {
+        "input": "16\n140 -293 -85 -295 12 286 -67 -187 -185 123 142 -25 121 101 35 -164",
+        "output": "-295 -293 -187 -185 -164 -85 -67 -25 12 35 101 121 123 140 142 286"
+      },
+      {
+        "input": "8\n-143 -134 -163 -47 125 244 -43 -15",
+        "output": "-163 -143 -134 -47 -43 -15 125 244"
+      }
+    ],
+    "source": "经典算法题型 - 排序"
+  },
+  {
+    "title": "整数排序（评测样例版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个整数，请按从小到大排序后输出。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n可使用快速排序、归并排序或语言内置排序。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出一行，按升序排列后的数组。",
+    "sampleInput": "26\n18 111 116 169 53 13 -188 -273 268 -229 100 157 -43 19 89 80 211 -268 77 34 -275 145 -296 -298 54 156",
+    "sampleOutput": "-298 -296 -275 -273 -268 -229 -188 -43 13 18 19 34 53 54 77 80 89 100 111 116 145 156 157 169 211 268",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "9\n11 -157 -191 70 109 -227 43 -174 -93",
+        "output": "-227 -191 -174 -157 -93 11 43 70 109"
+      },
+      {
+        "input": "17\n68 280 280 -45 148 -290 -34 63 -164 227 -263 100 -105 227 -136 -196 187",
+        "output": "-290 -263 -196 -164 -136 -105 -45 -34 63 68 100 148 187 227 227 280 280"
+      },
+      {
+        "input": "9\n-55 -117 61 280 -3 224 -68 -99 25",
+        "output": "-117 -99 -68 -55 -3 25 61 224 280"
+      }
+    ],
+    "source": "经典算法题型 - 排序"
+  },
+  {
+    "title": "整数排序（课程作业版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个整数，请按从小到大排序后输出。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n可使用快速排序、归并排序或语言内置排序。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出一行，按升序排列后的数组。",
+    "sampleInput": "27\n-118 -33 33 -134 -241 269 -275 15 -33 188 212 -141 204 239 180 -264 158 -18 -180 -256 -60 -34 120 -275 58 36 111",
+    "sampleOutput": "-275 -275 -264 -256 -241 -180 -141 -134 -118 -60 -34 -33 -33 -18 15 33 36 58 111 120 158 180 188 204 212 239 269",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "9\n-107 -78 -293 2 -280 -147 265 214 236",
+        "output": "-293 -280 -147 -107 -78 2 214 236 265"
+      },
+      {
+        "input": "18\n-218 -58 -195 -105 90 201 46 -246 40 -51 -139 -26 105 95 155 251 144 -54",
+        "output": "-246 -218 -195 -139 -105 -58 -54 -51 -26 40 46 90 95 105 144 155 201 251"
+      },
+      {
+        "input": "18\n187 45 -101 134 -75 122 216 252 -96 42 -155 -22 -103 -28 118 -232 -238 163",
+        "output": "-238 -232 -155 -103 -101 -96 -75 -28 -22 42 45 118 122 134 163 187 216 252"
+      }
+    ],
+    "source": "经典算法题型 - 排序"
+  },
+  {
+    "title": "整数排序（算法训练版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个整数，请按从小到大排序后输出。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n可使用快速排序、归并排序或语言内置排序。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出一行，按升序排列后的数组。",
+    "sampleInput": "26\n-47 -36 -10 -271 167 -188 -63 -20 -37 -18 267 54 218 -230 -66 -28 215 169 -138 88 27 126 226 2 300 -146",
+    "sampleOutput": "-271 -230 -188 -146 -138 -66 -63 -47 -37 -36 -28 -20 -18 -10 2 27 54 88 126 167 169 215 218 226 267 300",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "17\n142 300 -55 -249 -194 192 -136 -255 -259 48 293 -78 -251 -46 -29 -209 -152",
+        "output": "-259 -255 -251 -249 -209 -194 -152 -136 -78 -55 -46 -29 48 142 192 293 300"
+      },
+      {
+        "input": "15\n-120 -202 -126 -259 -16 292 280 -249 -164 -48 -55 -84 -51 -126 -191",
+        "output": "-259 -249 -202 -191 -164 -126 -126 -120 -84 -55 -51 -48 -16 280 292"
+      },
+      {
+        "input": "19\n5 -245 43 290 -291 267 105 -299 -222 -75 88 287 201 136 -173 -33 97 -250 19",
+        "output": "-299 -291 -250 -245 -222 -173 -75 -33 5 19 43 88 97 105 136 201 267 287 290"
+      }
+    ],
+    "source": "经典算法题型 - 排序"
+  },
+  {
+    "title": "整数排序（强化挑战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个整数，请按从小到大排序后输出。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n可使用快速排序、归并排序或语言内置排序。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出一行，按升序排列后的数组。",
+    "sampleInput": "23\n221 17 -127 288 229 -276 90 -22 31 -2 -95 273 238 22 -151 209 -212 -299 240 -110 -268 -234 -48",
+    "sampleOutput": "-299 -276 -268 -234 -212 -151 -127 -110 -95 -48 -22 -2 17 22 31 90 209 221 229 238 240 273 288",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "25\n199 -64 205 -83 239 102 -284 -189 -164 -169 236 -114 136 200 -111 64 85 155 160 -220 147 -21 168 -250 48",
+        "output": "-284 -250 -220 -189 -169 -164 -114 -111 -83 -64 -21 48 64 85 102 136 147 155 160 168 199 200 205 236 239"
+      },
+      {
+        "input": "20\n-173 -138 -15 -77 8 -267 47 165 -216 -289 115 63 -176 117 42 -136 180 -62 -294 -25",
+        "output": "-294 -289 -267 -216 -176 -173 -138 -136 -77 -62 -25 -15 8 42 47 63 115 117 165 180"
+      },
+      {
+        "input": "23\n-25 -55 222 -285 -10 -126 197 68 143 39 112 27 -54 -49 -149 81 249 17 -109 231 59 -277 238",
+        "output": "-285 -277 -149 -126 -109 -55 -54 -49 -25 -10 17 27 39 59 68 81 112 143 197 222 231 238 249"
+      }
+    ],
+    "source": "经典算法题型 - 排序"
+  },
+  {
+    "title": "整数排序（综合实战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个整数，请按从小到大排序后输出。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n可使用快速排序、归并排序或语言内置排序。",
+    "inputFormat": "第一行 n；第二行 n 个整数。",
+    "outputFormat": "输出一行，按升序排列后的数组。",
+    "sampleInput": "16\n-187 -133 -107 -47 -290 192 148 166 -197 -260 -64 -280 -159 -86 -53 -134",
+    "sampleOutput": "-290 -280 -260 -197 -187 -159 -134 -133 -107 -86 -64 -53 -47 148 166 192",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "20\n155 36 136 -136 -149 178 125 195 21 68 153 214 -78 -86 236 -92 -39 -36 -98 -87",
+        "output": "-149 -136 -98 -92 -87 -86 -78 -39 -36 21 36 68 125 136 153 155 178 195 214 236"
+      },
+      {
+        "input": "22\n-84 -108 -69 64 104 245 -26 -85 -251 -81 193 -299 250 -160 -161 296 -122 -265 -114 -32 290 -222",
+        "output": "-299 -265 -251 -222 -161 -160 -122 -114 -108 -85 -84 -81 -69 -32 -26 64 104 193 245 250 290 296"
+      },
+      {
+        "input": "17\n-41 -281 168 274 199 213 252 -257 -140 -234 -155 -255 -36 143 0 -42 39",
+        "output": "-281 -257 -255 -234 -155 -140 -42 -41 -36 0 39 143 168 199 213 252 274"
+      }
+    ],
+    "source": "经典算法题型 - 排序"
+  },
+  {
+    "title": "有序数组两数之和判定（校园数据版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定一个非降序数组和目标值 target，判断是否存在两个不同位置元素之和等于 target。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n双指针一头一尾向中间移动即可。",
+    "inputFormat": "第一行 n target；第二行 n 个非降序整数。",
+    "outputFormat": "存在输出 YES，否则输出 NO。",
+    "sampleInput": "13 156\n21 29 39 46 59 77 82 87 88 99 107 108 127",
+    "sampleOutput": "YES",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "16 195\n29 41 47 54 55 68 76 84 84 84 84 111 112 113 120 128",
+        "output": "YES"
+      },
+      {
+        "input": "19 236\n5 8 12 14 28 29 39 40 45 49 60 72 88 102 107 110 116 119 120",
+        "output": "YES"
+      },
+      {
+        "input": "23 151\n3 9 18 32 35 41 45 50 61 62 69 77 89 94 96 100 101 103 112 118 125 126 130",
+        "output": "YES"
+      }
+    ],
+    "source": "经典算法题型 - 双指针"
+  },
+  {
+    "title": "有序数组两数之和判定（工程调试版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定一个非降序数组和目标值 target，判断是否存在两个不同位置元素之和等于 target。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n双指针一头一尾向中间移动即可。",
+    "inputFormat": "第一行 n target；第二行 n 个非降序整数。",
+    "outputFormat": "存在输出 YES，否则输出 NO。",
+    "sampleInput": "24 295\n6 7 9 12 13 19 19 19 24 25 51 54 61 70 74 84 93 122 132 133 142 144 145 150",
+    "sampleOutput": "YES",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "8 355\n3 13 35 57 80 119 123 138",
+        "output": "NO"
+      },
+      {
+        "input": "14 228\n14 19 48 49 57 61 85 92 103 105 125 138 144 146",
+        "output": "YES"
+      },
+      {
+        "input": "22 142\n8 13 20 24 47 54 55 60 78 87 92 99 101 108 112 114 118 132 137 140 145 148",
+        "output": "YES"
+      }
+    ],
+    "source": "经典算法题型 - 双指针"
+  },
+  {
+    "title": "有序数组两数之和判定（竞赛热身版）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【题目背景】\n给定一个非降序数组和目标值 target，判断是否存在两个不同位置元素之和等于 target。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n双指针一头一尾向中间移动即可。",
+    "inputFormat": "第一行 n target；第二行 n 个非降序整数。",
+    "outputFormat": "存在输出 YES，否则输出 NO。",
+    "sampleInput": "10 123\n10 41 42 74 82 118 120 139 144 161",
+    "sampleOutput": "YES",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "16 267\n5 8 27 32 34 51 56 58 67 83 117 143 144 150 156 162",
+        "output": "YES"
+      },
+      {
+        "input": "15 30\n1 2 2 4 26 28 37 37 52 60 86 148 156 157 157",
+        "output": "YES"
+      },
+      {
+        "input": "9 304\n18 20 79 87 96 96 132 152 165",
+        "output": "NO"
+      }
+    ],
+    "source": "经典算法题型 - 双指针"
+  },
+  {
+    "title": "有序数组两数之和判定（实验记录版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定一个非降序数组和目标值 target，判断是否存在两个不同位置元素之和等于 target。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n双指针一头一尾向中间移动即可。",
+    "inputFormat": "第一行 n target；第二行 n 个非降序整数。",
+    "outputFormat": "存在输出 YES，否则输出 NO。",
+    "sampleInput": "18 409\n7 8 10 21 52 54 56 65 73 82 88 92 94 102 110 137 149 150",
+    "sampleOutput": "NO",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "13 168\n8 14 20 32 43 55 100 126 132 147 160 161 167",
+        "output": "YES"
+      },
+      {
+        "input": "12 201\n5 7 15 48 74 91 110 127 133 134 143 176",
+        "output": "YES"
+      },
+      {
+        "input": "17 183\n4 9 14 14 20 51 54 88 93 95 109 127 152 155 159 170 173",
+        "output": "YES"
+      }
+    ],
+    "source": "经典算法题型 - 双指针"
+  },
+  {
+    "title": "有序数组两数之和判定（上线检查版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定一个非降序数组和目标值 target，判断是否存在两个不同位置元素之和等于 target。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n双指针一头一尾向中间移动即可。",
+    "inputFormat": "第一行 n target；第二行 n 个非降序整数。",
+    "outputFormat": "存在输出 YES，否则输出 NO。",
+    "sampleInput": "20 251\n2 5 5 12 51 65 67 79 86 94 94 104 110 121 130 143 168 188 194 195",
+    "sampleOutput": "YES",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "11 343\n28 41 102 105 120 140 149 152 156 185 187",
+        "output": "YES"
+      },
+      {
+        "input": "12 39\n8 9 14 30 58 59 66 67 119 131 159 171",
+        "output": "YES"
+      },
+      {
+        "input": "25 375\n5 9 22 33 44 47 56 76 77 79 88 90 91 92 96 109 112 112 117 176 181 182 183 192 192",
+        "output": "YES"
+      }
+    ],
+    "source": "经典算法题型 - 双指针"
+  },
+  {
+    "title": "有序数组两数之和判定（评测样例版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定一个非降序数组和目标值 target，判断是否存在两个不同位置元素之和等于 target。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n双指针一头一尾向中间移动即可。",
+    "inputFormat": "第一行 n target；第二行 n 个非降序整数。",
+    "outputFormat": "存在输出 YES，否则输出 NO。",
+    "sampleInput": "26 102\n8 8 15 17 21 31 35 36 41 43 43 79 79 85 104 110 123 152 154 171 188 188 196 201 205 207",
+    "sampleOutput": "YES",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "11 284\n44 48 74 78 81 95 107 124 133 151 157",
+        "output": "YES"
+      },
+      {
+        "input": "15 307\n6 25 43 54 61 107 122 134 138 142 167 191 193 200 206",
+        "output": "YES"
+      },
+      {
+        "input": "12 297\n26 77 79 82 91 116 135 147 181 186 191 207",
+        "output": "YES"
+      }
+    ],
+    "source": "经典算法题型 - 双指针"
+  },
+  {
+    "title": "有序数组两数之和判定（课程作业版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定一个非降序数组和目标值 target，判断是否存在两个不同位置元素之和等于 target。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n双指针一头一尾向中间移动即可。",
+    "inputFormat": "第一行 n target；第二行 n 个非降序整数。",
+    "outputFormat": "存在输出 YES，否则输出 NO。",
+    "sampleInput": "22 314\n3 9 10 16 31 37 44 55 56 67 96 98 108 120 121 153 164 178 185 206 216 218",
+    "sampleOutput": "YES",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "25 479\n3 12 38 48 53 61 81 87 91 91 92 105 117 129 136 139 153 157 157 165 176 178 181 183 204",
+        "output": "NO"
+      },
+      {
+        "input": "21 414\n22 50 51 81 96 100 104 107 110 126 135 148 151 157 172 174 175 180 190 204 210",
+        "output": "YES"
+      },
+      {
+        "input": "11 450\n33 40 49 104 116 120 184 201 205 205 223",
+        "output": "NO"
+      }
+    ],
+    "source": "经典算法题型 - 双指针"
+  },
+  {
+    "title": "有序数组两数之和判定（算法训练版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定一个非降序数组和目标值 target，判断是否存在两个不同位置元素之和等于 target。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n双指针一头一尾向中间移动即可。",
+    "inputFormat": "第一行 n target；第二行 n 个非降序整数。",
+    "outputFormat": "存在输出 YES，否则输出 NO。",
+    "sampleInput": "10 299\n37 46 66 91 117 124 156 175 217 220",
+    "sampleOutput": "YES",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "25 389\n3 17 21 43 43 44 52 59 66 68 87 89 96 103 126 138 153 156 157 169 173 183 195 236 237",
+        "output": "YES"
+      },
+      {
+        "input": "15 346\n23 55 57 73 84 113 126 162 170 180 196 205 205 218 240",
+        "output": "NO"
+      },
+      {
+        "input": "16 475\n13 54 60 89 111 111 120 123 155 167 168 179 196 214 214 214",
+        "output": "NO"
+      }
+    ],
+    "source": "经典算法题型 - 双指针"
+  },
+  {
+    "title": "有序数组两数之和判定（强化挑战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定一个非降序数组和目标值 target，判断是否存在两个不同位置元素之和等于 target。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n双指针一头一尾向中间移动即可。",
+    "inputFormat": "第一行 n target；第二行 n 个非降序整数。",
+    "outputFormat": "存在输出 YES，否则输出 NO。",
+    "sampleInput": "19 523\n30 36 39 46 46 52 55 70 76 79 80 81 101 125 126 137 203 222 237",
+    "sampleOutput": "NO",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "18 282\n1 10 11 19 36 36 63 72 85 104 137 144 145 151 159 223 245 245",
+        "output": "YES"
+      },
+      {
+        "input": "24 343\n6 8 22 22 44 56 88 101 117 125 128 139 144 152 160 160 167 175 206 245 246 248 250 253",
+        "output": "NO"
+      },
+      {
+        "input": "13 420\n3 57 62 93 138 147 166 181 184 247 248 254 255",
+        "output": "YES"
+      }
+    ],
+    "source": "经典算法题型 - 双指针"
+  },
+  {
+    "title": "有序数组两数之和判定（综合实战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定一个非降序数组和目标值 target，判断是否存在两个不同位置元素之和等于 target。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n双指针一头一尾向中间移动即可。",
+    "inputFormat": "第一行 n target；第二行 n 个非降序整数。",
+    "outputFormat": "存在输出 YES，否则输出 NO。",
+    "sampleInput": "10 111\n17 24 25 49 94 118 121 213 228 252",
+    "sampleOutput": "YES",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "17 432\n1 41 59 76 100 101 104 105 121 181 186 190 197 197 197 201 235",
+        "output": "YES"
+      },
+      {
+        "input": "16 392\n23 35 40 43 62 106 116 125 137 144 170 203 206 215 221 253",
+        "output": "NO"
+      },
+      {
+        "input": "12 516\n24 32 32 34 42 86 129 146 154 159 167 233",
+        "output": "NO"
+      }
+    ],
+    "source": "经典算法题型 - 双指针"
+  },
+  {
+    "title": "区间合并后数量（校园数据版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个闭区间，合并所有有交集的区间后，输出剩余区间个数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n先按左端点排序，再线性扫描合并。",
+    "inputFormat": "第一行 n；接下来 n 行每行两个整数 l r。",
+    "outputFormat": "输出合并后区间数量。",
+    "sampleInput": "6\n12 21\n47 57\n7 7\n52 56\n16 16\n4 10",
+    "sampleOutput": "3",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "6\n15 17\n52 63\n39 43\n23 32\n33 35\n29 35",
+        "output": "4"
+      },
+      {
+        "input": "6\n53 57\n18 28\n13 13\n6 6\n23 31\n52 55",
+        "output": "4"
+      },
+      {
+        "input": "10\n55 59\n56 58\n54 63\n6 10\n29 43\n1 1\n15 27\n58 63\n13 16\n7 19",
+        "output": "4"
+      }
+    ],
+    "source": "经典算法题型 - 贪心"
+  },
+  {
+    "title": "区间合并后数量（工程调试版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个闭区间，合并所有有交集的区间后，输出剩余区间个数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n先按左端点排序，再线性扫描合并。",
+    "inputFormat": "第一行 n；接下来 n 行每行两个整数 l r。",
+    "outputFormat": "输出合并后区间数量。",
+    "sampleInput": "7\n38 40\n26 27\n48 54\n13 22\n60 62\n35 53\n36 50",
+    "sampleOutput": "4",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "10\n2 5\n43 46\n47 51\n14 14\n10 10\n23 24\n13 14\n62 63\n45 64\n33 34",
+        "output": "6"
+      },
+      {
+        "input": "6\n44 44\n24 26\n37 48\n14 20\n48 49\n58 73",
+        "output": "4"
+      },
+      {
+        "input": "9\n29 31\n71 72\n68 71\n0 13\n28 43\n39 52\n45 46\n38 49\n58 64",
+        "output": "4"
+      }
+    ],
+    "source": "经典算法题型 - 贪心"
+  },
+  {
+    "title": "区间合并后数量（竞赛热身版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个闭区间，合并所有有交集的区间后，输出剩余区间个数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n先按左端点排序，再线性扫描合并。",
+    "inputFormat": "第一行 n；接下来 n 行每行两个整数 l r。",
+    "outputFormat": "输出合并后区间数量。",
+    "sampleInput": "4\n8 8\n31 32\n32 44\n29 33",
+    "sampleOutput": "2",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "7\n29 33\n34 45\n52 56\n62 62\n72 74\n70 70\n58 62",
+        "output": "6"
+      },
+      {
+        "input": "10\n59 64\n66 66\n59 64\n8 19\n16 30\n39 41\n21 28\n67 74\n6 19\n11 20",
+        "output": "5"
+      },
+      {
+        "input": "7\n70 81\n5 11\n41 46\n5 13\n37 41\n20 29\n56 56",
+        "output": "5"
+      }
+    ],
+    "source": "经典算法题型 - 贪心"
+  },
+  {
+    "title": "区间合并后数量（实验记录版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个闭区间，合并所有有交集的区间后，输出剩余区间个数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n先按左端点排序，再线性扫描合并。",
+    "inputFormat": "第一行 n；接下来 n 行每行两个整数 l r。",
+    "outputFormat": "输出合并后区间数量。",
+    "sampleInput": "4\n2 5\n58 61\n53 53\n11 11",
+    "sampleOutput": "4",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "5\n49 51\n27 43\n28 32\n62 76\n45 46",
+        "output": "4"
+      },
+      {
+        "input": "7\n42 46\n44 45\n73 87\n24 31\n62 71\n69 69\n11 15",
+        "output": "5"
+      },
+      {
+        "input": "11\n15 15\n64 66\n67 67\n3 3\n49 58\n50 60\n5 9\n49 51\n24 27\n15 32\n28 34",
+        "output": "6"
+      }
+    ],
+    "source": "经典算法题型 - 贪心"
+  },
+  {
+    "title": "区间合并后数量（上线检查版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个闭区间，合并所有有交集的区间后，输出剩余区间个数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n先按左端点排序，再线性扫描合并。",
+    "inputFormat": "第一行 n；接下来 n 行每行两个整数 l r。",
+    "outputFormat": "输出合并后区间数量。",
+    "sampleInput": "11\n88 88\n3 11\n40 41\n84 96\n77 86\n28 34\n30 41\n11 22\n7 14\n56 60\n51 62",
+    "sampleOutput": "4",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "5\n55 65\n7 9\n33 46\n76 84\n10 21",
+        "output": "5"
+      },
+      {
+        "input": "7\n54 66\n43 50\n55 55\n3 7\n65 79\n62 63\n51 70",
+        "output": "3"
+      },
+      {
+        "input": "11\n15 18\n80 93\n44 51\n1 7\n71 75\n1 5\n30 35\n44 46\n43 45\n32 35\n44 44",
+        "output": "6"
+      }
+    ],
+    "source": "经典算法题型 - 贪心"
+  },
+  {
+    "title": "区间合并后数量（评测样例版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个闭区间，合并所有有交集的区间后，输出剩余区间个数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n先按左端点排序，再线性扫描合并。",
+    "inputFormat": "第一行 n；接下来 n 行每行两个整数 l r。",
+    "outputFormat": "输出合并后区间数量。",
+    "sampleInput": "8\n23 25\n90 106\n71 77\n71 75\n69 76\n61 68\n35 44\n3 4",
+    "sampleOutput": "6",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "12\n58 61\n68 71\n26 43\n1 2\n82 87\n10 12\n6 13\n80 86\n3 3\n71 77\n69 71\n93 99",
+        "output": "8"
+      },
+      {
+        "input": "5\n61 61\n15 26\n23 28\n61 71\n11 14",
+        "output": "3"
+      },
+      {
+        "input": "12\n90 91\n33 39\n36 39\n9 16\n81 81\n58 63\n46 61\n9 20\n4 7\n20 20\n91 105\n55 57",
+        "output": "6"
+      }
+    ],
+    "source": "经典算法题型 - 贪心"
+  },
+  {
+    "title": "区间合并后数量（课程作业版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个闭区间，合并所有有交集的区间后，输出剩余区间个数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n先按左端点排序，再线性扫描合并。",
+    "inputFormat": "第一行 n；接下来 n 行每行两个整数 l r。",
+    "outputFormat": "输出合并后区间数量。",
+    "sampleInput": "11\n14 23\n21 28\n13 20\n10 23\n37 37\n17 23\n11 12\n77 80\n88 92\n46 62\n102 110",
+    "sampleOutput": "6",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "13\n37 45\n85 85\n79 79\n80 81\n31 34\n3 4\n16 21\n32 42\n95 103\n45 48\n49 55\n56 58\n44 53",
+        "output": "8"
+      },
+      {
+        "input": "11\n13 22\n66 68\n85 88\n51 54\n100 114\n80 98\n59 65\n62 67\n36 37\n82 97\n48 51",
+        "output": "6"
+      },
+      {
+        "input": "7\n93 97\n34 35\n73 74\n48 53\n36 38\n80 82\n48 54",
+        "output": "6"
+      }
+    ],
+    "source": "经典算法题型 - 贪心"
+  },
+  {
+    "title": "区间合并后数量（算法训练版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个闭区间，合并所有有交集的区间后，输出剩余区间个数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n先按左端点排序，再线性扫描合并。",
+    "inputFormat": "第一行 n；接下来 n 行每行两个整数 l r。",
+    "outputFormat": "输出合并后区间数量。",
+    "sampleInput": "8\n106 106\n0 18\n90 91\n15 18\n40 43\n58 64\n10 14\n90 97",
+    "sampleOutput": "5",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "6\n10 10\n48 60\n56 61\n65 71\n23 28\n38 39",
+        "output": "5"
+      },
+      {
+        "input": "6\n15 15\n48 51\n51 59\n11 13\n61 64\n77 81",
+        "output": "5"
+      },
+      {
+        "input": "8\n61 65\n73 82\n106 110\n73 75\n18 26\n78 84\n71 87\n21 24",
+        "output": "4"
+      }
+    ],
+    "source": "经典算法题型 - 贪心"
+  },
+  {
+    "title": "区间合并后数量（强化挑战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个闭区间，合并所有有交集的区间后，输出剩余区间个数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n先按左端点排序，再线性扫描合并。",
+    "inputFormat": "第一行 n；接下来 n 行每行两个整数 l r。",
+    "outputFormat": "输出合并后区间数量。",
+    "sampleInput": "13\n34 38\n75 82\n13 19\n73 82\n76 89\n35 38\n10 19\n52 54\n56 58\n90 99\n30 35\n41 47\n5 5",
+    "sampleOutput": "8",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "8\n2 2\n67 70\n39 46\n65 68\n43 46\n82 94\n41 44\n79 85",
+        "output": "4"
+      },
+      {
+        "input": "5\n47 57\n15 17\n99 110\n56 56\n75 84",
+        "output": "4"
+      },
+      {
+        "input": "5\n24 24\n38 40\n1 6\n29 45\n84 90",
+        "output": "4"
+      }
+    ],
+    "source": "经典算法题型 - 贪心"
+  },
+  {
+    "title": "区间合并后数量（综合实战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定 n 个闭区间，合并所有有交集的区间后，输出剩余区间个数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n <= 2*10^5。\n\n【解题提示】\n先按左端点排序，再线性扫描合并。",
+    "inputFormat": "第一行 n；接下来 n 行每行两个整数 l r。",
+    "outputFormat": "输出合并后区间数量。",
+    "sampleInput": "8\n107 110\n65 74\n57 70\n64 82\n16 16\n33 34\n105 113\n34 42",
+    "sampleOutput": "4",
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "testCases": [
+      {
+        "input": "14\n21 22\n36 39\n106 113\n103 108\n77 87\n103 117\n27 29\n41 45\n48 58\n18 21\n86 91\n6 7\n55 72\n4 6",
+        "output": "8"
+      },
+      {
+        "input": "4\n66 66\n70 79\n101 101\n14 18",
+        "output": "4"
+      },
+      {
+        "input": "8\n74 82\n74 77\n67 68\n62 65\n98 101\n33 36\n74 77\n1 14",
+        "output": "6"
+      }
+    ],
+    "source": "经典算法题型 - 贪心"
+  },
+  {
+    "title": "网格最短路径（校园数据版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定 n*m 的 0/1 网格，0 表示可走，1 表示障碍。每次可上下左右移动一步，求从左上角到右下角的最短步数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n, m <= 200。\n\n【解题提示】\n无权最短路可用 BFS，注意起点终点障碍特判。",
+    "inputFormat": "第一行 n m；接下来 n 行每行 m 个 0/1 整数。",
+    "outputFormat": "输出最短步数；若不可达输出 -1。",
+    "sampleInput": "6 4\n0 0 0 0\n0 1 0 0\n1 1 0 0\n0 0 1 1\n0 0 1 0\n1 0 1 0",
+    "sampleOutput": "-1",
+    "timeLimit": 2500,
+    "memoryLimit": 512000,
+    "testCases": [
+      {
+        "input": "4 6\n0 0 0 0 0 0\n0 0 0 0 0 1\n0 0 0 0 0 0\n0 1 0 0 0 0",
+        "output": "8"
+      },
+      {
+        "input": "5 5\n0 0 1 0 0\n0 0 0 1 0\n0 0 1 0 0\n0 0 0 1 0\n0 0 0 0 0",
+        "output": "8"
+      },
+      {
+        "input": "5 4\n0 0 0 0\n0 0 1 0\n1 0 0 0\n0 0 0 1\n1 0 0 0",
+        "output": "7"
+      }
+    ],
+    "source": "经典算法题型 - 图论"
+  },
+  {
+    "title": "网格最短路径（工程调试版）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【题目背景】\n给定 n*m 的 0/1 网格，0 表示可走，1 表示障碍。每次可上下左右移动一步，求从左上角到右下角的最短步数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n, m <= 200。\n\n【解题提示】\n无权最短路可用 BFS，注意起点终点障碍特判。",
+    "inputFormat": "第一行 n m；接下来 n 行每行 m 个 0/1 整数。",
+    "outputFormat": "输出最短步数；若不可达输出 -1。",
+    "sampleInput": "4 5\n0 0 0 1 0\n0 0 0 0 0\n1 0 0 1 1\n1 0 0 0 0",
+    "sampleOutput": "7",
+    "timeLimit": 2500,
+    "memoryLimit": 512000,
+    "testCases": [
+      {
+        "input": "6 5\n0 0 0 0 0\n0 0 0 1 1\n0 0 0 0 0\n0 1 0 1 1\n0 0 0 0 0\n0 0 1 0 0",
+        "output": "9"
+      },
+      {
+        "input": "6 6\n0 0 1 0 0 0\n0 0 1 0 0 0\n0 0 0 0 0 0\n0 0 0 0 0 0\n0 0 1 0 0 0\n0 0 0 0 0 0",
+        "output": "10"
+      },
+      {
+        "input": "4 7\n0 0 0 1 1 0 0\n0 0 0 1 1 0 0\n0 0 0 0 0 0 0\n1 0 0 0 0 0 0",
+        "output": "9"
+      }
+    ],
+    "source": "经典算法题型 - 图论"
+  },
+  {
+    "title": "网格最短路径（竞赛热身版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定 n*m 的 0/1 网格，0 表示可走，1 表示障碍。每次可上下左右移动一步，求从左上角到右下角的最短步数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n, m <= 200。\n\n【解题提示】\n无权最短路可用 BFS，注意起点终点障碍特判。",
+    "inputFormat": "第一行 n m；接下来 n 行每行 m 个 0/1 整数。",
+    "outputFormat": "输出最短步数；若不可达输出 -1。",
+    "sampleInput": "7 7\n0 0 0 0 0 0 1\n0 0 0 1 1 0 0\n0 0 1 0 0 1 0\n1 1 0 0 0 0 0\n0 0 0 0 0 1 0\n0 1 1 0 0 0 0\n0 0 1 0 0 0 0",
+    "sampleOutput": "12",
+    "timeLimit": 2500,
+    "memoryLimit": 512000,
+    "testCases": [
+      {
+        "input": "6 5\n0 0 0 0 0\n0 0 0 0 1\n0 0 0 0 1\n0 1 1 0 1\n0 1 1 0 0\n1 0 1 0 0",
+        "output": "9"
+      },
+      {
+        "input": "4 7\n0 0 0 0 0 1 0\n0 1 0 0 0 0 0\n1 1 0 0 1 0 0\n0 0 0 0 0 0 0",
+        "output": "9"
+      },
+      {
+        "input": "5 7\n0 0 0 0 0 0 0\n0 0 1 0 1 0 0\n0 0 0 0 0 0 1\n0 1 0 0 1 1 1\n1 0 0 0 0 0 0",
+        "output": "10"
+      }
+    ],
+    "source": "经典算法题型 - 图论"
+  },
+  {
+    "title": "网格最短路径（实验记录版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定 n*m 的 0/1 网格，0 表示可走，1 表示障碍。每次可上下左右移动一步，求从左上角到右下角的最短步数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n, m <= 200。\n\n【解题提示】\n无权最短路可用 BFS，注意起点终点障碍特判。",
+    "inputFormat": "第一行 n m；接下来 n 行每行 m 个 0/1 整数。",
+    "outputFormat": "输出最短步数；若不可达输出 -1。",
+    "sampleInput": "4 8\n0 0 0 1 1 1 0 0\n0 1 0 0 1 0 1 0\n0 0 0 0 0 0 1 0\n0 0 1 0 1 0 0 0",
+    "sampleOutput": "10",
+    "timeLimit": 2500,
+    "memoryLimit": 512000,
+    "testCases": [
+      {
+        "input": "5 7\n0 0 0 1 1 0 0\n0 1 0 0 0 0 0\n0 0 0 1 0 1 0\n0 0 1 0 0 0 0\n0 1 0 0 0 1 0",
+        "output": "10"
+      },
+      {
+        "input": "4 8\n0 0 0 0 0 0 0 0\n0 1 1 0 0 0 0 0\n0 1 0 0 0 0 0 0\n0 1 1 0 0 1 0 0",
+        "output": "10"
+      },
+      {
+        "input": "6 7\n0 0 0 0 0 0 0\n0 0 1 0 0 1 0\n1 0 1 0 0 1 0\n0 0 1 0 0 0 1\n0 1 1 0 1 0 1\n0 0 0 0 1 0 0",
+        "output": "11"
+      }
+    ],
+    "source": "经典算法题型 - 图论"
+  },
+  {
+    "title": "网格最短路径（上线检查版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定 n*m 的 0/1 网格，0 表示可走，1 表示障碍。每次可上下左右移动一步，求从左上角到右下角的最短步数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n, m <= 200。\n\n【解题提示】\n无权最短路可用 BFS，注意起点终点障碍特判。",
+    "inputFormat": "第一行 n m；接下来 n 行每行 m 个 0/1 整数。",
+    "outputFormat": "输出最短步数；若不可达输出 -1。",
+    "sampleInput": "6 5\n0 0 0 1 1\n0 0 0 0 0\n1 0 0 0 0\n1 0 0 0 1\n0 1 1 0 0\n1 0 0 1 0",
+    "sampleOutput": "9",
+    "timeLimit": 2500,
+    "memoryLimit": 512000,
+    "testCases": [
+      {
+        "input": "4 8\n0 1 0 0 0 0 0 0\n0 1 0 0 1 1 0 0\n1 0 1 0 0 0 1 0\n0 0 0 1 1 1 0 0",
+        "output": "-1"
+      },
+      {
+        "input": "6 4\n0 1 1 1\n0 0 0 0\n0 0 0 0\n0 0 0 0\n1 0 1 0\n1 0 1 0",
+        "output": "8"
+      },
+      {
+        "input": "6 5\n0 0 0 0 0\n0 0 0 1 0\n0 0 0 0 0\n0 1 0 1 0\n0 0 1 0 0\n1 0 1 1 0",
+        "output": "9"
+      }
+    ],
+    "source": "经典算法题型 - 图论"
+  },
+  {
+    "title": "网格最短路径（评测样例版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定 n*m 的 0/1 网格，0 表示可走，1 表示障碍。每次可上下左右移动一步，求从左上角到右下角的最短步数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n, m <= 200。\n\n【解题提示】\n无权最短路可用 BFS，注意起点终点障碍特判。",
+    "inputFormat": "第一行 n m；接下来 n 行每行 m 个 0/1 整数。",
+    "outputFormat": "输出最短步数；若不可达输出 -1。",
+    "sampleInput": "7 9\n0 0 0 1 1 0 1 0 0\n1 0 0 0 1 0 0 1 0\n0 0 0 1 0 0 0 1 0\n0 0 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 0 0\n1 1 0 0 0 0 0 0 1\n0 1 0 0 0 0 0 1 0",
+    "sampleOutput": "-1",
+    "timeLimit": 2500,
+    "memoryLimit": 512000,
+    "testCases": [
+      {
+        "input": "4 9\n0 1 1 0 0 1 0 1 0\n0 1 0 1 0 0 0 0 0\n0 1 1 0 0 0 0 0 0\n0 1 0 0 0 0 0 1 0",
+        "output": "-1"
+      },
+      {
+        "input": "9 9\n0 1 1 0 1 0 0 1 1\n1 1 0 0 0 0 0 0 1\n0 0 1 0 0 0 0 0 0\n0 0 1 1 1 0 0 0 1\n0 0 1 0 0 1 0 0 0\n1 0 1 0 0 0 0 1 0\n0 0 0 1 0 0 0 0 1\n0 0 0 0 0 0 0 1 0\n1 0 0 0 0 0 0 0 0",
+        "output": "-1"
+      },
+      {
+        "input": "9 8\n0 1 0 0 1 1 0 0\n0 1 0 0 0 1 0 0\n0 0 0 1 1 1 1 0\n1 1 1 0 0 0 1 0\n0 0 0 0 1 0 0 0\n1 0 0 0 0 1 1 0\n0 0 1 0 0 0 0 1\n0 0 0 0 0 1 0 0\n1 0 0 1 0 1 1 0",
+        "output": "-1"
+      }
+    ],
+    "source": "经典算法题型 - 图论"
+  },
+  {
+    "title": "网格最短路径（课程作业版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定 n*m 的 0/1 网格，0 表示可走，1 表示障碍。每次可上下左右移动一步，求从左上角到右下角的最短步数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n, m <= 200。\n\n【解题提示】\n无权最短路可用 BFS，注意起点终点障碍特判。",
+    "inputFormat": "第一行 n m；接下来 n 行每行 m 个 0/1 整数。",
+    "outputFormat": "输出最短步数；若不可达输出 -1。",
+    "sampleInput": "6 4\n0 1 0 0\n0 0 0 0\n0 1 0 1\n1 0 0 0\n0 0 1 0\n1 0 1 0",
+    "sampleOutput": "8",
+    "timeLimit": 2500,
+    "memoryLimit": 512000,
+    "testCases": [
+      {
+        "input": "8 8\n0 0 1 0 0 0 0 1\n1 0 0 0 1 0 0 0\n1 1 0 0 1 0 1 0\n1 0 0 1 1 1 0 1\n1 0 1 0 0 0 0 0\n0 1 0 1 0 0 0 1\n0 0 0 0 0 0 1 0\n0 1 0 1 0 1 0 0",
+        "output": "-1"
+      },
+      {
+        "input": "6 6\n0 0 0 0 0 0\n0 0 0 1 1 0\n0 0 0 1 0 1\n1 0 0 0 0 1\n0 0 0 0 0 0\n0 0 0 0 0 0",
+        "output": "10"
+      },
+      {
+        "input": "4 7\n0 0 0 0 1 1 1\n0 0 0 0 1 0 0\n1 1 0 1 0 1 0\n0 0 1 0 0 0 0",
+        "output": "-1"
+      }
+    ],
+    "source": "经典算法题型 - 图论"
+  },
+  {
+    "title": "网格最短路径（算法训练版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定 n*m 的 0/1 网格，0 表示可走，1 表示障碍。每次可上下左右移动一步，求从左上角到右下角的最短步数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n, m <= 200。\n\n【解题提示】\n无权最短路可用 BFS，注意起点终点障碍特判。",
+    "inputFormat": "第一行 n m；接下来 n 行每行 m 个 0/1 整数。",
+    "outputFormat": "输出最短步数；若不可达输出 -1。",
+    "sampleInput": "7 4\n0 1 1 1\n0 0 0 0\n1 0 0 0\n1 0 0 0\n0 1 1 1\n0 0 0 0\n0 1 0 0",
+    "sampleOutput": "-1",
+    "timeLimit": 2500,
+    "memoryLimit": 512000,
+    "testCases": [
+      {
+        "input": "6 8\n0 1 0 0 0 0 1 0\n0 0 0 0 0 0 0 0\n1 0 0 0 0 0 0 0\n0 0 0 1 1 0 0 0\n0 0 0 1 0 0 0 1\n0 1 0 0 1 0 0 0",
+        "output": "12"
+      },
+      {
+        "input": "7 10\n0 0 0 0 0 1 1 0 0 0\n1 1 0 0 0 0 0 0 0 0\n0 0 0 0 1 0 1 0 1 0\n0 0 0 0 0 0 0 0 1 0\n0 1 1 0 1 0 0 0 0 0\n0 0 1 0 1 0 0 1 0 1\n0 0 0 0 0 0 0 0 0 0",
+        "output": "15"
+      },
+      {
+        "input": "9 10\n0 0 1 0 0 1 0 0 0 1\n0 1 0 1 0 0 0 0 1 0\n1 0 1 0 0 0 0 0 1 0\n1 0 0 0 0 0 0 0 0 1\n0 0 0 0 0 0 0 0 0 0\n0 1 0 0 1 0 0 0 0 0\n1 0 1 0 0 0 0 0 0 1\n0 0 1 0 1 0 0 0 1 0\n1 0 0 1 0 0 0 1 1 0",
+        "output": "-1"
+      }
+    ],
+    "source": "经典算法题型 - 图论"
+  },
+  {
+    "title": "网格最短路径（强化挑战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定 n*m 的 0/1 网格，0 表示可走，1 表示障碍。每次可上下左右移动一步，求从左上角到右下角的最短步数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n, m <= 200。\n\n【解题提示】\n无权最短路可用 BFS，注意起点终点障碍特判。",
+    "inputFormat": "第一行 n m；接下来 n 行每行 m 个 0/1 整数。",
+    "outputFormat": "输出最短步数；若不可达输出 -1。",
+    "sampleInput": "5 9\n0 0 0 0 0 0 1 0 1\n0 0 0 0 1 0 0 0 0\n0 0 0 0 0 0 0 0 0\n0 0 1 0 0 0 0 0 1\n0 0 1 0 0 0 0 0 0",
+    "sampleOutput": "12",
+    "timeLimit": 2500,
+    "memoryLimit": 512000,
+    "testCases": [
+      {
+        "input": "5 9\n0 1 0 0 0 0 0 0 0\n0 1 1 0 0 0 0 0 0\n0 1 1 0 0 0 1 0 0\n0 0 0 0 0 1 0 1 1\n0 1 0 0 1 1 1 0 0",
+        "output": "-1"
+      },
+      {
+        "input": "5 5\n0 0 0 1 0\n0 1 0 1 0\n0 0 0 0 0\n0 0 1 1 1\n1 0 0 0 0",
+        "output": "8"
+      },
+      {
+        "input": "10 4\n0 0 1 1\n0 1 0 0\n1 1 0 1\n0 0 0 0\n0 1 0 0\n0 0 0 0\n0 0 0 0\n0 0 0 0\n0 0 0 1\n0 0 1 0",
+        "output": "-1"
+      }
+    ],
+    "source": "经典算法题型 - 图论"
+  },
+  {
+    "title": "网格最短路径（综合实战版）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【题目背景】\n给定 n*m 的 0/1 网格，0 表示可走，1 表示障碍。每次可上下左右移动一步，求从左上角到右下角的最短步数。\n\n【任务描述】\n请你根据给定输入，计算并输出正确结果。程序需要稳定处理常规与边界数据，保证结果准确。\n\n【数据范围】\n1 <= n, m <= 200。\n\n【解题提示】\n无权最短路可用 BFS，注意起点终点障碍特判。",
+    "inputFormat": "第一行 n m；接下来 n 行每行 m 个 0/1 整数。",
+    "outputFormat": "输出最短步数；若不可达输出 -1。",
+    "sampleInput": "6 4\n0 0 0 0\n0 1 0 0\n0 0 0 0\n0 0 0 1\n1 0 0 1\n1 1 1 0",
+    "sampleOutput": "-1",
+    "timeLimit": 2500,
+    "memoryLimit": 512000,
+    "testCases": [
+      {
+        "input": "11 8\n0 0 0 0 0 0 0 0\n0 0 0 1 0 0 0 1\n0 0 0 0 0 0 0 0\n1 0 0 0 1 0 0 0\n0 0 1 0 1 1 1 0\n0 1 0 0 0 0 1 1\n0 1 0 0 0 1 0 0\n0 0 1 1 0 1 0 0\n1 0 0 0 0 0 0 0\n0 1 1 0 0 1 0 0\n1 0 0 0 0 1 0 0",
+        "output": "17"
+      },
+      {
+        "input": "10 7\n0 1 0 0 0 0 0\n1 0 1 1 1 0 1\n1 0 0 0 0 1 0\n0 1 0 0 1 0 0\n0 0 0 0 0 0 0\n1 0 0 1 1 0 1\n0 0 0 0 1 0 1\n0 1 1 1 0 0 0\n0 0 0 0 1 0 0\n0 0 0 0 0 0 0",
+        "output": "-1"
+      },
+      {
+        "input": "4 9\n0 0 0 1 0 1 0 1 0\n0 0 0 1 0 0 0 0 1\n1 1 0 1 1 0 0 0 0\n0 0 0 0 1 0 0 0 0",
+        "output": "-1"
+      }
+    ],
+    "source": "经典算法题型 - 图论"
+  }
+]

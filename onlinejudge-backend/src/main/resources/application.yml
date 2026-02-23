@@ -1,0 +1,72 @@
+﻿server:
+  port: 8082
+  servlet:
+    context-path: /api
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+spring:
+  application:
+    name: OnlineJudge
+  
+  # 鏃ュ織閰嶇疆
+  output:
+    ansi:
+      enabled: always
+  
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/onlinejudge?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+  
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+    timeout: 3000
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+
+logging:
+  level:
+    com.academic.oj: DEBUG
+    org.springframework.security: DEBUG
+    root: INFO
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+# JWT閰嶇疆
+jwt:
+  secret: OnlineJudgeSecretKey2024ForAcademicProjectThisIsAVeryLongSecretKeyForHS512AlgorithmMustBeAtLeast64CharactersLongAndSecureEnough
+  expiration: 86400000  # 24灏忔椂锛屽崟浣嶏細姣
+
+# 鏂囦欢涓婁紶閰嶇疆
+file:
+  upload-path: ./uploads
+
+# 鍒ら閰嶇疆
+judge:
+  timeout: 5000  # 瓒呮椂鏃堕棿锛堟绉掞級
+  max-memory: 256  # 鏈€澶у唴瀛橈紙MB锛?
+  java-compiler: javac
+  java-runtime: java
+  cpp-compiler: g++
+  python-runtime: python
+# 娲涜胺鐖櫕閰嶇疆
+luogu:
+  cookie: ""  # 娲涜胺Cookie锛堝彲閫夛紝浠庢祻瑙堝櫒鑾峰彇锛?
