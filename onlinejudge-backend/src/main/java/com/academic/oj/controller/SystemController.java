@@ -22,7 +22,8 @@ public class SystemController {
     private static final List<String> DEFAULT_PUBLIC_KEYS = List.of(
             "site.name",
             "site.announcement",
-            "contest.default_page_size"
+            "contest.default_page_size",
+            "contest.default_penalty_per_wrong"
     );
 
     private final SystemConfigService systemConfigService;

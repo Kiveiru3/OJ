@@ -1,0 +1,28 @@
+# --- Java / Maven 忽略项 ---
+target/
+*.class
+*.log
+.mtj.tmp/
+*.jar
+*.war
+*.ear
+
+# --- IDE 忽略项 (IntelliJ / VS Code) ---
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# --- Node / Vue 忽略项 ---
+node_modules/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.eslintcache
+
+# --- 系统文件 ---
+.DS_Store
+Thumbs.db

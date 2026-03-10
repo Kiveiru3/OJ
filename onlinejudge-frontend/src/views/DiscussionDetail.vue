@@ -2,115 +2,111 @@
   <div class="discussion-detail-container pro-page">
     <el-card v-loading="loading" class="main-card card-shadow pro-main-card">
       <template #header>
-        <div class="card-header">
+        <div class="card-header pro-card-header">
           <div class="header-left">
             <el-button text @click="goBack">返回</el-button>
-            <h2>#{{ post.id }} {{ post.title }}</h2>
+            <div class="title-stack">
+              <h2 class="pro-title-text">#{{ post.id }} {{ post.title || '未命名帖子' }}</h2>
+              <span class="title-sub">讨论详情与评论互动</span>
+            </div>
           </div>
           <div class="header-actions">
-            <el-button
-              v-if="post.problemId"
-              type="primary"
-              plain
-              @click="goToProblem"
-            >
+            <el-button v-if="post.problemId" type="primary" plain @click="goToProblem">
               题目 #{{ post.problemId }}
             </el-button>
-            <el-button v-if="canDeletePost" type="danger" @click="handleDeletePost">
-              删除
-            </el-button>
+            <el-button v-if="canDeletePost" type="danger" @click="handleDeletePost">删除</el-button>
             <el-button :icon="Refresh" @click="refreshAll">刷新</el-button>
           </div>
         </div>
       </template>
 
-      <div class="meta-bar">
-        <span class="meta-item">作者：{{ post.nickname || post.username || `用户#${post.userId}` }}</span>
-        <span class="meta-item">角色：{{ post.role || '-' }}</span>
-        <span class="meta-item">浏览量：{{ post.viewCount || 0 }}</span>
-        <span class="meta-item">发布时间：{{ formatDateTime(post.createTime) }}</span>
-      </div>
-
-      <div v-if="post.problemId" class="problem-binding">
-        关联题目：
-        <el-link type="primary" @click="goToProblem">
-          #{{ post.problemId }} {{ post.problemTitle || '' }}
-        </el-link>
-      </div>
-
-      <el-divider />
-
-      <div class="content-block">
-        <pre>{{ post.content || '-' }}</pre>
-      </div>
-
-      <el-divider />
-
-      <div class="comment-header">
-        <h3>评论</h3>
-      </div>
-
-      <el-form class="comment-form">
-        <el-form-item>
-          <el-input
-            v-model="commentForm.content"
-            type="textarea"
-            :rows="4"
-            maxlength="2000"
-            show-word-limit
-            placeholder="写下你的评论..."
-          />
-        </el-form-item>
-        <el-form-item>
-          <el-button
-            type="primary"
-            :loading="commentSubmitting"
-            @click="submitComment"
-          >
-            提交评论
-          </el-button>
-        </el-form-item>
-      </el-form>
-
-      <div v-loading="commentLoading" class="comment-list">
-        <el-empty v-if="!commentLoading && !commentList.length" description="暂无评论" />
-
-        <div
-          v-for="item in commentList"
-          :key="item.id"
-          class="comment-item"
-        >
-          <div class="comment-top">
-            <div class="comment-author">
-              {{ item.nickname || item.username || `用户#${item.userId}` }}
-            </div>
-            <div class="comment-time">{{ formatDateTime(item.createTime) }}</div>
-          </div>
-          <div class="comment-content">{{ item.content }}</div>
-          <div class="comment-actions">
-            <el-button
-              v-if="canDeleteComment(item)"
-              type="danger"
-              link
-              @click="handleDeleteComment(item)"
-            >
-              删除
-            </el-button>
-          </div>
+      <div class="overview-grid">
+        <div class="overview-card">
+          <div class="overview-label">浏览量</div>
+          <div class="overview-value">{{ post.viewCount || 0 }}</div>
+        </div>
+        <div class="overview-card">
+          <div class="overview-label">评论数</div>
+          <div class="overview-value">{{ commentPagination.total }}</div>
+        </div>
+        <div class="overview-card">
+          <div class="overview-label">作者</div>
+          <div class="overview-value text-value">{{ authorName }}</div>
+        </div>
+        <div class="overview-card">
+          <div class="overview-label">发布时间</div>
+          <div class="overview-value text-value">{{ formatDateTime(post.createTime) }}</div>
         </div>
       </div>
 
-      <div class="pagination-container pro-pagination">
-        <el-pagination
-          v-model:current-page="commentPagination.page"
-          v-model:page-size="commentPagination.size"
-          :total="commentPagination.total"
-          :page-sizes="[10, 20, 50]"
-          layout="total, sizes, prev, pager, next, jumper"
-          @size-change="handleCommentPageSizeChange"
-          @current-change="loadComments"
-        />
+      <div class="meta-bar">
+        <span class="meta-item">角色：{{ post.role || '-' }}</span>
+        <span class="meta-item">帖子 ID：{{ post.id || '-' }}</span>
+        <span v-if="post.problemId" class="meta-item meta-link" @click="goToProblem">
+          关联题目：#{{ post.problemId }} {{ post.problemTitle || '' }}
+        </span>
       </div>
+
+      <section class="section-panel">
+        <div class="section-title">正文内容</div>
+        <div class="content-block">
+          <pre>{{ post.content || '暂无内容' }}</pre>
+        </div>
+      </section>
+
+      <section class="section-panel">
+        <div class="section-head">
+          <div class="section-title">评论区</div>
+          <span class="section-extra">共 {{ commentPagination.total }} 条</span>
+        </div>
+
+        <el-form class="comment-form">
+          <el-form-item>
+            <el-input
+              v-model="commentForm.content"
+              type="textarea"
+              :rows="4"
+              maxlength="2000"
+              show-word-limit
+              placeholder="写下你的评论..."
+            />
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" :loading="commentSubmitting" @click="submitComment">
+              提交评论
+            </el-button>
+          </el-form-item>
+        </el-form>
+
+        <div v-loading="commentLoading" class="comment-list">
+          <el-empty v-if="!commentLoading && !commentList.length" description="暂无评论，来发表第一条吧" />
+
+          <div v-for="item in commentList" :key="item.id" class="comment-item">
+            <div class="comment-top">
+              <div class="comment-author">{{ item.nickname || item.username || `用户#${item.userId}` }}</div>
+              <div class="comment-time">{{ formatDateTime(item.createTime) }}</div>
+            </div>
+            <div class="comment-content">{{ item.content }}</div>
+            <div class="comment-actions">
+              <el-button v-if="canDeleteComment(item)" type="danger" link @click="handleDeleteComment(item)">
+                删除
+              </el-button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pagination-container pro-pagination">
+          <el-pagination
+            v-model:current-page="commentPagination.page"
+            v-model:page-size="commentPagination.size"
+            :total="commentPagination.total"
+            :page-sizes="[10, 20, 50]"
+            layout="total, sizes, prev, pager, next, jumper"
+            @size-change="handleCommentPageSizeChange"
+            @current-change="loadComments"
+          />
+        </div>
+      </section>
     </el-card>
   </div>
 </template>
@@ -144,6 +140,8 @@ const commentPagination = reactive({
   size: 10,
   total: 0
 })
+
+const authorName = computed(() => post.value.nickname || post.value.username || `用户#${post.value.userId || '-'}`)
 
 const canDeletePost = computed(() => {
   return userStore.isAdmin || Boolean(post.value.editable)
@@ -294,75 +292,149 @@ watch(
   border-radius: 8px;
 }
 
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-}
-
 .header-left {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.header-left h2 {
-  margin: 0;
-  font-size: 22px;
-}
-
 .header-actions {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
+}
+
+.title-stack {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.title-sub {
+  margin-top: 3px;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.overview-card {
+  border: 1px solid #dce8f8;
+  background: linear-gradient(160deg, #f9fbff 0%, #eef6ff 100%);
+  border-radius: 8px;
+  padding: 12px 14px;
+  transition: transform 0.18s ease, box-shadow 0.2s ease;
+}
+
+.overview-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.1);
+}
+
+.overview-label {
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 5px;
+}
+
+.overview-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.text-value {
+  font-size: 14px;
+  line-height: 1.35;
 }
 
 .meta-bar {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
-  color: #606266;
-  font-size: 13px;
+  gap: 10px;
+  margin-bottom: 14px;
 }
 
 .meta-item {
-  background: #f5f7fa;
-  border: 1px solid #ebeef5;
-  border-radius: 6px;
-  padding: 6px 10px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid #d7e2f0;
+  background: #f8fbff;
+  color: #475569;
+  font-size: 12px;
 }
 
-.problem-binding {
+.meta-link {
+  cursor: pointer;
+  color: #155cc6;
+}
+
+.section-panel {
+  border: 1px solid #e2e9f3;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.section-extra {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.content-block {
   margin-top: 12px;
-  color: #606266;
 }
 
 .content-block pre {
   margin: 0;
   white-space: pre-wrap;
   word-break: break-word;
-  line-height: 1.7;
+  line-height: 1.78;
   font-family: inherit;
-  color: #303133;
-}
-
-.comment-header h3 {
-  margin: 0;
-  font-size: 18px;
+  color: #334155;
+  font-size: 14px;
 }
 
 .comment-form {
-  margin-top: 12px;
   margin-bottom: 8px;
 }
 
 .comment-item {
-  border: 1px solid #ebeef5;
+  border: 1px solid #e3e9f4;
   border-radius: 8px;
   padding: 12px;
   margin-bottom: 10px;
-  background: #fff;
+  background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
+  transition: box-shadow 0.2s ease, transform 0.18s ease;
+}
+
+.comment-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px rgba(15, 23, 42, 0.08);
 }
 
 .comment-top {
@@ -374,18 +446,19 @@ watch(
 
 .comment-author {
   font-weight: 600;
-  color: #303133;
+  color: #1e293b;
 }
 
 .comment-time {
-  color: #909399;
+  color: #94a3b8;
   font-size: 12px;
 }
 
 .comment-content {
-  color: #303133;
+  color: #334155;
   white-space: pre-wrap;
   word-break: break-word;
+  line-height: 1.65;
 }
 
 .comment-actions {
@@ -394,6 +467,12 @@ watch(
 }
 
 .pagination-container {
-  margin-top: 22px;
+  margin-top: 20px;
+}
+
+@media (max-width: 960px) {
+  .overview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 </style>

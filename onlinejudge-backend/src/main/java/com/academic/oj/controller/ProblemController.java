@@ -1,15 +1,15 @@
 package com.academic.oj.controller;
 
 import com.academic.oj.common.Result;
-import com.academic.oj.common.ResultCode;
-import com.academic.oj.common.exception.BusinessException;
+import com.academic.oj.dto.ProblemBatchImportDTO;
+import com.academic.oj.dto.ProblemBatchImportResultDTO;
 import com.academic.oj.entity.Problem;
 import com.academic.oj.service.AdminOperationLogService;
 import com.academic.oj.service.ProblemService;
+import com.academic.oj.util.SecurityUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,8 +29,9 @@ public class ProblemController {
             @RequestParam(defaultValue = "false") Boolean includeHidden) {
         Integer safePage = normalizePage(page);
         Integer safeSize = normalizeSize(size);
-        boolean canViewHidden = Boolean.TRUE.equals(includeHidden) && (hasRole("TEACHER") || hasRole("ADMIN"));
-        Page<Problem> problems = problemService.getProblemList(safePage, safeSize, difficulty, keyword, canViewHidden);
+        boolean canViewHidden = Boolean.TRUE.equals(includeHidden) && (SecurityUtils.hasRole("TEACHER") || SecurityUtils.hasRole("ADMIN"));
+        Page<Problem> problems = problemService.getProblemList(
+                getCurrentUserIdSafely(), safePage, safeSize, difficulty, keyword, canViewHidden);
         return Result.success(problems);
     }
 
@@ -56,6 +57,23 @@ public class ProblemController {
         return createProblem(problem);
     }
 
+    @PostMapping("/batch-import")
+    public Result<ProblemBatchImportResultDTO> batchImportProblems(@Validated @RequestBody ProblemBatchImportDTO dto) {
+        requireTeacherOrAdmin();
+        Long operatorId = getCurrentUserId();
+        ProblemBatchImportResultDTO result = problemService.batchImportProblems(
+                operatorId,
+                dto.getProblems(),
+                !Boolean.FALSE.equals(dto.getSkipExistingTitle())
+        );
+        adminOperationLogService.record(operatorId, "PROBLEM", "BATCH_IMPORT", "PROBLEM", null,
+                "total=" + result.getTotal()
+                        + ",imported=" + result.getImported()
+                        + ",skipped=" + result.getSkipped()
+                        + ",failed=" + result.getFailed());
+        return Result.success(result);
+    }
+
     @PutMapping("/{id}")
     public Result<?> updateProblem(@PathVariable Long id, @RequestBody Problem problem) {
         requireTeacherOrAdmin();
@@ -78,46 +96,29 @@ public class ProblemController {
     }
 
     private void requireTeacherOrAdmin() {
-        if (!hasRole("TEACHER") && !hasRole("ADMIN")) {
-            throw new BusinessException(ResultCode.FORBIDDEN.getCode(), "Forbidden");
-        }
-    }
-
-    private void requireAdmin() {
-        if (!hasRole("ADMIN")) {
-            throw new BusinessException(ResultCode.FORBIDDEN.getCode(), "Forbidden");
-        }
+        SecurityUtils.requireAnyRole("TEACHER", "ADMIN");
     }
 
     private void assertCanManageProblem(Long problemId) {
-        if (hasRole("ADMIN")) {
+        if (SecurityUtils.hasRole("ADMIN")) {
             return;
         }
 
-        if (!hasRole("TEACHER")) {
-            throw new BusinessException(ResultCode.FORBIDDEN.getCode(), "Forbidden");
-        }
+        SecurityUtils.requireRole("TEACHER");
 
         Problem problem = problemService.getProblemByIdForManage(problemId);
         Long currentUserId = getCurrentUserId();
         if (problem.getCreatorId() != null && !currentUserId.equals(problem.getCreatorId())) {
-            throw new BusinessException(ResultCode.FORBIDDEN.getCode(), "Forbidden");
+            SecurityUtils.requireRole("ADMIN");
         }
-    }
-
-    private boolean hasRole(String role) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || authentication.getAuthorities() == null) {
-            return false;
-        }
-        String expectedAuthority = "ROLE_" + role;
-        return authentication.getAuthorities().stream()
-                .anyMatch(authority -> expectedAuthority.equals(authority.getAuthority()));
     }
 
     private Long getCurrentUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return Long.parseLong(authentication.getName());
+        return SecurityUtils.getCurrentUserId();
+    }
+
+    private Long getCurrentUserIdSafely() {
+        return SecurityUtils.getCurrentUserIdOrNull();
     }
 
     private Integer normalizePage(Integer page) {

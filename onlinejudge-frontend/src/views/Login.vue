@@ -3,7 +3,7 @@
     <div class="auth-background" />
     <div class="auth-content">
       <section class="brand-panel">
-        <div class="brand-chip">Online Judge</div>
+        <div class="brand-chip">在线评测平台</div>
         <h1>程序设计教学平台</h1>
         <p>在线做题、自动评测、竞赛训练与讨论交流，一站式完成课程实践闭环。</p>
         <ul class="brand-points">

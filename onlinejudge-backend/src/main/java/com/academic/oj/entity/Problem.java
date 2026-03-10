@@ -1,6 +1,7 @@
 package com.academic.oj.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -32,6 +33,8 @@ public class Problem {
     @JsonIgnore
     private Integer acCount;
     private Integer submitCount;
+    @TableField(exist = false)
+    private Boolean solved;
     @TableLogic
     private Integer deleted;
     private LocalDateTime createTime;

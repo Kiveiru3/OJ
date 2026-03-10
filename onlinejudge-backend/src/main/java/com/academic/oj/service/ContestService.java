@@ -14,8 +14,10 @@ public interface ContestService {
     ContestDetailVO getContestDetail(Long userId, Long contestId, boolean canViewHidden);
     Long createContest(Long creatorId, ContestSaveDTO dto);
     void updateContest(Long operatorId, Long contestId, boolean isAdmin, ContestSaveDTO dto);
+    void deleteContest(Long operatorId, Long contestId, boolean isAdmin);
     void joinContest(Long userId, Long contestId);
     Page<ContestRankingItemVO> getContestRanking(Long contestId, Integer page, Integer size, boolean canViewHidden);
+    Page<ContestRankingItemVO> getContestScoreSnapshot(Long contestId, Integer page, Integer size, boolean canViewHidden);
     List<ContestRankingItemVO> getContestRankingAll(Long contestId, boolean canViewHidden);
     ContestAnalyticsVO getContestAnalytics(Long contestId, boolean canViewHidden);
 }

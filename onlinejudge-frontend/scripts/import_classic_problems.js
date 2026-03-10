@@ -13,7 +13,8 @@ function parseArgs(argv) {
     delay: 80,
     start: 1,
     limit: 0,
-    dryRun: false
+    dryRun: false,
+    useBatch: true
   }
 
   for (let i = 0; i < argv.length; i += 1) {
@@ -25,6 +26,7 @@ function parseArgs(argv) {
     else if (arg === '--start') args.start = Math.max(1, Number(argv[++i] || 1))
     else if (arg === '--limit') args.limit = Math.max(0, Number(argv[++i] || 0))
     else if (arg === '--dry-run') args.dryRun = true
+    else if (arg === '--no-batch') args.useBatch = false
     else if (arg === '--help' || arg === '-h') args.help = true
   }
   return args
@@ -40,6 +42,7 @@ function printHelp() {
   console.log('  --delay <ms>       Delay between each problem, default: 80')
   console.log('  --start <n>        Start index (1-based), default: 1')
   console.log('  --limit <n>        Max number of problems to import, 0 means all')
+  console.log('  --no-batch         Use legacy per-problem import mode')
   console.log('  --dry-run          Validate data only, do not call API')
 }
 
@@ -146,6 +149,42 @@ async function main() {
       Authorization: `Bearer ${args.token}`
     }
   })
+
+  if (args.useBatch) {
+    const batchPayload = {
+      skipExistingTitle: true,
+      problems: problems.map((p) => ({
+        title: String(p.title || '').trim(),
+        difficulty: p.difficulty,
+        status: Number(p.status ?? 1),
+        description: p.description,
+        inputFormat: p.inputFormat || '',
+        outputFormat: p.outputFormat || '',
+        sampleInput: p.sampleInput || '',
+        sampleOutput: p.sampleOutput || '',
+        timeLimit: Number(p.timeLimit || 2000),
+        memoryLimit: Number(p.memoryLimit || 256000),
+        testCases: (p.testCases || []).map((tc) => ({
+          input: tc.input ?? '',
+          output: tc.output ?? ''
+        }))
+      }))
+    }
+
+    const resp = await client.post('/problem/batch-import', batchPayload)
+    const body = ensureResponseOk(resp, 'Batch import')
+    const stats = body.data || {}
+    console.log('')
+    console.log(`Batch import done. Total=${stats.total || 0}, Imported=${stats.imported || 0}, Skipped=${stats.skipped || 0}, Failed=${stats.failed || 0}`)
+    if (Array.isArray(stats.errors) && stats.errors.length) {
+      console.log('Batch errors:')
+      stats.errors.forEach((e) => console.log(`  - ${e}`))
+    }
+    if (Number(stats.failed || 0) > 0) {
+      process.exitCode = 1
+    }
+    return
+  }
 
   let success = 0
   let skipped = 0

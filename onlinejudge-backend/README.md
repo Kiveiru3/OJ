@@ -30,6 +30,10 @@ Windows cmd:
 ```bat
 scripts\run_backend_checks.bat
 ```
+Project-level one-click acceptance (run from `D:\OJ-project`):
+```powershell
+.\scripts\run_acceptance_checks.ps1
+```
 
 ## Smoke Test Script
 ```powershell

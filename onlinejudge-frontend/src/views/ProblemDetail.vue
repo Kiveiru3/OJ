@@ -10,55 +10,69 @@
                 返回提交记录（已筛选）
               </el-button>
             </div>
+
             <div class="problem-title-row">
               <span class="problem-code">题号 #{{ route.params.id }}</span>
-              <h2 class="problem-title">{{ problem.title }}</h2>
+              <h2 class="problem-title">{{ problem.title || '未命名题目' }}</h2>
             </div>
+
             <div class="problem-meta">
-              <el-tag :type="getDifficultyType(problem.difficulty)" effect="dark" size="large">
+              <el-tag :type="getDifficultyType(problem.difficulty)" effect="dark">
                 {{ getDifficultyText(problem.difficulty) }}
               </el-tag>
-              <div class="meta-stats">
-                <span class="stat-item">
-                  <el-icon><Check /></el-icon>
-                  通过数：{{ problem.acceptCount || 0 }}
-                </span>
-                <span class="stat-item">
-                  <el-icon><Upload /></el-icon>
-                  提交数：{{ problem.submitCount || 0 }}
-                </span>
-                <span class="stat-item">
-                  时间限制：{{ problem.timeLimit || 2000 }}ms
-                </span>
-                <span class="stat-item">
-                  内存限制：{{ problem.memoryLimit || 256000 }}KB
-                </span>
-                <el-button size="small" type="primary" plain @click="goToProblemDiscussions">
-                  相关讨论
-                </el-button>
-              </div>
+              <el-button size="small" type="primary" plain @click="goToProblemDiscussions">
+                相关讨论
+              </el-button>
             </div>
           </div>
         </div>
       </template>
 
+      <div class="overview-grid">
+        <div class="overview-card">
+          <div class="overview-label">通过数</div>
+          <div class="overview-value">{{ problem.acceptCount || 0 }}</div>
+        </div>
+        <div class="overview-card">
+          <div class="overview-label">提交数</div>
+          <div class="overview-value">{{ problem.submitCount || 0 }}</div>
+        </div>
+        <div class="overview-card">
+          <div class="overview-label">通过率</div>
+          <div class="overview-value">{{ passRate }}</div>
+        </div>
+        <div class="overview-card">
+          <div class="overview-label">时间限制</div>
+          <div class="overview-value text-value">{{ problem.timeLimit || 2000 }} 毫秒</div>
+        </div>
+        <div class="overview-card">
+          <div class="overview-label">内存限制</div>
+          <div class="overview-value text-value">{{ problem.memoryLimit || 256000 }} KB</div>
+        </div>
+      </div>
+
       <el-tabs v-model="activeTab" class="problem-tabs">
         <el-tab-pane label="题目描述" name="description">
-          <div class="problem-content statement-layout">
-            <div
+          <div class="problem-content">
+            <section
               v-for="(section, index) in descriptionSections"
               :key="`${section.title}-${index}`"
-              class="statement-section"
+              class="section-panel statement-panel"
             >
-              <h3 class="statement-title">{{ section.title }}</h3>
+              <div class="section-head">
+                <h3 class="section-title">
+                  <span class="index-badge">{{ index + 1 }}</span>
+                  {{ section.title }}
+                </h3>
+              </div>
               <div class="statement-text" v-html="section.html"></div>
-            </div>
+            </section>
           </div>
         </el-tab-pane>
 
-        <el-tab-pane label="输入/输出" name="io">
-          <div class="problem-content">
-            <div class="io-section">
+        <el-tab-pane label="输入输出" name="io">
+          <div class="problem-content io-grid">
+            <section class="section-panel">
               <h3 class="section-title">
                 <el-icon><Document /></el-icon>
                 输入格式
@@ -66,8 +80,8 @@
               <div class="io-card">
                 <div class="statement-text" v-html="renderRichText(problem.inputFormat || '-')"></div>
               </div>
-            </div>
-            <div class="io-section">
+            </section>
+            <section class="section-panel">
               <h3 class="section-title">
                 <el-icon><Document /></el-icon>
                 输出格式
@@ -75,21 +89,23 @@
               <div class="io-card">
                 <div class="statement-text" v-html="renderRichText(problem.outputFormat || '-')"></div>
               </div>
-            </div>
+            </section>
           </div>
         </el-tab-pane>
 
         <el-tab-pane label="示例" name="examples">
           <div class="problem-content">
-            <div
+            <section
               v-for="(example, index) in examples"
               :key="index"
-              class="example-item"
+              class="section-panel example-item"
             >
-              <h4 class="example-title">
-                <el-icon><Star /></el-icon>
-                示例 {{ index + 1 }}
-              </h4>
+              <div class="section-head">
+                <h4 class="section-title">
+                  <el-icon><Star /></el-icon>
+                  示例 {{ index + 1 }}
+                </h4>
+              </div>
               <div class="example-io">
                 <div class="example-box">
                   <div class="example-label">输入</div>
@@ -100,55 +116,70 @@
                   <pre class="example-code">{{ example.output || '-' }}</pre>
                 </div>
               </div>
-            </div>
+            </section>
             <el-empty v-if="!examples.length" description="暂无示例" />
           </div>
         </el-tab-pane>
 
         <el-tab-pane label="提交代码" name="submit">
-          <div class="submit-section">
-            <el-form :model="submitForm" label-width="100px">
-              <el-form-item label="语言">
-                <el-select
-                  v-model="submitForm.language"
-                  style="width: 200px"
-                  @change="handleLanguageChange"
-                >
-                  <el-option label="Java" value="JAVA" />
-                  <el-option label="C++" value="CPP" />
-                  <el-option label="Python" value="PYTHON" />
-                </el-select>
-                <el-button class="language-action-btn" @click="useTemplateCode">
-                  使用模板
-                </el-button>
-                <el-button class="language-action-btn" @click="clearCode">
-                  清空
-                </el-button>
-              </el-form-item>
-              <el-form-item label="代码">
-                <div class="code-editor-wrapper">
-                  <el-input
-                    v-model="submitForm.code"
-                    type="textarea"
-                    :rows="20"
-                    placeholder="请在这里编写解答代码..."
-                    class="code-editor"
-                  />
-                </div>
-              </el-form-item>
-              <el-form-item>
-                <el-button
-                  type="primary"
-                  @click="handleSubmit"
-                  :loading="submitting"
-                  size="large"
-                  class="submit-button"
-                >
-                  <el-icon v-if="!submitting"><Upload /></el-icon>
-                  {{ submitting ? '提交中...' : '提交代码' }}
-                </el-button>
-              </el-form-item>
-            </el-form>
+          <div class="problem-content">
+            <section class="section-panel submit-panel">
+              <div class="submit-head">
+                <h3 class="section-title">
+                  <el-icon><Upload /></el-icon>
+                  在线提交
+                </h3>
+                <span class="draft-tip">草稿自动保存（按题目 + 语言）</span>
+              </div>
+
+              <el-form :model="submitForm" label-position="top" class="submit-form">
+                <el-form-item label="语言">
+                  <el-select
+                    v-model="submitForm.language"
+                    style="width: 200px"
+                    @change="handleLanguageChange"
+                  >
+                    <el-option label="Java" value="JAVA" />
+                    <el-option label="C++" value="CPP" />
+                    <el-option label="Python" value="PYTHON" />
+                  </el-select>
+                  <el-button class="language-action-btn" @click="useTemplateCode">
+                    使用模板
+                  </el-button>
+                  <el-button class="language-action-btn" @click="formatCurrentCode">
+                    格式化代码
+                  </el-button>
+                  <el-button class="language-action-btn" @click="clearCode">
+                    清空
+                  </el-button>
+                </el-form-item>
+
+                <el-form-item label="代码" class="code-form-item">
+                  <div class="code-editor-wrapper">
+                    <el-input
+                      v-model="submitForm.code"
+                      type="textarea"
+                      :rows="24"
+                      placeholder="请在这里编写解答代码..."
+                      class="code-editor"
+                    />
+                  </div>
+                </el-form-item>
+
+                <el-form-item>
+                  <el-button
+                    type="primary"
+                    @click="handleSubmit"
+                    :loading="submitting"
+                    size="large"
+                    class="submit-button"
+                  >
+                    <el-icon v-if="!submitting"><Upload /></el-icon>
+                    {{ submitting ? '提交中...' : '提交代码' }}
+                  </el-button>
+                </el-form-item>
+              </el-form>
+            </section>
           </div>
         </el-tab-pane>
       </el-tabs>
@@ -157,11 +188,11 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, onBeforeUnmount, watch, computed } from 'vue'
+import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { problemApi, submissionApi } from '@/api'
 import { ElMessage } from 'element-plus'
-import { Check, Upload, Document, Star } from '@element-plus/icons-vue'
+import { Document, Star, Upload } from '@element-plus/icons-vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -211,6 +242,13 @@ const allowedSubmissionStatus = new Set([
 ])
 const allowedLanguage = new Set(['JAVA', 'CPP', 'PYTHON'])
 
+const passRate = computed(() => {
+  const total = Number(problem.value.submitCount || 0)
+  const accepted = Number(problem.value.acceptCount || 0)
+  if (!total) return '0%'
+  return `${Math.round((accepted * 1000) / total) / 10}%`
+})
+
 const examples = computed(() => {
   if (Array.isArray(problem.value.examples)) {
     return problem.value.examples
@@ -235,6 +273,104 @@ const escapeHtml = (value) => String(value || '')
   .replace(/"/g, '&quot;')
   .replace(/'/g, '&#39;')
 
+const normalizeImageUrl = (value) => {
+  const raw = String(value || '').trim()
+  if (!raw) return ''
+  try {
+    const url = new URL(raw)
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+      return ''
+    }
+    return url.href
+  } catch (_) {
+    return ''
+  }
+}
+
+const formatMathExpr = (expr) => {
+  let html = escapeHtml(String(expr || '').trim())
+  if (!html) return ''
+
+  html = html
+    .replace(/\\leq?/g, '≤')
+    .replace(/\\geq?/g, '≥')
+    .replace(/\\neq/g, '≠')
+    .replace(/\\times/g, '×')
+    .replace(/\\cdot/g, '·')
+    .replace(/\\to/g, '→')
+    .replace(/\\notin/g, '∉')
+    .replace(/\\in/g, '∈')
+    .replace(/\\left/g, '')
+    .replace(/\\right/g, '')
+    .replace(/&lt;=/g, '≤')
+    .replace(/&gt;=/g, '≥')
+
+  html = html.replace(/\\frac\{([^{}]+)\}\{([^{}]+)\}/g, (_, numerator, denominator) => (
+    `<span class="math-frac"><span class="math-num">${numerator}</span><span class="math-den">${denominator}</span></span>`
+  ))
+
+  html = html
+    .replace(/([A-Za-z0-9)\]])_\{([^{}]+)\}/g, '$1<sub>$2</sub>')
+    .replace(/([A-Za-z0-9)\]])_([A-Za-z0-9])/g, '$1<sub>$2</sub>')
+    .replace(/([A-Za-z0-9)\]])\^\{([^{}]+)\}/g, '$1<sup>$2</sup>')
+    .replace(/([A-Za-z0-9)\]])\^([A-Za-z0-9])/g, '$1<sup>$2</sup>')
+
+  return html
+}
+
+const renderTextWithMath = (line) => {
+  const source = String(line || '')
+  if (!source.includes('$')) {
+    return escapeHtml(source)
+  }
+
+  const pattern = /\$([^$]+)\$/g
+  let cursor = 0
+  let result = ''
+  let match = pattern.exec(source)
+
+  while (match) {
+    result += escapeHtml(source.slice(cursor, match.index))
+    result += `<span class="math-inline">${formatMathExpr(match[1])}</span>`
+    cursor = pattern.lastIndex
+    match = pattern.exec(source)
+  }
+
+  result += escapeHtml(source.slice(cursor))
+  return result
+}
+
+const renderInlineRichText = (line) => {
+  const source = String(line || '')
+  if (!source.includes('![')) {
+    return renderTextWithMath(source)
+  }
+
+  const imagePattern = /!\[([^\]]*)\]\(([^)]+)\)/g
+  let cursor = 0
+  let html = ''
+  let match = imagePattern.exec(source)
+
+  while (match) {
+    const before = source.slice(cursor, match.index)
+    html += renderTextWithMath(before)
+
+    const alt = escapeHtml(match[1] || '题面图片')
+    const src = normalizeImageUrl(match[2] || '')
+    if (src) {
+      html += `<span class="statement-image-inline"><img src="${escapeHtml(src)}" alt="${alt}" loading="lazy" referrerpolicy="no-referrer" /></span>`
+    } else {
+      html += escapeHtml(match[0])
+    }
+
+    cursor = imagePattern.lastIndex
+    match = imagePattern.exec(source)
+  }
+
+  html += renderTextWithMath(source.slice(cursor))
+  return html
+}
+
 const renderRichText = (text) => {
   const normalized = String(text || '').replace(/\r/g, '').trim()
   if (!normalized) {
@@ -250,19 +386,19 @@ const renderRichText = (text) => {
 
     if (lines.every((line) => /^[-*]\s+/.test(line))) {
       const items = lines
-        .map((line) => `<li>${escapeHtml(line.replace(/^[-*]\s+/, ''))}</li>`)
+        .map((line) => `<li>${renderInlineRichText(line.replace(/^[-*]\s+/, ''))}</li>`)
         .join('')
       return `<ul>${items}</ul>`
     }
 
     if (lines.every((line) => /^\d+[.)]\s+/.test(line))) {
       const items = lines
-        .map((line) => `<li>${escapeHtml(line.replace(/^\d+[.)]\s+/, ''))}</li>`)
+        .map((line) => `<li>${renderInlineRichText(line.replace(/^\d+[.)]\s+/, ''))}</li>`)
         .join('')
       return `<ol>${items}</ol>`
     }
 
-    return `<p>${lines.map((line) => escapeHtml(line)).join('<br>')}</p>`
+    return `<p>${lines.map((line) => renderInlineRichText(line)).join('<br>')}</p>`
   }).filter(Boolean)
 
   return htmlBlocks.join('')
@@ -296,7 +432,8 @@ const descriptionSections = computed(() => {
   }
 
   for (const line of lines) {
-    const match = line.trim().match(/^【(.+?)】$/)
+    const trimmed = line.trim()
+    const match = trimmed.match(/^【(.+?)】$/) || trimmed.match(/^\[(.+?)\]$/)
     if (match) {
       pushCurrent(false)
       currentTitle = match[1]
@@ -389,6 +526,89 @@ const handleLanguageChange = (nextLanguage) => {
   previousLanguage.value = nextLanguage
 }
 
+const normalizeCodeText = (code) => String(code || '')
+  .replace(/\r\n?/g, '\n')
+  .replace(/\t/g, '  ')
+  .split('\n')
+  .map((line) => line.replace(/[ \t]+$/g, ''))
+  .join('\n')
+
+const formatBraceLanguageCode = (code) => {
+  const normalized = normalizeCodeText(code)
+  const lines = normalized.split('\n')
+  const output = []
+  let level = 0
+
+  for (const rawLine of lines) {
+    const line = rawLine.trim()
+    if (!line) {
+      output.push('')
+      continue
+    }
+
+    const startsWithClose = /^}/.test(line)
+    if (startsWithClose) {
+      level = Math.max(0, level - 1)
+    }
+
+    output.push(`${'  '.repeat(level)}${line}`)
+
+    const openCount = (line.match(/{/g) || []).length
+    const closeCount = (line.match(/}/g) || []).length
+    level = Math.max(0, level + openCount - closeCount)
+  }
+
+  return output.join('\n').replace(/\n{3,}/g, '\n\n').trimEnd()
+}
+
+const formatPythonCode = (code) => {
+  const normalized = normalizeCodeText(code)
+  const lines = normalized.split('\n')
+  const output = []
+  let level = 0
+
+  for (const rawLine of lines) {
+    const line = rawLine.trim()
+    if (!line) {
+      output.push('')
+      continue
+    }
+
+    if (/^(elif|else|except|finally)\b/.test(line)) {
+      level = Math.max(0, level - 1)
+    }
+
+    output.push(`${'  '.repeat(level)}${line}`)
+
+    if (/:$/.test(line) && !line.startsWith('#')) {
+      level += 1
+    }
+  }
+
+  return output.join('\n').replace(/\n{3,}/g, '\n\n').trimEnd()
+}
+
+const formatCodeByLanguage = (language, code) => {
+  if (language === 'PYTHON') {
+    return formatPythonCode(code)
+  }
+  if (language === 'JAVA' || language === 'CPP') {
+    return formatBraceLanguageCode(code)
+  }
+  return normalizeCodeText(code).trimEnd()
+}
+
+const formatCurrentCode = () => {
+  const before = submitForm.code || ''
+  const after = formatCodeByLanguage(submitForm.language, before)
+  submitForm.code = after
+  if (after === before) {
+    ElMessage.info('代码已是较规范格式')
+    return
+  }
+  ElMessage.success('代码格式化完成')
+}
+
 const useTemplateCode = () => {
   submitForm.code = getTemplateCode(submitForm.language)
 }
@@ -472,7 +692,7 @@ onBeforeUnmount(() => {
 }
 
 .card-header {
-  padding: 20px;
+  padding: 18px;
   background: linear-gradient(132deg, #f8fbff 0%, #eef5ff 55%, #f5fcff 100%);
   border-radius: 8px 8px 0 0;
 }
@@ -526,69 +746,114 @@ onBeforeUnmount(() => {
 .problem-meta {
   display: flex;
   align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.meta-stats {
-  display: flex;
   gap: 10px;
   flex-wrap: wrap;
 }
 
-.stat-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  color: #334155;
-  font-size: 13px;
-  border: 1px solid #d8e4f2;
-  background: #f8fbff;
-  border-radius: 999px;
-  padding: 4px 10px;
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.overview-card {
+  border: 1px solid #dce8f8;
+  background: linear-gradient(160deg, #f9fbff 0%, #eef6ff 100%);
+  border-radius: 8px;
+  padding: 12px 14px;
+  transition: transform 0.18s ease, box-shadow 0.2s ease;
+}
+
+.overview-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.1);
+}
+
+.overview-label {
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 5px;
+}
+
+.overview-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.text-value {
+  font-size: 14px;
+  line-height: 1.35;
 }
 
 .problem-tabs {
-  margin-top: 18px;
+  margin-top: 6px;
+}
+
+.problem-tabs :deep(.el-tabs__item) {
+  font-size: 16px;
+  font-weight: 600;
+  height: 46px;
+  line-height: 46px;
+  padding: 0 18px;
+}
+
+.problem-tabs :deep(.el-tabs__item.is-active) {
+  color: #1d4ed8;
 }
 
 .problem-content {
-  padding: 20px;
-  line-height: 1.8;
-  color: #303133;
-  font-size: 15px;
+  padding: 14px 4px 4px;
 }
 
-.statement-layout {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.statement-section {
-  border: 1px solid #dce8f6;
+.section-panel {
+  border: 1px solid #e2e9f3;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
   border-radius: 8px;
-  background: linear-gradient(160deg, #fcfdff 0%, #f5f9ff 100%);
-  padding: 16px 18px;
+  padding: 18px;
+  margin-bottom: 14px;
 }
 
-.statement-title {
-  margin: 0 0 10px;
-  font-size: 16px;
-  font-weight: 600;
-  color: #0f356e;
-  border-left: 3px solid #0b63f6;
-  padding-left: 10px;
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.section-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.index-badge {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #e8f1ff;
+  color: #1d4ed8;
+  font-size: 12px;
 }
 
 .statement-text {
-  color: #303133;
-  font-size: 15px;
-  line-height: 1.9;
+  color: #1f2937;
+  font-size: 17px;
+  line-height: 2;
+  letter-spacing: 0.1px;
 }
 
 .statement-text :deep(p) {
-  margin: 0 0 10px;
+  margin: 0 0 14px;
 }
 
 .statement-text :deep(p:last-child) {
@@ -598,57 +863,87 @@ onBeforeUnmount(() => {
 .statement-text :deep(ul),
 .statement-text :deep(ol) {
   margin: 0;
-  padding-left: 22px;
+  padding-left: 26px;
 }
 
 .statement-text :deep(li) {
-  margin: 6px 0;
+  margin: 8px 0;
 }
 
-.io-section {
-  margin-bottom: 30px;
+.statement-text :deep(.math-inline) {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 1px;
+  padding: 0 4px;
+  margin: 0 1px;
+  border-radius: 4px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #0f172a;
+  font-family: "Times New Roman", Georgia, serif;
+  font-size: 1.02em;
 }
 
-.section-title {
-  display: flex;
+.statement-text :deep(.math-inline sub),
+.statement-text :deep(.math-inline sup) {
+  font-size: 0.75em;
+  line-height: 1;
+}
+
+.statement-text :deep(.math-frac) {
+  display: inline-flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 15px;
-  font-size: 18px;
-  font-weight: 600;
-  color: #303133;
+  line-height: 1.05;
+  margin: 0 2px;
+  vertical-align: middle;
+}
+
+.statement-text :deep(.math-frac .math-num) {
+  padding: 0 2px 1px;
+  border-bottom: 1px solid #334155;
+}
+
+.statement-text :deep(.math-frac .math-den) {
+  padding: 1px 2px 0;
+}
+
+.statement-text :deep(.statement-image-inline) {
+  display: inline-flex;
+  margin: 6px 0;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+.statement-text :deep(.statement-image-inline img) {
+  max-width: min(100%, 820px);
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid #dbe5f3;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+}
+
+.io-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
 }
 
 .io-card {
   background: linear-gradient(160deg, #f9fbff 0%, #f0f6ff 100%);
   border: 1px solid #d9e5f4;
-  padding: 14px 16px;
+  padding: 16px 18px;
   border-radius: 8px;
 }
 
 .example-item {
-  margin-bottom: 40px;
-  padding: 20px;
-  background: linear-gradient(165deg, #fafcff 0%, #f2f7ff 100%);
-  border-radius: 8px;
-  border-left: 4px solid #0b63f6;
-  border: 1px solid #dbe7f7;
-}
-
-.example-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 15px;
-  font-size: 16px;
-  font-weight: 600;
-  color: #303133;
+  margin-bottom: 14px;
 }
 
 .example-io {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 12px;
 }
 
 .example-box {
@@ -661,6 +956,7 @@ onBeforeUnmount(() => {
 
 .example-label {
   font-weight: 600;
+  font-size: 15px;
   margin-bottom: 10px;
   color: #606266;
 }
@@ -671,32 +967,80 @@ onBeforeUnmount(() => {
   border-radius: 8px;
   margin: 0;
   font-family: Consolas, Monaco, 'Courier New', monospace;
-  font-size: 13px;
+  font-size: 15px;
+  line-height: 1.75;
   overflow-x: auto;
   white-space: pre-wrap;
 }
 
-.submit-section {
-  padding: 20px;
+.submit-panel {
+  margin-bottom: 0;
+}
+
+.submit-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.draft-tip {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.submit-form {
+  width: 100%;
+}
+
+.submit-form :deep(.el-form-item) {
+  margin-bottom: 18px;
+}
+
+.submit-form :deep(.el-form-item__label) {
+  padding-bottom: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #334155;
+}
+
+.submit-form :deep(.el-form-item__content) {
+  width: 100%;
+  margin-left: 0 !important;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.code-form-item :deep(.el-form-item__content) {
+  display: block;
 }
 
 .language-action-btn {
-  margin-left: 8px;
+  margin-left: 0;
 }
 
 .code-editor-wrapper {
+  width: 100%;
+  min-height: 560px;
   border: 1px solid #cfdbeb;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
 }
 
+.code-editor :deep(.el-textarea),
+.code-editor :deep(.el-textarea__inner),
 .code-editor :deep(textarea) {
+  width: 100%;
+  min-height: 560px;
   font-family: Consolas, Monaco, 'Courier New', monospace;
-  font-size: 14px;
-  line-height: 1.6;
-  background: #2d2d2d;
-  color: #f8f8f2;
+  font-size: 15px;
+  line-height: 1.7;
+  background: #1f2937;
+  color: #f8fafc;
   border: none;
 }
 
@@ -704,22 +1048,63 @@ onBeforeUnmount(() => {
   width: 200px;
   height: 44px;
   font-size: 16px;
-  font-weight: 600;
-  background: linear-gradient(135deg, #0b63f6 0%, #1d58bc 100%);
-  border-color: #215bc1;
-  transition: all 0.3s ease;
 }
 
-.submit-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(11, 99, 246, 0.32);
+@media (max-width: 1024px) {
+  .overview-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 900px) {
+  .problem-tabs :deep(.el-tabs__item) {
+    font-size: 15px;
+    padding: 0 12px;
+  }
+
+  .statement-text {
+    font-size: 16px;
+    line-height: 1.9;
+  }
+
+  .section-title {
+    font-size: 17px;
+  }
+
+  .example-code {
+    font-size: 14px;
+  }
+
   .context-bar {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
   }
+
+  .overview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .io-grid,
+  .example-io {
+    grid-template-columns: 1fr;
+  }
+
+  .submit-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .code-editor-wrapper {
+    min-height: 440px;
+  }
+
+  .code-editor :deep(.el-textarea),
+  .code-editor :deep(.el-textarea__inner),
+  .code-editor :deep(textarea) {
+    min-height: 440px;
+    font-size: 14px;
+  }
 }
 </style>
+

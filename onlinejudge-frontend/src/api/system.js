@@ -32,6 +32,14 @@ export const systemApi = {
     })
   },
 
+  getJudgeResults(params) {
+    return request({
+      url: '/admin/system/judge-results',
+      method: 'get',
+      params
+    })
+  },
+
   getFeatureChecklist() {
     return request({
       url: '/admin/system/feature-checklist',

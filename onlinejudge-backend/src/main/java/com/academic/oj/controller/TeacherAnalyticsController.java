@@ -1,14 +1,11 @@
 package com.academic.oj.controller;
 
 import com.academic.oj.common.Result;
-import com.academic.oj.common.ResultCode;
-import com.academic.oj.common.exception.BusinessException;
 import com.academic.oj.dto.TeacherAnalyticsVO;
 import com.academic.oj.service.AdminOperationLogService;
 import com.academic.oj.service.TeacherAnalyticsService;
+import com.academic.oj.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,27 +40,11 @@ public class TeacherAnalyticsController {
     }
 
     private void requireTeacherOrAdmin() {
-        if (!hasRole("TEACHER") && !hasRole("ADMIN")) {
-            throw new BusinessException(ResultCode.FORBIDDEN.getCode(), "Forbidden");
-        }
-    }
-
-    private boolean hasRole(String role) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || authentication.getAuthorities() == null) {
-            return false;
-        }
-        String expectedAuthority = "ROLE_" + role;
-        return authentication.getAuthorities().stream()
-                .anyMatch(authority -> expectedAuthority.equals(authority.getAuthority()));
+        SecurityUtils.requireAnyRole("TEACHER", "ADMIN");
     }
 
     private Long getCurrentUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || authentication.getName() == null) {
-            throw new BusinessException(ResultCode.UNAUTHORIZED.getCode(), "Unauthorized");
-        }
-        return Long.parseLong(authentication.getName());
+        return SecurityUtils.getCurrentUserId();
     }
 
     private String buildCsv(TeacherAnalyticsVO vo) {

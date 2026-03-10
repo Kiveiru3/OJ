@@ -1,16 +1,13 @@
 package com.academic.oj.controller;
 
 import com.academic.oj.common.Result;
-import com.academic.oj.common.ResultCode;
-import com.academic.oj.common.exception.BusinessException;
 import com.academic.oj.dto.DiscussionPostSaveDTO;
 import com.academic.oj.dto.DiscussionPostVO;
 import com.academic.oj.service.AdminOperationLogService;
 import com.academic.oj.service.DiscussionService;
+import com.academic.oj.util.SecurityUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,29 +48,15 @@ public class DiscussionController {
     @DeleteMapping("/{id}")
     public Result<?> deletePost(@PathVariable Long id) {
         Long operatorId = getCurrentUserId();
-        boolean isAdmin = hasRole("ADMIN");
+        boolean isAdmin = SecurityUtils.hasRole("ADMIN");
         discussionService.deletePost(operatorId, isAdmin, id);
         adminOperationLogService.record(operatorId, "DISCUSSION", "DELETE_POST", "POST", id,
                 isAdmin ? "admin delete post" : "owner delete post");
         return Result.success("Deleted");
     }
 
-    private boolean hasRole(String role) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || authentication.getAuthorities() == null) {
-            return false;
-        }
-        String expectedAuthority = "ROLE_" + role;
-        return authentication.getAuthorities().stream()
-                .anyMatch(authority -> expectedAuthority.equals(authority.getAuthority()));
-    }
-
     private Long getCurrentUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || authentication.getName() == null) {
-            throw new BusinessException(ResultCode.UNAUTHORIZED.getCode(), "Unauthorized");
-        }
-        return Long.parseLong(authentication.getName());
+        return SecurityUtils.getCurrentUserId();
     }
 
     private Integer normalizePage(Integer page) {

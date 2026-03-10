@@ -2,11 +2,14 @@ package com.academic.oj.controller;
 
 import com.academic.oj.common.exception.BusinessException;
 import com.academic.oj.dto.FeatureChecklistOverviewVO;
+import com.academic.oj.dto.JudgeResultVO;
 import com.academic.oj.dto.SystemMonitorVO;
 import com.academic.oj.service.AdminOperationLogService;
 import com.academic.oj.service.FeatureChecklistService;
+import com.academic.oj.service.JudgeResultService;
 import com.academic.oj.service.SystemConfigService;
 import com.academic.oj.service.SystemMonitorService;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,6 +41,9 @@ class AdminSystemControllerTest {
 
     @Mock
     private SystemMonitorService systemMonitorService;
+
+    @Mock
+    private JudgeResultService judgeResultService;
 
     @InjectMocks
     private AdminSystemController adminSystemController;
@@ -81,6 +87,32 @@ class AdminSystemControllerTest {
         assertEquals(20L, result.getTotalUsers());
         verify(systemMonitorService).getMonitor();
         verify(adminOperationLogService).record(2L, "SYSTEM_MONITOR", "VIEW", "MONITOR", null, "view monitor");
+    }
+
+    @Test
+    void getJudgeResultsShouldRejectStudent() {
+        setAuth(1L, "STUDENT");
+        BusinessException ex = assertThrows(BusinessException.class,
+                () -> adminSystemController.getJudgeResults(1, 20, null, null, null, null));
+        assertEquals(403, ex.getCode());
+    }
+
+    @Test
+    void getJudgeResultsShouldAllowAdmin() {
+        setAuth(2L, "ADMIN");
+        Page<JudgeResultVO> page = new Page<>(1, 20, 1);
+        JudgeResultVO vo = new JudgeResultVO();
+        vo.setId(11L);
+        page.setRecords(List.of(vo));
+        when(judgeResultService.getJudgeResultPage(1, 20, 10L, 1001L, "ACCEPTED", "java"))
+                .thenReturn(page);
+
+        Page<JudgeResultVO> result = (Page<JudgeResultVO>) adminSystemController
+                .getJudgeResults(1, 20, 10L, 1001L, "ACCEPTED", "java")
+                .getData();
+
+        assertEquals(1, result.getRecords().size());
+        verify(judgeResultService).getJudgeResultPage(1, 20, 10L, 1001L, "ACCEPTED", "java");
     }
 
     private void setAuth(Long userId, String role) {

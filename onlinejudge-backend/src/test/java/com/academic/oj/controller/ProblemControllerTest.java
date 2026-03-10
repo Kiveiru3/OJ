@@ -1,6 +1,9 @@
 package com.academic.oj.controller;
 
 import com.academic.oj.common.exception.BusinessException;
+import com.academic.oj.dto.ProblemBatchImportDTO;
+import com.academic.oj.dto.ProblemBatchImportResultDTO;
+import com.academic.oj.dto.ProblemImportItemDTO;
 import com.academic.oj.entity.Problem;
 import com.academic.oj.service.AdminOperationLogService;
 import com.academic.oj.service.ProblemService;
@@ -20,6 +23,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -83,6 +89,48 @@ class ProblemControllerTest {
         problemController.deleteProblem(1L);
 
         verify(problemService).deleteProblem(1L);
+    }
+
+    @Test
+    void batchImportShouldRejectStudent() {
+        setAuth(1L, "STUDENT");
+        BusinessException ex = assertThrows(BusinessException.class,
+                () -> problemController.batchImportProblems(buildBatchImportDTO()));
+        assertEquals(403, ex.getCode());
+    }
+
+    @Test
+    void batchImportShouldAllowTeacher() {
+        setAuth(2L, "TEACHER");
+        ProblemBatchImportResultDTO serviceResult = new ProblemBatchImportResultDTO();
+        serviceResult.setTotal(1);
+        serviceResult.setImported(1);
+        serviceResult.setSkipped(0);
+        serviceResult.setFailed(0);
+        when(problemService.batchImportProblems(anyLong(), anyList(), anyBoolean())).thenReturn(serviceResult);
+
+        ProblemBatchImportResultDTO result = (ProblemBatchImportResultDTO) problemController
+                .batchImportProblems(buildBatchImportDTO())
+                .getData();
+
+        assertEquals(1, result.getImported());
+        verify(problemService).batchImportProblems(anyLong(), anyList(), anyBoolean());
+        verify(adminOperationLogService).record(2L, "PROBLEM", "BATCH_IMPORT", "PROBLEM", null,
+                "total=1,imported=1,skipped=0,failed=0");
+    }
+
+    private ProblemBatchImportDTO buildBatchImportDTO() {
+        ProblemImportItemDTO item = new ProblemImportItemDTO();
+        item.setTitle("A+B");
+        item.setDescription("sum");
+        item.setDifficulty("EASY");
+        item.setTimeLimit(1000);
+        item.setMemoryLimit(262144);
+
+        ProblemBatchImportDTO dto = new ProblemBatchImportDTO();
+        dto.setProblems(List.of(item));
+        dto.setSkipExistingTitle(true);
+        return dto;
     }
 
     private void setAuth(Long userId, String role) {

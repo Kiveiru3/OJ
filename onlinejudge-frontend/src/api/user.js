@@ -24,6 +24,21 @@ export const userApi = {
     })
   },
 
+  getRoleProfile() {
+    return request({
+      url: '/user/role-profile',
+      method: 'get'
+    })
+  },
+
+  updateRoleProfile(data) {
+    return request({
+      url: '/user/role-profile',
+      method: 'put',
+      data
+    })
+  },
+
   getUserList(params) {
     return request({
       url: '/user/list',
@@ -44,6 +59,21 @@ export const userApi = {
     return request({
       url: `/user/${id}/reset-password`,
       method: 'post',
+      data
+    })
+  },
+
+  adminGetRoleProfile(id) {
+    return request({
+      url: `/user/${id}/role-profile`,
+      method: 'get'
+    })
+  },
+
+  adminUpdateRoleProfile(id, data) {
+    return request({
+      url: `/user/${id}/role-profile`,
+      method: 'put',
       data
     })
   }

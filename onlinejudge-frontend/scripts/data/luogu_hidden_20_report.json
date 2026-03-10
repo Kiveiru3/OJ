@@ -1,0 +1,193 @@
+{
+  "input": "D:\\OJ-project\\onlinejudge-frontend\\scripts\\data\\luogu_offline_problems_1000.json",
+  "output": "D:\\OJ-project\\onlinejudge-frontend\\scripts\\data\\luogu_offline_problems_1000_hidden_20.json",
+  "seed": 20260225,
+  "keepExistingCases": true,
+  "totalProblems": 1000,
+  "targetProblemCount": 20,
+  "generatedCaseCount": 446,
+  "mergedCaseCount": 472,
+  "missingTargets": [],
+  "detail": [
+    {
+      "externalId": "P1001",
+      "title": "A+B Problem",
+      "recipe": "A+B",
+      "existingBefore": 1,
+      "hiddenAdded": 30,
+      "finalCases": 31,
+      "generationAttempts": 30
+    },
+    {
+      "externalId": "P1009",
+      "title": "阶乘之和",
+      "recipe": "Factorial Sum",
+      "existingBefore": 1,
+      "hiddenAdded": 22,
+      "finalCases": 23,
+      "generationAttempts": 34
+    },
+    {
+      "externalId": "P1012",
+      "title": "拼数",
+      "recipe": "Largest Number",
+      "existingBefore": 1,
+      "hiddenAdded": 26,
+      "finalCases": 27,
+      "generationAttempts": 26
+    },
+    {
+      "externalId": "P1014",
+      "title": "Cantor表",
+      "recipe": "Cantor Table",
+      "existingBefore": 1,
+      "hiddenAdded": 24,
+      "finalCases": 25,
+      "generationAttempts": 24
+    },
+    {
+      "externalId": "P1017",
+      "title": "进制转换",
+      "recipe": "Negative Base",
+      "existingBefore": 4,
+      "hiddenAdded": 24,
+      "finalCases": 28,
+      "generationAttempts": 24
+    },
+    {
+      "externalId": "P1022",
+      "title": "计算器的改良",
+      "recipe": "Linear Equation",
+      "existingBefore": 1,
+      "hiddenAdded": 24,
+      "finalCases": 25,
+      "generationAttempts": 24
+    },
+    {
+      "externalId": "P1024",
+      "title": "一元三次方程求解",
+      "recipe": "Cubic Roots",
+      "existingBefore": 1,
+      "hiddenAdded": 20,
+      "finalCases": 21,
+      "generationAttempts": 20
+    },
+    {
+      "externalId": "P1025",
+      "title": "数的划分",
+      "recipe": "Partition Count",
+      "existingBefore": 1,
+      "hiddenAdded": 22,
+      "finalCases": 23,
+      "generationAttempts": 22
+    },
+    {
+      "externalId": "P1028",
+      "title": "数的计算",
+      "recipe": "Number Count DP",
+      "existingBefore": 1,
+      "hiddenAdded": 24,
+      "finalCases": 25,
+      "generationAttempts": 25
+    },
+    {
+      "externalId": "P1029",
+      "title": "最大公约数和最小公倍数问题",
+      "recipe": "GCD/LCM Pair Count",
+      "existingBefore": 1,
+      "hiddenAdded": 24,
+      "finalCases": 25,
+      "generationAttempts": 24
+    },
+    {
+      "externalId": "P1035",
+      "title": "级数求和",
+      "recipe": "Harmonic Sum",
+      "existingBefore": 1,
+      "hiddenAdded": 12,
+      "finalCases": 13,
+      "generationAttempts": 24
+    },
+    {
+      "externalId": "P1046",
+      "title": "陶陶摘苹果",
+      "recipe": "Apple Reach",
+      "existingBefore": 1,
+      "hiddenAdded": 20,
+      "finalCases": 21,
+      "generationAttempts": 20
+    },
+    {
+      "externalId": "P1047",
+      "title": "校门外的树",
+      "recipe": "Road Trees",
+      "existingBefore": 1,
+      "hiddenAdded": 22,
+      "finalCases": 23,
+      "generationAttempts": 22
+    },
+    {
+      "externalId": "P1048",
+      "title": "采药",
+      "recipe": "Herb Knapsack",
+      "existingBefore": 1,
+      "hiddenAdded": 24,
+      "finalCases": 25,
+      "generationAttempts": 24
+    },
+    {
+      "externalId": "P1055",
+      "title": "ISBN号码",
+      "recipe": "ISBN",
+      "existingBefore": 2,
+      "hiddenAdded": 24,
+      "finalCases": 26,
+      "generationAttempts": 24
+    },
+    {
+      "externalId": "P1059",
+      "title": "明明的随机数",
+      "recipe": "Unique Sort",
+      "existingBefore": 1,
+      "hiddenAdded": 20,
+      "finalCases": 21,
+      "generationAttempts": 20
+    },
+    {
+      "externalId": "P1075",
+      "title": "质因数分解",
+      "recipe": "Prime Factor",
+      "existingBefore": 1,
+      "hiddenAdded": 20,
+      "finalCases": 21,
+      "generationAttempts": 20
+    },
+    {
+      "externalId": "P1089",
+      "title": "津津的储蓄计划",
+      "recipe": "Saving Plan",
+      "existingBefore": 2,
+      "hiddenAdded": 22,
+      "finalCases": 24,
+      "generationAttempts": 22
+    },
+    {
+      "externalId": "P1307",
+      "title": "数字反转",
+      "recipe": "Reverse Integer",
+      "existingBefore": 2,
+      "hiddenAdded": 22,
+      "finalCases": 24,
+      "generationAttempts": 22
+    },
+    {
+      "externalId": "P1980",
+      "title": "计数问题",
+      "recipe": "Digit Count",
+      "existingBefore": 1,
+      "hiddenAdded": 20,
+      "finalCases": 21,
+      "generationAttempts": 20
+    }
+  ]
+}

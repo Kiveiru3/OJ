@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="problem-list-container pro-page">
     <el-card class="main-card card-shadow pro-main-card">
       <template #header>
@@ -38,30 +38,14 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="handleSearch" :icon="Search">
-            搜索
-          </el-button>
+          <el-button type="primary" @click="handleSearch" :icon="Search">搜索</el-button>
           <el-button @click="resetSearch" :icon="Refresh">重置</el-button>
         </el-form-item>
       </el-form>
 
-      <div class="overview-grid">
-        <div class="overview-card">
-          <div class="overview-label">当前页题目</div>
-          <div class="overview-value">{{ pageStats.total }}</div>
-        </div>
-        <div class="overview-card">
-          <div class="overview-label">平均通过率</div>
-          <div class="overview-value">{{ pageStats.avgRate }}%</div>
-        </div>
-        <div class="overview-card">
-          <div class="overview-label">高通过率题目</div>
-          <div class="overview-value">{{ pageStats.highRateCount }}</div>
-        </div>
-        <div class="overview-card">
-          <div class="overview-label">困难题数量</div>
-          <div class="overview-value">{{ pageStats.hardCount }}</div>
-        </div>
+      <div class="filter-note">
+        <span class="filter-label">当前筛选：</span>
+        <span class="filter-value">{{ filterSummary }}</span>
       </div>
 
       <el-skeleton v-if="loading && !problemList.length" :rows="7" animated />
@@ -76,12 +60,9 @@
           <el-table-column prop="id" label="ID" width="80" align="center" />
           <el-table-column prop="title" label="题目标题" min-width="280">
             <template #default="{ row }">
-              <el-link
-                type="primary"
-                @click="goToProblem(row.id)"
-                class="problem-title-link"
-              >
-                <el-icon style="margin-right: 5px;"><Document /></el-icon>
+              <el-link type="primary" @click="goToProblem(row.id)" class="problem-title-link">
+                <el-icon v-if="isCurrentUserAccepted(row)" class="solved-icon"><CircleCheckFilled /></el-icon>
+                <el-icon v-else style="margin-right: 5px;"><Document /></el-icon>
                 {{ row.title }}
               </el-link>
             </template>
@@ -107,7 +88,7 @@
             </template>
           </el-table-column>
 
-          <el-table-column prop="passRate" label="通过率" width="140" align="center">
+          <el-table-column prop="passRate" label="通过率" width="150" align="center">
             <template #default="{ row }">
               <el-progress
                 :percentage="normalizeRate(row.passRate, row.acceptCount, row.submitCount)"
@@ -117,7 +98,7 @@
             </template>
           </el-table-column>
           <template #empty>
-            <el-empty description="暂无题目" :image-size="80" />
+            <el-empty description="暂无题目，请调整筛选条件后重试" :image-size="80" />
           </template>
         </el-table>
       </div>
@@ -138,11 +119,11 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, computed } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { problemApi } from '@/api'
 import { ElMessage } from 'element-plus'
-import { Document, Search, Refresh } from '@element-plus/icons-vue'
+import { CircleCheckFilled, Document, Refresh, Search } from '@element-plus/icons-vue'
 
 const router = useRouter()
 
@@ -160,25 +141,15 @@ const pagination = reactive({
   total: 0
 })
 
-const pageStats = computed(() => {
-  const list = problemList.value || []
-  if (!list.length) {
-    return {
-      total: 0,
-      avgRate: 0,
-      highRateCount: 0,
-      hardCount: 0
-    }
+const filterSummary = computed(() => {
+  const parts = []
+  if (searchForm.keyword.trim()) {
+    parts.push(`关键词：${searchForm.keyword.trim()}`)
   }
-
-  const rates = list.map((item) => normalizeRate(item.passRate, item.acceptCount, item.submitCount))
-  const avg = Math.round(rates.reduce((sum, x) => sum + x, 0) / rates.length)
-  return {
-    total: list.length,
-    avgRate: avg,
-    highRateCount: rates.filter((x) => x >= 70).length,
-    hardCount: list.filter((item) => item.difficulty === 'HARD').length
+  if (searchForm.difficulty) {
+    parts.push(`难度：${getDifficultyText(searchForm.difficulty)}`)
   }
+  return parts.length ? parts.join(' ｜ ') : '全部题目'
 })
 
 const getDifficultyType = (difficulty) => {
@@ -211,6 +182,14 @@ const normalizeRate = (passRate, acceptCount, submitCount) => {
   }
   if (!submitCount) return 0
   return Math.round(((acceptCount || 0) / submitCount) * 100)
+}
+
+const isCurrentUserAccepted = (row) => {
+  if (!row) return false
+  if (row.solved === true || row.isSolved === true || row.userSolved === true) return true
+  if (row.userStatus === 'ACCEPTED' || row.myStatus === 'ACCEPTED' || row.status === 'ACCEPTED') return true
+  if (row.solveStatus === 'SOLVED' || row.solveStatus === 'ACCEPTED') return true
+  return false
 }
 
 const buildParams = () => {
@@ -275,39 +254,30 @@ onMounted(() => {
 }
 
 .search-form {
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 
-.overview-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
-  margin-bottom: 14px;
-}
-
-.overview-card {
-  border: 1px solid #dce8f8;
-  background: linear-gradient(160deg, #f9fbff 0%, #eef6ff 100%);
+.filter-note {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  margin-bottom: 12px;
+  padding: 0 12px;
   border-radius: 8px;
-  padding: 12px 14px;
-  transition: transform 0.18s ease, box-shadow 0.2s ease;
+  border: 1px solid #dce8f8;
+  background: linear-gradient(160deg, #f8fbff 0%, #f1f7ff 100%);
 }
 
-.overview-card:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.1);
-}
-
-.overview-label {
+.filter-label {
+  color: #475569;
   font-size: 12px;
-  color: #64748b;
-  margin-bottom: 5px;
 }
 
-.overview-value {
-  font-size: 20px;
-  font-weight: 700;
+.filter-value {
   color: #0f172a;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .problem-title-link {
@@ -315,6 +285,11 @@ onMounted(() => {
   font-weight: 600;
   display: flex;
   align-items: center;
+}
+
+.solved-icon {
+  margin-right: 6px;
+  color: #16a34a;
 }
 
 .title-stack {
@@ -343,9 +318,4 @@ onMounted(() => {
   margin-top: 22px;
 }
 
-@media (max-width: 900px) {
-  .overview-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
 </style>

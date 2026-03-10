@@ -74,6 +74,16 @@
               {{ formatDateTime(row.startTime) }} ~ {{ formatDateTime(row.endTime) }}
             </template>
           </el-table-column>
+          <el-table-column label="封榜时间" min-width="170">
+            <template #default="{ row }">
+              {{ formatDateTime(row.scoreboardFreezeTime) }}
+            </template>
+          </el-table-column>
+          <el-table-column label="错误罚时" width="110" align="center">
+            <template #default="{ row }">
+              {{ row.penaltyPerWrong ?? 20 }} 分
+            </template>
+          </el-table-column>
           <el-table-column prop="problemCount" label="题目数" width="110" align="center" />
           <el-table-column prop="participantCount" label="参赛人数" width="120" align="center" />
           <el-table-column label="是否报名" width="110" align="center">
@@ -82,7 +92,7 @@
               <span v-else>-</span>
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="260" align="center" fixed="right">
+          <el-table-column label="操作" width="320" align="center" fixed="right">
             <template #default="{ row }">
               <el-button type="primary" link @click="goToDetail(row.id)">详情</el-button>
               <el-button
@@ -95,6 +105,14 @@
               </el-button>
               <el-button v-if="canManage" type="warning" link @click="openEditDialog(row)">
                 编辑
+              </el-button>
+              <el-button
+                v-if="canManage && canDeleteContest(row)"
+                type="danger"
+                link
+                @click="handleDelete(row)"
+              >
+                删除
               </el-button>
             </template>
           </el-table-column>
@@ -148,6 +166,21 @@
             style="width: 100%"
           />
         </el-form-item>
+        <el-form-item label="封榜时间" prop="scoreboardFreezeTime">
+          <el-date-picker
+            v-model="form.scoreboardFreezeTime"
+            type="datetime"
+            value-format="YYYY-MM-DDTHH:mm:ss"
+            format="YYYY-MM-DD HH:mm:ss"
+            clearable
+            placeholder="可选，不设置表示不封榜"
+            style="width: 100%"
+          />
+        </el-form-item>
+        <el-form-item label="错误罚时(分钟)" prop="penaltyPerWrong">
+          <el-input-number v-model="form.penaltyPerWrong" :min="0" :max="120" style="width: 220px" />
+          <span class="field-tip">每道题每次错误提交增加的罚时</span>
+        </el-form-item>
         <el-form-item label="可见性" prop="status">
           <el-radio-group v-model="form.status">
             <el-radio :label="1">公开</el-radio>
@@ -187,7 +220,7 @@ import { useRouter } from 'vue-router'
 import { contestApi, problemApi } from '@/api'
 import { useSystemStore } from '@/store/system'
 import { useUserStore } from '@/store/user'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { Medal, Plus, Search, Refresh } from '@element-plus/icons-vue'
 
 const router = useRouter()
@@ -220,6 +253,8 @@ const form = reactive({
   description: '',
   startTime: '',
   endTime: '',
+  scoreboardFreezeTime: '',
+  penaltyPerWrong: Number(systemStore.contestDefaultPenaltyPerWrong || 20),
   status: 1,
   problemIds: []
 })
@@ -236,6 +271,25 @@ const validateTimeRange = (_, __, callback) => {
   callback()
 }
 
+const validateFreezeTime = (_, __, callback) => {
+  if (!form.scoreboardFreezeTime) {
+    callback()
+    return
+  }
+  if (!form.startTime || !form.endTime) {
+    callback(new Error('请先设置开始和结束时间'))
+    return
+  }
+  const freezeTime = new Date(form.scoreboardFreezeTime).getTime()
+  const startTime = new Date(form.startTime).getTime()
+  const endTime = new Date(form.endTime).getTime()
+  if (Number.isNaN(freezeTime) || freezeTime < startTime || freezeTime > endTime) {
+    callback(new Error('封榜时间必须在开始和结束时间之间'))
+    return
+  }
+  callback()
+}
+
 const rules = {
   title: [{ required: true, message: '请输入标题', trigger: 'blur' }],
   startTime: [
@@ -246,6 +300,8 @@ const rules = {
     { required: true, message: '请选择结束时间', trigger: 'change' },
     { validator: validateTimeRange, trigger: 'change' }
   ],
+  scoreboardFreezeTime: [{ validator: validateFreezeTime, trigger: 'change' }],
+  penaltyPerWrong: [{ required: true, message: '请输入错误罚时', trigger: 'change' }],
   status: [{ required: true, message: '请选择可见性', trigger: 'change' }],
   problemIds: [{ required: true, type: 'array', min: 1, message: '至少选择一道题目', trigger: 'change' }]
 }
@@ -281,6 +337,14 @@ function normalizePageSize(size) {
   return pageSizeOptions.includes(size) ? size : 10
 }
 
+function getDefaultPenaltyPerWrong() {
+  const value = Number(systemStore.contestDefaultPenaltyPerWrong)
+  if (!Number.isFinite(value)) return 20
+  if (value < 0) return 0
+  if (value > 120) return 120
+  return Math.floor(value)
+}
+
 const contestStats = computed(() => {
   const list = contestList.value || []
   if (!list.length) {
@@ -298,6 +362,12 @@ const contestStats = computed(() => {
     joined: list.filter((row) => Boolean(row.joined)).length
   }
 })
+
+const canDeleteContest = (row) => {
+  if (!row) return false
+  if (userStore.isAdmin) return true
+  return Number(row.creatorId) > 0 && Number(row.creatorId) === Number(userStore.userInfo?.id)
+}
 
 const loadContests = async () => {
   loading.value = true
@@ -336,6 +406,8 @@ const resetForm = () => {
   form.description = ''
   form.startTime = ''
   form.endTime = ''
+  form.scoreboardFreezeTime = ''
+  form.penaltyPerWrong = getDefaultPenaltyPerWrong()
   form.status = 1
   form.problemIds = []
   formRef.value?.clearValidate()
@@ -355,8 +427,13 @@ const openEditDialog = async (row) => {
     form.description = detail.description || ''
     form.startTime = detail.startTime || ''
     form.endTime = detail.endTime || ''
+    form.scoreboardFreezeTime = detail.scoreboardFreezeTime || ''
+    form.penaltyPerWrong = Number.isFinite(Number(detail.penaltyPerWrong))
+      ? Number(detail.penaltyPerWrong)
+      : getDefaultPenaltyPerWrong()
     form.status = Number(detail.status ?? 1)
     form.problemIds = Array.isArray(detail.problems) ? detail.problems.map((item) => item.id) : []
+    formRef.value?.clearValidate()
     dialogVisible.value = true
   } catch (error) {
     ElMessage.error(error.message || '加载竞赛详情失败')
@@ -368,6 +445,8 @@ const buildPayload = () => ({
   description: form.description?.trim() || '',
   startTime: form.startTime,
   endTime: form.endTime,
+  scoreboardFreezeTime: form.scoreboardFreezeTime || null,
+  penaltyPerWrong: Number(form.penaltyPerWrong),
   status: Number(form.status),
   problemIds: form.problemIds.map((id) => Number(id))
 })
@@ -403,6 +482,26 @@ const handleJoin = async (row) => {
     await loadContests()
   } catch (error) {
     ElMessage.error(error.message || '报名失败')
+  }
+}
+
+const handleDelete = async (row) => {
+  try {
+    await ElMessageBox.confirm(
+      `确认删除竞赛「${row.title}」吗？删除后不可恢复。`,
+      '删除确认',
+      {
+        type: 'warning',
+        confirmButtonText: '确认删除',
+        cancelButtonText: '取消'
+      }
+    )
+    await contestApi.deleteContest(row.id)
+    ElMessage.success('竞赛已删除')
+    await loadContests()
+  } catch (error) {
+    if (error === 'cancel' || error === 'close') return
+    ElMessage.error(error.message || '删除失败')
   }
 }
 
@@ -492,6 +591,12 @@ onMounted(async () => {
 
 .pagination-container {
   margin-top: 22px;
+}
+
+.field-tip {
+  margin-left: 10px;
+  font-size: 12px;
+  color: #64748b;
 }
 
 @media (max-width: 900px) {

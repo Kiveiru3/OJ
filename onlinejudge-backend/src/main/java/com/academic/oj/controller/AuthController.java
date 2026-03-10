@@ -5,12 +5,15 @@ import com.academic.oj.dto.LoginDTO;
 import com.academic.oj.dto.RegisterDTO;
 import com.academic.oj.dto.TokenDTO;
 import com.academic.oj.service.AdminOperationLogService;
+import com.academic.oj.service.RateLimitService;
 import com.academic.oj.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/auth")
@@ -19,9 +22,11 @@ public class AuthController {
 
     private final UserService userService;
     private final AdminOperationLogService adminOperationLogService;
+    private final RateLimitService rateLimitService;
 
     @PostMapping("/login")
-    public Result<TokenDTO> login(@Validated @RequestBody LoginDTO loginDTO) {
+    public Result<TokenDTO> login(@Validated @RequestBody LoginDTO loginDTO, HttpServletRequest request) {
+        rateLimitService.checkLoginLimit(extractClientIp(request));
         TokenDTO tokenDTO = userService.login(loginDTO);
         if (tokenDTO != null && tokenDTO.getUserInfo() != null) {
             Long userId = tokenDTO.getUserInfo().getId();
@@ -59,6 +64,21 @@ public class AuthController {
         } catch (Exception ignored) {
             // Audit failures should not block auth flow.
         }
+    }
+
+    private String extractClientIp(HttpServletRequest request) {
+        if (request == null) {
+            return "unknown";
+        }
+        String xff = request.getHeader("X-Forwarded-For");
+        if (xff != null && !xff.isBlank()) {
+            return xff.split(",")[0].trim();
+        }
+        String realIp = request.getHeader("X-Real-IP");
+        if (realIp != null && !realIp.isBlank()) {
+            return realIp.trim();
+        }
+        return request.getRemoteAddr();
     }
 }
 

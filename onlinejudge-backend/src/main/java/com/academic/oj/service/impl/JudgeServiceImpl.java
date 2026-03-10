@@ -8,6 +8,7 @@ import com.academic.oj.entity.TestCase;
 import com.academic.oj.mapper.ProblemMapper;
 import com.academic.oj.mapper.TestCaseMapper;
 import com.academic.oj.service.JudgeService;
+import com.academic.oj.util.OutputComparator;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 @Slf4j
 @Service
@@ -33,6 +39,7 @@ public class JudgeServiceImpl implements JudgeService {
     private final ProblemMapper problemMapper;
     private final TestCaseMapper testCaseMapper;
     private final JudgeProperties judgeProperties;
+    private final DockerSandboxJudgeExecutor dockerSandboxJudgeExecutor;
 
     @Override
     public Submission judge(Submission submission) {
@@ -52,6 +59,20 @@ public class JudgeServiceImpl implements JudgeService {
             submission.setStatus(Constants.STATUS_RUNTIME_ERROR);
             submission.setErrorMessage("No test cases found");
             return submission;
+        }
+
+        if (dockerSandboxJudgeExecutor.isEnabled()) {
+            try {
+                return dockerSandboxJudgeExecutor.judge(submission, problem, testCases);
+            } catch (Exception e) {
+                log.error("Sandbox judge error", e);
+                if (dockerSandboxJudgeExecutor.isStrict()) {
+                    submission.setStatus(Constants.STATUS_RUNTIME_ERROR);
+                    submission.setErrorMessage("Sandbox judge failed: " + safeTrim(e.getMessage()));
+                    return submission;
+                }
+                log.warn("Fallback to local judge. submissionId={}, language={}", submission.getId(), submission.getLanguage());
+            }
         }
 
         try {
@@ -88,51 +109,52 @@ public class JudgeServiceImpl implements JudgeService {
                     sourceFile.getAbsolutePath()
             );
             compilePb.directory(tempDir.toFile());
-            compilePb.redirectErrorStream(true);
-            Process compileProcess = compilePb.start();
-            String compileOutput = readProcessOutput(compileProcess);
-            if (compileProcess.waitFor() != 0) {
+            ProcessExecutionResult compileResult = executeProcess(compilePb, null, resolveCompileTimeoutMs());
+            if (compileResult.timedOut()) {
                 submission.setStatus(Constants.STATUS_COMPILE_ERROR);
-                submission.setErrorMessage(compileOutput);
+                submission.setErrorMessage("Compile timeout");
+                return submission;
+            }
+            if (compileResult.exitCode() != 0) {
+                submission.setStatus(Constants.STATUS_COMPILE_ERROR);
+                submission.setErrorMessage(compileResult.output());
                 return submission;
             }
 
             long timeoutMs = resolveTimeLimit(problem);
+            int memoryLimitMb = resolveMemoryLimit(problem);
+            int maxTimeUsedMs = 1;
+            int caseIndex = 0;
             for (TestCase testCase : testCases) {
+                caseIndex++;
                 ProcessBuilder runPb = new ProcessBuilder(
                         judgeProperties.getJavaRuntime(),
+                        "-Xms16m",
+                        "-Xmx" + memoryLimitMb + "m",
                         className
                 );
                 runPb.directory(tempDir.toFile());
-                runPb.redirectErrorStream(true);
-                Process runProcess = runPb.start();
-
-                try (PrintWriter writer = new PrintWriter(runProcess.getOutputStream())) {
-                    writer.print(testCase.getInput());
-                    writer.flush();
-                }
-
-                String output = readProcessOutput(runProcess);
-                boolean finished = runProcess.waitFor(timeoutMs, TimeUnit.MILLISECONDS);
-                if (!finished) {
-                    runProcess.destroyForcibly();
+                ProcessExecutionResult runResult = executeProcess(runPb, safeInput(testCase.getInput()), timeoutMs);
+                if (runResult.timedOut()) {
                     submission.setStatus(Constants.STATUS_TIME_LIMIT_EXCEEDED);
+                    submission.setErrorMessage("Time limit exceeded on test case #" + caseIndex);
                     return submission;
                 }
-                if (runProcess.exitValue() != 0) {
+                if (runResult.exitCode() != 0) {
                     submission.setStatus(Constants.STATUS_RUNTIME_ERROR);
-                    submission.setErrorMessage(output);
+                    submission.setErrorMessage(runResult.output());
                     return submission;
                 }
+                maxTimeUsedMs = Math.max(maxTimeUsedMs, (int) Math.max(1L, runResult.elapsedMs()));
 
-                if (!isAnswerAccepted(testCase.getOutput(), output)) {
+                if (!isAnswerAccepted(testCase.getOutput(), runResult.output())) {
                     submission.setStatus(Constants.STATUS_WRONG_ANSWER);
-                    submission.setErrorMessage("Expected: " + safeTrim(testCase.getOutput()) + ", Got: " + safeTrim(output));
+                    submission.setErrorMessage("Expected: " + OutputComparator.preview(testCase.getOutput(), 300) + ", Got: " + OutputComparator.preview(runResult.output(), 300));
                     return submission;
                 }
             }
 
-            markAccepted(submission, problem);
+            markAccepted(submission, problem, maxTimeUsedMs);
             return submission;
         } catch (IOException e) {
             submission.setStatus(Constants.STATUS_COMPILE_ERROR);
@@ -165,48 +187,46 @@ public class JudgeServiceImpl implements JudgeService {
                     execFile.getAbsolutePath()
             );
             compilePb.directory(tempDir.toFile());
-            compilePb.redirectErrorStream(true);
-            Process compileProcess = compilePb.start();
-            String compileOutput = readProcessOutput(compileProcess);
-            if (compileProcess.waitFor() != 0) {
+            ProcessExecutionResult compileResult = executeProcess(compilePb, null, resolveCompileTimeoutMs());
+            if (compileResult.timedOut()) {
                 submission.setStatus(Constants.STATUS_COMPILE_ERROR);
-                submission.setErrorMessage(compileOutput);
+                submission.setErrorMessage("Compile timeout");
+                return submission;
+            }
+            if (compileResult.exitCode() != 0) {
+                submission.setStatus(Constants.STATUS_COMPILE_ERROR);
+                submission.setErrorMessage(compileResult.output());
                 return submission;
             }
 
             long timeoutMs = resolveTimeLimit(problem);
+            int maxTimeUsedMs = 1;
+            int caseIndex = 0;
             for (TestCase testCase : testCases) {
+                caseIndex++;
                 ProcessBuilder runPb = new ProcessBuilder(execFile.getAbsolutePath());
                 runPb.directory(tempDir.toFile());
-                runPb.redirectErrorStream(true);
-                Process runProcess = runPb.start();
-
-                try (PrintWriter writer = new PrintWriter(runProcess.getOutputStream())) {
-                    writer.print(testCase.getInput());
-                    writer.flush();
-                }
-
-                String output = readProcessOutput(runProcess);
-                boolean finished = runProcess.waitFor(timeoutMs, TimeUnit.MILLISECONDS);
-                if (!finished) {
-                    runProcess.destroyForcibly();
+                ProcessExecutionResult runResult = executeProcess(runPb, safeInput(testCase.getInput()), timeoutMs);
+                if (runResult.timedOut()) {
                     submission.setStatus(Constants.STATUS_TIME_LIMIT_EXCEEDED);
+                    submission.setErrorMessage("Time limit exceeded on test case #" + caseIndex);
                     return submission;
                 }
-                if (runProcess.exitValue() != 0) {
+                if (runResult.exitCode() != 0) {
                     submission.setStatus(Constants.STATUS_RUNTIME_ERROR);
-                    submission.setErrorMessage(output);
+                    submission.setErrorMessage(runResult.output());
                     return submission;
                 }
+                maxTimeUsedMs = Math.max(maxTimeUsedMs, (int) Math.max(1L, runResult.elapsedMs()));
 
-                if (!isAnswerAccepted(testCase.getOutput(), output)) {
+                if (!isAnswerAccepted(testCase.getOutput(), runResult.output())) {
                     submission.setStatus(Constants.STATUS_WRONG_ANSWER);
-                    submission.setErrorMessage("Expected: " + safeTrim(testCase.getOutput()) + ", Got: " + safeTrim(output));
+                    submission.setErrorMessage("Expected: " + OutputComparator.preview(testCase.getOutput(), 300) + ", Got: " + OutputComparator.preview(runResult.output(), 300));
                     return submission;
                 }
             }
 
-            markAccepted(submission, problem);
+            markAccepted(submission, problem, maxTimeUsedMs);
             return submission;
         } catch (IOException e) {
             submission.setStatus(Constants.STATUS_COMPILE_ERROR);
@@ -230,41 +250,36 @@ public class JudgeServiceImpl implements JudgeService {
             Files.writeString(sourceFile.toPath(), submission.getCode(), StandardCharsets.UTF_8);
 
             long timeoutMs = resolveTimeLimit(problem);
+            int maxTimeUsedMs = 1;
+            int caseIndex = 0;
             for (TestCase testCase : testCases) {
+                caseIndex++;
                 ProcessBuilder runPb = new ProcessBuilder(
                         judgeProperties.getPythonRuntime(),
                         sourceFile.getAbsolutePath()
                 );
                 runPb.directory(tempDir.toFile());
-                runPb.redirectErrorStream(true);
-                Process runProcess = runPb.start();
-
-                try (PrintWriter writer = new PrintWriter(runProcess.getOutputStream())) {
-                    writer.print(testCase.getInput());
-                    writer.flush();
-                }
-
-                String output = readProcessOutput(runProcess);
-                boolean finished = runProcess.waitFor(timeoutMs, TimeUnit.MILLISECONDS);
-                if (!finished) {
-                    runProcess.destroyForcibly();
+                ProcessExecutionResult runResult = executeProcess(runPb, safeInput(testCase.getInput()), timeoutMs);
+                if (runResult.timedOut()) {
                     submission.setStatus(Constants.STATUS_TIME_LIMIT_EXCEEDED);
+                    submission.setErrorMessage("Time limit exceeded on test case #" + caseIndex);
                     return submission;
                 }
-                if (runProcess.exitValue() != 0) {
+                if (runResult.exitCode() != 0) {
                     submission.setStatus(Constants.STATUS_RUNTIME_ERROR);
-                    submission.setErrorMessage(output);
+                    submission.setErrorMessage(runResult.output());
                     return submission;
                 }
+                maxTimeUsedMs = Math.max(maxTimeUsedMs, (int) Math.max(1L, runResult.elapsedMs()));
 
-                if (!isAnswerAccepted(testCase.getOutput(), output)) {
+                if (!isAnswerAccepted(testCase.getOutput(), runResult.output())) {
                     submission.setStatus(Constants.STATUS_WRONG_ANSWER);
-                    submission.setErrorMessage("Expected: " + safeTrim(testCase.getOutput()) + ", Got: " + safeTrim(output));
+                    submission.setErrorMessage("Expected: " + OutputComparator.preview(testCase.getOutput(), 300) + ", Got: " + OutputComparator.preview(runResult.output(), 300));
                     return submission;
                 }
             }
 
-            markAccepted(submission, problem);
+            markAccepted(submission, problem, maxTimeUsedMs);
             return submission;
         } catch (IOException e) {
             submission.setStatus(Constants.STATUS_COMPILE_ERROR);
@@ -282,36 +297,101 @@ public class JudgeServiceImpl implements JudgeService {
 
     private long resolveTimeLimit(Problem problem) {
         Integer problemLimit = problem.getTimeLimit();
+        long base;
         if (problemLimit != null && problemLimit > 0) {
-            return problemLimit;
+            base = problemLimit;
+        } else {
+            base = judgeProperties.getTimeout() != null && judgeProperties.getTimeout() > 0
+                    ? judgeProperties.getTimeout()
+                    : 5000L;
         }
-        return judgeProperties.getTimeout() != null && judgeProperties.getTimeout() > 0
-                ? judgeProperties.getTimeout()
-                : 5000L;
+        return applyTimeoutPolicy(base);
     }
 
     private int resolveMemoryLimit(Problem problem) {
-        Integer problemLimit = problem.getMemoryLimit();
-        if (problemLimit != null && problemLimit > 0) {
-            return problemLimit;
+        // Compatibility:
+        // - Some data sources store memoryLimit in KB (e.g. 262144)
+        // - Some store it directly in MB (e.g. 256)
+        Integer rawLimit = problem.getMemoryLimit();
+        if (rawLimit != null && rawLimit > 0) {
+            int normalizedMb = rawLimit > 8192
+                    ? Math.max(1, (rawLimit + 1023) / 1024)
+                    : rawLimit;
+            return Math.max(16, Math.min(normalizedMb, 2048));
         }
-        return judgeProperties.getMaxMemory() != null && judgeProperties.getMaxMemory() > 0
+        int fallback = judgeProperties.getMaxMemory() != null && judgeProperties.getMaxMemory() > 0
                 ? judgeProperties.getMaxMemory()
                 : 256;
+        return Math.max(16, Math.min(fallback, 2048));
     }
 
     private void markAccepted(Submission submission, Problem problem) {
+        markAccepted(submission, problem, (int) Math.max(1, resolveTimeLimit(problem) / 2));
+    }
+
+    private void markAccepted(Submission submission, Problem problem, int timeUsedMs) {
         submission.setStatus(Constants.STATUS_ACCEPTED);
-        submission.setTimeUsed((int) Math.max(1, resolveTimeLimit(problem) / 2));
+        submission.setTimeUsed(Math.max(1, timeUsedMs));
         submission.setMemoryUsed(Math.max(1, resolveMemoryLimit(problem) / 2));
     }
 
     private boolean isAnswerAccepted(String expected, String actual) {
-        return safeTrim(expected).equals(safeTrim(actual));
+        return OutputComparator.equalsIgnorePresentation(expected, actual);
     }
 
     private String safeTrim(String value) {
         return value == null ? "" : value.trim();
+    }
+
+    private String safeInput(String input) {
+        return input == null ? "" : input;
+    }
+
+    private long resolveCompileTimeoutMs() {
+        if (judgeProperties != null
+                && judgeProperties.getSandbox() != null
+                && judgeProperties.getSandbox().getCompileTimeout() != null
+                && judgeProperties.getSandbox().getCompileTimeout() > 0) {
+            return judgeProperties.getSandbox().getCompileTimeout();
+        }
+        return 15000L;
+    }
+
+    private ProcessExecutionResult executeProcess(ProcessBuilder processBuilder, String stdin, long timeoutMs)
+            throws IOException, InterruptedException {
+        processBuilder.redirectErrorStream(true);
+        Process process = processBuilder.start();
+
+        if (stdin != null) {
+            try (PrintWriter writer = new PrintWriter(process.getOutputStream())) {
+                writer.print(stdin);
+                writer.flush();
+            }
+        } else {
+            process.getOutputStream().close();
+        }
+
+        ExecutorService readerExecutor = Executors.newSingleThreadExecutor();
+        Future<String> outputFuture = readerExecutor.submit(() -> readProcessOutput(process));
+
+        long start = System.nanoTime();
+        boolean finished = process.waitFor(Math.max(1L, timeoutMs), TimeUnit.MILLISECONDS);
+        long elapsedMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
+        if (!finished) {
+            process.destroyForcibly();
+        }
+
+        String output = "";
+        try {
+            output = outputFuture.get(2, TimeUnit.SECONDS);
+        } catch (TimeoutException | ExecutionException e) {
+            log.warn("Failed to capture process output", e);
+        } finally {
+            readerExecutor.shutdownNow();
+        }
+
+        int exitCode = finished ? process.exitValue() : -1;
+        return new ProcessExecutionResult(exitCode, output, !finished, Math.max(1L, elapsedMs));
     }
 
     private String readProcessOutput(Process process) throws IOException {
@@ -344,6 +424,37 @@ public class JudgeServiceImpl implements JudgeService {
         }
     }
 
+    private long applyTimeoutPolicy(long baseTimeoutMs) {
+        long base = Math.max(1L, baseTimeoutMs);
+        int scalePercent = judgeProperties.getTimeLimitScalePercent() != null
+                ? Math.max(100, judgeProperties.getTimeLimitScalePercent())
+                : 100;
+        long extraMs = judgeProperties.getTimeLimitExtraMs() != null
+                ? Math.max(0L, judgeProperties.getTimeLimitExtraMs())
+                : 0L;
+
+        long scaled = safeMultiply(base, scalePercent) / 100;
+        long plusExtra = safeAdd(base, extraMs);
+        return Math.max(base, Math.max(scaled, plusExtra));
+    }
+
+    private long safeMultiply(long a, long b) {
+        if (a == 0 || b == 0) {
+            return 0;
+        }
+        if (a > Long.MAX_VALUE / b) {
+            return Long.MAX_VALUE;
+        }
+        return a * b;
+    }
+
+    private long safeAdd(long a, long b) {
+        if (b > 0 && a > Long.MAX_VALUE - b) {
+            return Long.MAX_VALUE;
+        }
+        return a + b;
+    }
+
     private List<TestCase> resolveJudgeTestCases(Problem problem, List<TestCase> testCases) {
         if (testCases != null && !testCases.isEmpty()) {
             List<TestCase> nonSampleCases = testCases.stream()
@@ -367,5 +478,8 @@ public class JudgeServiceImpl implements JudgeService {
         }
 
         return List.of();
+    }
+
+    private record ProcessExecutionResult(int exitCode, String output, boolean timedOut, long elapsedMs) {
     }
 }
