@@ -54,8 +54,6 @@ See `scripts/perf/README.md` for env variables.
 ## Core APIs Added
 - Problem list supports hidden items for teacher/admin:
   - `GET /problem/list?includeHidden=true`
-- Feature completion checklist (admin):
-  - `GET /admin/system/feature-checklist`
 - Runtime monitor (admin):
   - `GET /admin/system/monitor`
 - Submission status polling: `GET /submission/{id}/status`

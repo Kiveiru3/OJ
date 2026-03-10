@@ -2,13 +2,11 @@ package com.academic.oj.controller;
 
 import com.academic.oj.common.Result;
 import com.academic.oj.dto.AdminOperationLogVO;
-import com.academic.oj.dto.FeatureChecklistOverviewVO;
 import com.academic.oj.dto.JudgeResultVO;
 import com.academic.oj.dto.SystemMonitorVO;
 import com.academic.oj.dto.SystemConfigUpdateDTO;
 import com.academic.oj.entity.SystemConfig;
 import com.academic.oj.service.AdminOperationLogService;
-import com.academic.oj.service.FeatureChecklistService;
 import com.academic.oj.service.JudgeResultService;
 import com.academic.oj.service.SystemMonitorService;
 import com.academic.oj.service.SystemConfigService;
@@ -27,7 +25,6 @@ public class AdminSystemController {
 
     private final SystemConfigService systemConfigService;
     private final AdminOperationLogService adminOperationLogService;
-    private final FeatureChecklistService featureChecklistService;
     private final SystemMonitorService systemMonitorService;
     private final JudgeResultService judgeResultService;
 
@@ -59,12 +56,6 @@ public class AdminSystemController {
         Page<AdminOperationLogVO> result = adminOperationLogService.getLogPage(
                 normalizePage(page), normalizeSize(size), module, action, keyword);
         return Result.success(result);
-    }
-
-    @GetMapping("/feature-checklist")
-    public Result<FeatureChecklistOverviewVO> getFeatureChecklist() {
-        requireAdmin();
-        return Result.success(featureChecklistService.getChecklist());
     }
 
     @GetMapping("/monitor")

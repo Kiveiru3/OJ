@@ -40,13 +40,6 @@ export const systemApi = {
     })
   },
 
-  getFeatureChecklist() {
-    return request({
-      url: '/admin/system/feature-checklist',
-      method: 'get'
-    })
-  },
-
   getMonitor() {
     return request({
       url: '/admin/system/monitor',

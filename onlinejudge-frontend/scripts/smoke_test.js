@@ -232,10 +232,6 @@ async function main() {
       const res = await client.get(withPrefix('/admin/system/monitor'));
       return normalizeApiResponse(res);
     });
-    await runStep('GET /admin/system/feature-checklist', async () => {
-      const res = await client.get(withPrefix('/admin/system/feature-checklist'));
-      return normalizeApiResponse(res);
-    });
     await runStep('GET /admin/system/judge-results?page=1&size=20', async () => {
       const res = await client.get(withPrefix('/admin/system/judge-results'), { params: { page: 1, size: 20 } });
       return normalizeApiResponse(res);

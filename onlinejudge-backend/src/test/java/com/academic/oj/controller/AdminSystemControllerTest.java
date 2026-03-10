@@ -1,11 +1,9 @@
 package com.academic.oj.controller;
 
 import com.academic.oj.common.exception.BusinessException;
-import com.academic.oj.dto.FeatureChecklistOverviewVO;
 import com.academic.oj.dto.JudgeResultVO;
 import com.academic.oj.dto.SystemMonitorVO;
 import com.academic.oj.service.AdminOperationLogService;
-import com.academic.oj.service.FeatureChecklistService;
 import com.academic.oj.service.JudgeResultService;
 import com.academic.oj.service.SystemConfigService;
 import com.academic.oj.service.SystemMonitorService;
@@ -37,9 +35,6 @@ class AdminSystemControllerTest {
     private AdminOperationLogService adminOperationLogService;
 
     @Mock
-    private FeatureChecklistService featureChecklistService;
-
-    @Mock
     private SystemMonitorService systemMonitorService;
 
     @Mock
@@ -51,28 +46,6 @@ class AdminSystemControllerTest {
     @AfterEach
     void tearDown() {
         SecurityContextHolder.clearContext();
-    }
-
-    @Test
-    void getFeatureChecklistShouldRejectStudent() {
-        setAuth(1L, "STUDENT");
-        BusinessException ex = assertThrows(BusinessException.class, () -> adminSystemController.getFeatureChecklist());
-        assertEquals(403, ex.getCode());
-    }
-
-    @Test
-    void getFeatureChecklistShouldAllowAdmin() {
-        setAuth(2L, "ADMIN");
-        FeatureChecklistOverviewVO vo = new FeatureChecklistOverviewVO();
-        vo.setTotalFeatures(10);
-        vo.setCompletedFeatures(8);
-        vo.setCompletionRate(80.0);
-        when(featureChecklistService.getChecklist()).thenReturn(vo);
-
-        FeatureChecklistOverviewVO result = (FeatureChecklistOverviewVO) adminSystemController.getFeatureChecklist().getData();
-
-        assertEquals(10, result.getTotalFeatures());
-        verify(featureChecklistService).getChecklist();
     }
 
     @Test
