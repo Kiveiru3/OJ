@@ -10,10 +10,9 @@ import com.academic.oj.dto.ContestSaveDTO;
 import com.academic.oj.dto.ContestVO;
 import com.academic.oj.service.AdminOperationLogService;
 import com.academic.oj.service.ContestService;
+import com.academic.oj.util.SecurityUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +32,7 @@ public class ContestController {
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer size,
             @RequestParam(required = false) String keyword) {
-        boolean canViewHidden = hasRole("TEACHER") || hasRole("ADMIN");
+        boolean canViewHidden = SecurityUtils.hasRole("TEACHER") || SecurityUtils.hasRole("ADMIN");
         Page<ContestVO> contestPage = contestService.getContestList(
                 getCurrentUserId(), normalizePage(page), normalizeSize(size), keyword, canViewHidden);
         return Result.success(contestPage);
@@ -41,7 +40,7 @@ public class ContestController {
 
     @GetMapping("/{id}")
     public Result<ContestDetailVO> getContestDetail(@PathVariable Long id) {
-        boolean canViewHidden = hasRole("TEACHER") || hasRole("ADMIN");
+        boolean canViewHidden = SecurityUtils.hasRole("TEACHER") || SecurityUtils.hasRole("ADMIN");
         ContestDetailVO detail = contestService.getContestDetail(getCurrentUserId(), id, canViewHidden);
         return Result.success(detail);
     }
@@ -60,10 +59,19 @@ public class ContestController {
     public Result<?> updateContest(@PathVariable Long id, @Validated @RequestBody ContestSaveDTO dto) {
         requireTeacherOrAdmin();
         Long operatorId = getCurrentUserId();
-        contestService.updateContest(operatorId, id, hasRole("ADMIN"), dto);
+        contestService.updateContest(operatorId, id, SecurityUtils.hasRole("ADMIN"), dto);
         adminOperationLogService.record(operatorId, "CONTEST", "UPDATE", "CONTEST", id,
                 "title=" + dto.getTitle());
         return Result.success("Contest updated");
+    }
+
+    @DeleteMapping("/{id}")
+    public Result<?> deleteContest(@PathVariable Long id) {
+        requireTeacherOrAdmin();
+        Long operatorId = getCurrentUserId();
+        contestService.deleteContest(operatorId, id, SecurityUtils.hasRole("ADMIN"));
+        adminOperationLogService.record(operatorId, "CONTEST", "DELETE", "CONTEST", id, "deleted");
+        return Result.success("Contest deleted");
     }
 
     @PostMapping("/{id}/join")
@@ -77,10 +85,21 @@ public class ContestController {
             @PathVariable Long id,
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "20") Integer size) {
-        boolean canViewHidden = hasRole("TEACHER") || hasRole("ADMIN");
+        boolean canViewHidden = SecurityUtils.hasRole("TEACHER") || SecurityUtils.hasRole("ADMIN");
         Page<ContestRankingItemVO> rankingPage = contestService.getContestRanking(
                 id, normalizePage(page), normalizeSize(size), canViewHidden);
         return Result.success(rankingPage);
+    }
+
+    @GetMapping("/{id}/score-snapshot")
+    public Result<Page<ContestRankingItemVO>> getContestScoreSnapshot(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "20") Integer size) {
+        requireTeacherOrAdmin();
+        Page<ContestRankingItemVO> scorePage = contestService.getContestScoreSnapshot(
+                id, normalizePage(page), normalizeSize(size), true);
+        return Result.success(scorePage);
     }
 
     @GetMapping("/{id}/analytics")
@@ -103,24 +122,11 @@ public class ContestController {
     }
 
     private void requireTeacherOrAdmin() {
-        if (!hasRole("TEACHER") && !hasRole("ADMIN")) {
-            throw new BusinessException(ResultCode.FORBIDDEN.getCode(), "Forbidden");
-        }
-    }
-
-    private boolean hasRole(String role) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || authentication.getAuthorities() == null) {
-            return false;
-        }
-        String expectedAuthority = "ROLE_" + role;
-        return authentication.getAuthorities().stream()
-                .anyMatch(authority -> expectedAuthority.equals(authority.getAuthority()));
+        SecurityUtils.requireAnyRole("TEACHER", "ADMIN");
     }
 
     private Long getCurrentUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return Long.parseLong(authentication.getName());
+        return SecurityUtils.getCurrentUserId();
     }
 
     private Integer normalizePage(Integer page) {

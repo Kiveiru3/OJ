@@ -32,6 +32,7 @@ INSERT INTO `system_config` (`config_key`, `config_value`, `description`)
 VALUES
 ('site.name', 'Online Judge', 'Website display name'),
 ('site.announcement', '', 'Homepage announcement'),
-('contest.default_page_size', '20', 'Default contest ranking page size')
+('contest.default_page_size', '20', 'Default contest ranking page size'),
+('contest.default_penalty_per_wrong', '20', 'Default wrong submission penalty(minutes) for new contests')
 ON DUPLICATE KEY UPDATE
 `description` = VALUES(`description`);

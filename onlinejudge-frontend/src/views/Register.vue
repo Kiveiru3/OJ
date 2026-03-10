@@ -3,7 +3,7 @@
     <div class="auth-background" />
     <div class="auth-content">
       <section class="brand-panel">
-        <div class="brand-chip">New Account</div>
+        <div class="brand-chip">新用户注册</div>
         <h1>创建你的 OJ 学习账号</h1>
         <p>注册后可参与题库训练、竞赛活动和讨论区交流，系统将持续记录你的成长轨迹。</p>
         <ul class="brand-points">

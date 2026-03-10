@@ -24,6 +24,14 @@ export const problemApi = {
       data
     })
   },
+  // 批量导入题目（教师/管理员）
+  batchImportProblems(data) {
+    return request({
+      url: '/problem/batch-import',
+      method: 'post',
+      data
+    })
+  },
   // 更新题目（教师/管理员）
   updateProblem(id, data) {
     return request({

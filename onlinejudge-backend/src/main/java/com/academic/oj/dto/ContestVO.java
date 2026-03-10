@@ -11,11 +11,13 @@ public class ContestVO {
     private String description;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    private LocalDateTime scoreboardFreezeTime;
+    private Integer penaltyPerWrong;
     private Long creatorId;
     private Integer status;
     private Integer participantCount;
     private Integer problemCount;
     private Boolean joined;
     private String contestStatus; // UPCOMING, RUNNING, ENDED
+    private Boolean rankingFrozen;
 }
-

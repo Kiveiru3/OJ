@@ -54,14 +54,16 @@
       </el-menu>
 
       <div class="navbar-user">
-        <el-dropdown @command="handleCommand">
-          <div class="user-info">
-            <el-avatar :size="32" class="user-avatar">
+        <el-dropdown trigger="click" @command="handleCommand">
+          <button type="button" class="user-info" aria-label="用户菜单">
+            <el-avatar :size="32" class="user-avatar" @click.stop="goProfile">
               <el-icon><User /></el-icon>
             </el-avatar>
-            <span class="user-name">{{ userStore.userInfo?.nickname || userStore.userInfo?.username }}</span>
+            <span class="user-name" @click.stop="goProfile">
+              {{ userStore.userInfo?.nickname || userStore.userInfo?.username || '用户' }}
+            </span>
             <el-icon class="dropdown-icon"><ArrowDown /></el-icon>
-          </div>
+          </button>
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item command="profile">
@@ -112,10 +114,19 @@ const activeIndex = computed(() => {
   return route.path
 })
 
+const goProfile = () => {
+  if (route.path !== '/profile') {
+    router.push('/profile')
+  }
+}
+
 const handleCommand = async (command) => {
   if (command === 'profile') {
-    router.push('/profile')
-  } else if (command === 'logout') {
+    goProfile()
+    return
+  }
+
+  if (command === 'logout') {
     try {
       await ElMessageBox.confirm('确认退出当前账号吗？', '提示', {
         confirmButtonText: '确定',
@@ -224,6 +235,8 @@ const handleCommand = async (command) => {
 .navbar-user {
   margin-left: 12px;
   flex-shrink: 0;
+  position: relative;
+  z-index: 20;
 }
 
 .user-info {
@@ -237,6 +250,8 @@ const handleCommand = async (command) => {
   transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
   border: 1px solid #d9e4f2;
   background: linear-gradient(145deg, #f8fbff 0%, #f1f6fd 100%);
+  appearance: none;
+  outline: none;
 }
 
 .user-info:hover {
@@ -309,3 +324,4 @@ const handleCommand = async (command) => {
   }
 }
 </style>
+

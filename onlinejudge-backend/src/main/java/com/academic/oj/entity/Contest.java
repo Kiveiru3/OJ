@@ -17,6 +17,8 @@ public class Contest {
     private String description;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    private LocalDateTime scoreboardFreezeTime;
+    private Integer penaltyPerWrong;
     private Long creatorId;
     private Integer status; // 1-public, 0-hidden
     @TableLogic
@@ -24,4 +26,3 @@ public class Contest {
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }
-

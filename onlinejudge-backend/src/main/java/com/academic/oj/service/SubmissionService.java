@@ -17,5 +17,6 @@ public interface SubmissionService {
                                          Long problemId, String status, String language);
     List<Submission> getSubmissionsByUserId(Long userId, Integer page, Integer size);
     List<Submission> getSubmissionsByProblemId(Long problemId, Integer page, Integer size);
+    void rejudgeSubmission(Long submissionId);
 }
 

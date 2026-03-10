@@ -32,6 +32,13 @@ export const contestApi = {
     })
   },
 
+  deleteContest(id) {
+    return request({
+      url: `/contest/${id}`,
+      method: 'delete'
+    })
+  },
+
   joinContest(id) {
     return request({
       url: `/contest/${id}/join`,
@@ -42,6 +49,14 @@ export const contestApi = {
   getContestRanking(id, params) {
     return request({
       url: `/contest/${id}/ranking`,
+      method: 'get',
+      params
+    })
+  },
+
+  getContestScoreSnapshot(id, params) {
+    return request({
+      url: `/contest/${id}/score-snapshot`,
       method: 'get',
       params
     })

@@ -14,7 +14,8 @@ public enum ResultCode {
     UNAUTHORIZED(401, "Unauthorized"),
     FORBIDDEN(403, "Forbidden"),
     NOT_FOUND(404, "Not Found"),
-    BAD_REQUEST(400, "Bad Request");
+    BAD_REQUEST(400, "Bad Request"),
+    TOO_MANY_REQUESTS(429, "Too Many Requests");
 
     private final Integer code;
     private final String message;

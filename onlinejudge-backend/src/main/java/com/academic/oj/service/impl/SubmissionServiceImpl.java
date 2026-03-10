@@ -3,11 +3,14 @@ package com.academic.oj.service.impl;
 import com.academic.oj.common.Constants;
 import com.academic.oj.common.ResultCode;
 import com.academic.oj.common.exception.BusinessException;
+import com.academic.oj.config.JudgeProperties;
 import com.academic.oj.dto.SubmitDTO;
 import com.academic.oj.dto.SubmissionStatusDTO;
 import com.academic.oj.dto.SubmissionVO;
+import com.academic.oj.entity.JudgeResult;
 import com.academic.oj.entity.Problem;
 import com.academic.oj.entity.Submission;
+import com.academic.oj.mapper.JudgeResultMapper;
 import com.academic.oj.mapper.ProblemMapper;
 import com.academic.oj.mapper.SubmissionMapper;
 import com.academic.oj.service.JudgeService;
@@ -37,8 +40,10 @@ import java.util.stream.Collectors;
 public class SubmissionServiceImpl implements SubmissionService {
 
     private final SubmissionMapper submissionMapper;
+    private final JudgeResultMapper judgeResultMapper;
     private final ProblemMapper problemMapper;
     private final JudgeService judgeService;
+    private final JudgeProperties judgeProperties;
     @Resource(name = "taskExecutor")
     private Executor taskExecutor;
 
@@ -56,6 +61,7 @@ public class SubmissionServiceImpl implements SubmissionService {
         submission.setCreateTime(LocalDateTime.now());
         
         submissionMapper.insert(submission);
+        persistJudgeResult(submission, null);
         increaseProblemSubmitCount(submitDTO.getProblemId());
         
         // 异步判题
@@ -79,22 +85,134 @@ public class SubmissionServiceImpl implements SubmissionService {
     }
 
     public void processJudge(Submission submission) {
-        try {
-            Submission judging = new Submission();
-            judging.setId(submission.getId());
-            judging.setStatus("JUDGING");
-            submissionMapper.updateById(judging);
+        Submission current = submissionMapper.selectById(submission.getId());
+        if (current == null) {
+            log.warn("Submission not found when judge task starts: {}", submission.getId());
+            return;
+        }
 
-            Submission result = judgeService.judge(submission);
+        // Idempotent claim: only one worker can move PENDING -> JUDGING.
+        LambdaUpdateWrapper<Submission> claimWrapper = new LambdaUpdateWrapper<>();
+        claimWrapper.eq(Submission::getId, submission.getId())
+                .eq(Submission::getStatus, Constants.STATUS_PENDING)
+                .set(Submission::getStatus, Constants.STATUS_JUDGING);
+        int claimed = submissionMapper.update(null, claimWrapper);
+        if (claimed == 0) {
+            log.info("Skip duplicate judge task for submission={}, currentStatus={}", submission.getId(), current.getStatus());
+            return;
+        }
+
+        Submission judgingSubmission = submissionMapper.selectById(submission.getId());
+        if (judgingSubmission == null) {
+            log.warn("Submission disappeared after claim: {}", submission.getId());
+            return;
+        }
+
+        try {
+            judgingSubmission.setStatus(Constants.STATUS_JUDGING);
+            persistJudgeResult(judgingSubmission, null);
+
+            int maxAttempts = resolveMaxJudgeAttempts();
+            Submission result = null;
+            for (int attempt = 1; attempt <= maxAttempts; attempt++) {
+                Submission attemptSubmission = submissionMapper.selectById(judgingSubmission.getId());
+                if (attemptSubmission == null) {
+                    log.warn("Submission missing before judge attempt. submissionId={}, attempt={}",
+                            judgingSubmission.getId(), attempt);
+                    return;
+                }
+                attemptSubmission.setStatus(Constants.STATUS_JUDGING);
+                attemptSubmission.setErrorMessage(null);
+
+                try {
+                    result = judgeService.judge(attemptSubmission);
+                } catch (Exception ex) {
+                    log.error("Judge execution exception. submissionId={}, attempt={}", attemptSubmission.getId(), attempt, ex);
+                    attemptSubmission.setStatus(Constants.STATUS_RUNTIME_ERROR);
+                    attemptSubmission.setErrorMessage("Judge failed: " + ex.getMessage());
+                    result = attemptSubmission;
+                }
+
+                if (!shouldRetryJudge(result, attempt, maxAttempts)) {
+                    break;
+                }
+
+                log.warn("Retry judge for submission={}, attempt={}/{}, status={}, message={}",
+                        judgingSubmission.getId(), attempt, maxAttempts,
+                        result == null ? "null" : result.getStatus(),
+                        result == null ? "" : result.getErrorMessage());
+                sleepBeforeRetry(attempt);
+            }
+
+            if (result == null) {
+                judgingSubmission.setStatus(Constants.STATUS_RUNTIME_ERROR);
+                judgingSubmission.setErrorMessage("Judge failed: empty result");
+                result = judgingSubmission;
+            }
             submissionMapper.updateById(result);
+            persistJudgeResult(result, LocalDateTime.now());
             if (Constants.STATUS_ACCEPTED.equals(result.getStatus())) {
                 increaseProblemAcceptedCount(result.getProblemId());
             }
         } catch (Exception e) {
-            log.error("Judge failed for submission: {}", submission.getId(), e);
-            submission.setStatus("RUNTIME_ERROR");
-            submission.setErrorMessage("Judge failed: " + e.getMessage());
-            submissionMapper.updateById(submission);
+            log.error("Judge failed for submission: {}", judgingSubmission.getId(), e);
+            judgingSubmission.setStatus(Constants.STATUS_RUNTIME_ERROR);
+            judgingSubmission.setErrorMessage("Judge failed: " + e.getMessage());
+            submissionMapper.updateById(judgingSubmission);
+            persistJudgeResult(judgingSubmission, LocalDateTime.now());
+        }
+    }
+
+    private int resolveMaxJudgeAttempts() {
+        if (judgeProperties == null || judgeProperties.getRetry() == null || judgeProperties.getRetry().getMaxAttempts() == null) {
+            return 1;
+        }
+        return Math.max(1, judgeProperties.getRetry().getMaxAttempts());
+    }
+
+    private long resolveRetryBackoffMs() {
+        if (judgeProperties == null || judgeProperties.getRetry() == null || judgeProperties.getRetry().getBackoffMs() == null) {
+            return 0L;
+        }
+        return Math.max(0L, judgeProperties.getRetry().getBackoffMs());
+    }
+
+    private boolean shouldRetryJudge(Submission result, int attempt, int maxAttempts) {
+        if (attempt >= maxAttempts) {
+            return false;
+        }
+        if (result == null) {
+            return true;
+        }
+        if (!Constants.STATUS_RUNTIME_ERROR.equals(result.getStatus())) {
+            return false;
+        }
+        String message = result.getErrorMessage();
+        if (message == null || message.isBlank()) {
+            return true;
+        }
+        String normalized = message.trim().toLowerCase();
+        return normalized.startsWith("judge failed:")
+                || normalized.startsWith("judge error:")
+                || normalized.startsWith("sandbox judge failed:")
+                || normalized.startsWith("sandbox error:")
+                || normalized.startsWith("java toolchain unavailable:")
+                || normalized.startsWith("c++ toolchain unavailable:")
+                || normalized.startsWith("python runtime unavailable:")
+                || normalized.contains("docker");
+    }
+
+    private void sleepBeforeRetry(int attempt) {
+        long backoffMs = resolveRetryBackoffMs();
+        if (backoffMs <= 0) {
+            return;
+        }
+        long sleepMs = backoffMs * Math.max(1, attempt);
+        try {
+            Thread.sleep(sleepMs);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            log.warn("Judge retry sleep interrupted");
         }
     }
 
@@ -155,6 +273,27 @@ public class SubmissionServiceImpl implements SubmissionService {
         wrapper.eq(Submission::getProblemId, problemId);
         wrapper.orderByDesc(Submission::getCreateTime);
         return submissionMapper.selectPage(pageObj, wrapper).getRecords();
+    }
+
+    @Override
+    @Transactional
+    public void rejudgeSubmission(Long submissionId) {
+        Submission submission = submissionMapper.selectById(submissionId);
+        if (submission == null) {
+            throw new BusinessException(ResultCode.NOT_FOUND.getCode(), "Submission not found");
+        }
+
+        if (Constants.STATUS_ACCEPTED.equals(submission.getStatus())) {
+            decreaseProblemAcceptedCount(submission.getProblemId());
+        }
+
+        submission.setStatus(Constants.STATUS_PENDING);
+        submission.setTimeUsed(null);
+        submission.setMemoryUsed(null);
+        submission.setErrorMessage(null);
+        submissionMapper.updateById(submission);
+        persistJudgeResult(submission, null);
+        scheduleJudge(submission);
     }
 
     private Map<Long, String> loadProblemTitleMap(List<Submission> submissions) {
@@ -235,6 +374,16 @@ public class SubmissionServiceImpl implements SubmissionService {
         problemMapper.update(null, updateWrapper);
     }
 
+    private void decreaseProblemAcceptedCount(Long problemId) {
+        if (problemId == null) {
+            return;
+        }
+        LambdaUpdateWrapper<Problem> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(Problem::getId, problemId)
+                .setSql("ac_count = GREATEST(COALESCE(ac_count, 0) - 1, 0)");
+        problemMapper.update(null, updateWrapper);
+    }
+
     private void validateSubmit(SubmitDTO submitDTO) {
         Problem problem = problemMapper.selectById(submitDTO.getProblemId());
         if (problem == null || !Integer.valueOf(1).equals(problem.getStatus())) {
@@ -246,6 +395,40 @@ public class SubmissionServiceImpl implements SubmissionService {
                 && !Constants.LANGUAGE_CPP.equals(language)
                 && !Constants.LANGUAGE_PYTHON.equals(language)) {
             throw new BusinessException(ResultCode.BAD_REQUEST.getCode(), "Unsupported language");
+        }
+    }
+
+    private void persistJudgeResult(Submission submission, LocalDateTime judgeTime) {
+        if (submission == null || submission.getId() == null) {
+            return;
+        }
+        LocalDateTime now = LocalDateTime.now();
+        JudgeResult entity = judgeResultMapper.selectOne(
+                new LambdaQueryWrapper<JudgeResult>()
+                        .eq(JudgeResult::getSubmissionId, submission.getId())
+                        .last("LIMIT 1")
+        );
+        boolean isNew = entity == null;
+        if (isNew) {
+            entity = new JudgeResult();
+            entity.setSubmissionId(submission.getId());
+            entity.setCreateTime(now);
+        }
+
+        entity.setUserId(submission.getUserId());
+        entity.setProblemId(submission.getProblemId());
+        entity.setLanguage(submission.getLanguage());
+        entity.setStatus(submission.getStatus());
+        entity.setTimeUsed(submission.getTimeUsed());
+        entity.setMemoryUsed(submission.getMemoryUsed());
+        entity.setErrorMessage(submission.getErrorMessage());
+        entity.setJudgeTime(judgeTime);
+        entity.setUpdateTime(now);
+
+        if (isNew) {
+            judgeResultMapper.insert(entity);
+        } else {
+            judgeResultMapper.updateById(entity);
         }
     }
 }

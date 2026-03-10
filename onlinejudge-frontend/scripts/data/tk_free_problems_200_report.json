@@ -1,0 +1,69 @@
+{
+  "sourceDir": "D:\\BaiduNetdiskDownload\\tiku",
+  "limit": 200,
+  "maxScan": 4000,
+  "scanned": 200,
+  "accepted": 88,
+  "duplicate": 0,
+  "parseFailed": 112,
+  "invalid": 0,
+  "byPlatform": {
+    "TK题库": {
+      "scanned": 200,
+      "accepted": 88,
+      "parseFailed": 112,
+      "invalid": 0,
+      "duplicate": 0
+    }
+  },
+  "samples": [
+    {
+      "title": "1702: C语言程序设计教程（第三版）课后习题6.4",
+      "platform": "TK题库",
+      "encoding": "utf-8",
+      "filePath": "D:\\BaiduNetdiskDownload\\tiku\\TK题库\\1702.html"
+    },
+    {
+      "title": "1703: C语言程序设计教程（第三版）课后习题6.5",
+      "platform": "TK题库",
+      "encoding": "utf-8",
+      "filePath": "D:\\BaiduNetdiskDownload\\tiku\\TK题库\\1703.html"
+    },
+    {
+      "title": "1705: C语言程序设计教程（第三版）课后习题6.7",
+      "platform": "TK题库",
+      "encoding": "utf-8",
+      "filePath": "D:\\BaiduNetdiskDownload\\tiku\\TK题库\\1705.html"
+    },
+    {
+      "title": "1706: C语言程序设计教程（第三版）课后习题6.8",
+      "platform": "TK题库",
+      "encoding": "utf-8",
+      "filePath": "D:\\BaiduNetdiskDownload\\tiku\\TK题库\\1706.html"
+    },
+    {
+      "title": "1707: C语言程序设计教程（第三版）课后习题6.9",
+      "platform": "TK题库",
+      "encoding": "utf-8",
+      "filePath": "D:\\BaiduNetdiskDownload\\tiku\\TK题库\\1707.html"
+    },
+    {
+      "title": "1708: C语言程序设计教程（第三版）课后习题6.10",
+      "platform": "TK题库",
+      "encoding": "utf-8",
+      "filePath": "D:\\BaiduNetdiskDownload\\tiku\\TK题库\\1708.html"
+    },
+    {
+      "title": "1710: C语言程序设计教程（第三版）课后习题7.1",
+      "platform": "TK题库",
+      "encoding": "utf-8",
+      "filePath": "D:\\BaiduNetdiskDownload\\tiku\\TK题库\\1710.html"
+    },
+    {
+      "title": "1711: C语言程序设计教程（第三版）课后习题7.2",
+      "platform": "TK题库",
+      "encoding": "utf-8",
+      "filePath": "D:\\BaiduNetdiskDownload\\tiku\\TK题库\\1711.html"
+    }
+  ]
+}

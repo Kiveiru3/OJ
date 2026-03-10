@@ -1,0 +1,69 @@
+{
+  "sourceDir": "D:\\BaiduNetdiskDownload\\0972f-main\\OJ题库\\洛谷",
+  "limit": 1000,
+  "maxScan": 6000,
+  "scanned": 1075,
+  "accepted": 1000,
+  "duplicate": 16,
+  "parseFailed": 59,
+  "invalid": 0,
+  "byPlatform": {
+    "洛谷": {
+      "scanned": 1075,
+      "accepted": 1000,
+      "parseFailed": 59,
+      "invalid": 0,
+      "duplicate": 16
+    }
+  },
+  "samples": [
+    {
+      "title": "A+B Problem",
+      "platform": "洛谷",
+      "encoding": "utf-8",
+      "filePath": "D:\\BaiduNetdiskDownload\\0972f-main\\OJ题库\\洛谷\\1001.html"
+    },
+    {
+      "title": "过河卒",
+      "platform": "洛谷",
+      "encoding": "utf-8",
+      "filePath": "D:\\BaiduNetdiskDownload\\0972f-main\\OJ题库\\洛谷\\1002.html"
+    },
+    {
+      "title": "铺地毯",
+      "platform": "洛谷",
+      "encoding": "utf-8",
+      "filePath": "D:\\BaiduNetdiskDownload\\0972f-main\\OJ题库\\洛谷\\1003.html"
+    },
+    {
+      "title": "方格取数",
+      "platform": "洛谷",
+      "encoding": "utf-8",
+      "filePath": "D:\\BaiduNetdiskDownload\\0972f-main\\OJ题库\\洛谷\\1004.html"
+    },
+    {
+      "title": "矩阵取数游戏",
+      "platform": "洛谷",
+      "encoding": "utf-8",
+      "filePath": "D:\\BaiduNetdiskDownload\\0972f-main\\OJ题库\\洛谷\\1005.html"
+    },
+    {
+      "title": "传纸条",
+      "platform": "洛谷",
+      "encoding": "utf-8",
+      "filePath": "D:\\BaiduNetdiskDownload\\0972f-main\\OJ题库\\洛谷\\1006.html"
+    },
+    {
+      "title": "独木桥",
+      "platform": "洛谷",
+      "encoding": "utf-8",
+      "filePath": "D:\\BaiduNetdiskDownload\\0972f-main\\OJ题库\\洛谷\\1007.html"
+    },
+    {
+      "title": "三连击",
+      "platform": "洛谷",
+      "encoding": "utf-8",
+      "filePath": "D:\\BaiduNetdiskDownload\\0972f-main\\OJ题库\\洛谷\\1008.html"
+    }
+  ]
+}

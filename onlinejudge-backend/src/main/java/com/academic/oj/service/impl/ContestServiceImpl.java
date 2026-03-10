@@ -11,16 +11,19 @@ import com.academic.oj.dto.ContestVO;
 import com.academic.oj.entity.Contest;
 import com.academic.oj.entity.ContestParticipant;
 import com.academic.oj.entity.ContestProblem;
+import com.academic.oj.entity.ContestScore;
 import com.academic.oj.entity.Problem;
 import com.academic.oj.entity.Submission;
 import com.academic.oj.entity.User;
 import com.academic.oj.mapper.ContestMapper;
 import com.academic.oj.mapper.ContestParticipantMapper;
 import com.academic.oj.mapper.ContestProblemMapper;
+import com.academic.oj.mapper.ContestScoreMapper;
 import com.academic.oj.mapper.ProblemMapper;
 import com.academic.oj.mapper.SubmissionMapper;
 import com.academic.oj.mapper.UserMapper;
 import com.academic.oj.service.ContestService;
+import com.academic.oj.service.SystemConfigService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
@@ -44,13 +47,17 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ContestServiceImpl implements ContestService {
+    private static final String CONFIG_KEY_DEFAULT_PENALTY = "contest.default_penalty_per_wrong";
+    private static final int DEFAULT_PENALTY_PER_WRONG = 20;
 
     private final ContestMapper contestMapper;
     private final ContestProblemMapper contestProblemMapper;
     private final ContestParticipantMapper contestParticipantMapper;
+    private final ContestScoreMapper contestScoreMapper;
     private final ProblemMapper problemMapper;
     private final SubmissionMapper submissionMapper;
     private final UserMapper userMapper;
+    private final SystemConfigService systemConfigService;
 
     @Override
     public Page<ContestVO> getContestList(Long userId, Integer page, Integer size, String keyword, boolean canViewHidden) {
@@ -74,7 +81,7 @@ public class ContestServiceImpl implements ContestService {
         Set<Long> joinedContestIds = loadJoinedContestIds(userId, contestIds);
 
         List<ContestVO> records = contests.stream()
-                .map(contest -> toContestVO(contest, participantCountMap, problemCountMap, joinedContestIds))
+                .map(contest -> toContestVO(contest, participantCountMap, problemCountMap, joinedContestIds, canViewHidden))
                 .toList();
         resultPage.setRecords(records);
         return resultPage;
@@ -98,9 +105,12 @@ public class ContestServiceImpl implements ContestService {
         detailVO.setDescription(contest.getDescription());
         detailVO.setStartTime(contest.getStartTime());
         detailVO.setEndTime(contest.getEndTime());
+        detailVO.setScoreboardFreezeTime(contest.getScoreboardFreezeTime());
+        detailVO.setPenaltyPerWrong(resolvePenaltyPerWrong(contest));
         detailVO.setCreatorId(contest.getCreatorId());
         detailVO.setStatus(contest.getStatus());
         detailVO.setContestStatus(calculateContestStatus(contest.getStartTime(), contest.getEndTime()));
+        detailVO.setRankingFrozen(isRankingFrozen(contest, canViewHidden));
         detailVO.setParticipantCount(loadParticipantCountMap(List.of(contestId)).getOrDefault(contestId, 0));
         detailVO.setProblemCount(problemIds.size());
         detailVO.setJoined(isJoined(userId, contestId));
@@ -121,6 +131,8 @@ public class ContestServiceImpl implements ContestService {
         contest.setDescription(dto.getDescription());
         contest.setStartTime(dto.getStartTime());
         contest.setEndTime(dto.getEndTime());
+        contest.setScoreboardFreezeTime(dto.getScoreboardFreezeTime());
+        contest.setPenaltyPerWrong(resolvePenaltyPerWrongForSave(dto.getPenaltyPerWrong(), null));
         contest.setCreatorId(creatorId);
         contest.setStatus(dto.getStatus() == null ? 1 : dto.getStatus());
         contest.setCreateTime(LocalDateTime.now());
@@ -147,11 +159,30 @@ public class ContestServiceImpl implements ContestService {
         contest.setDescription(dto.getDescription());
         contest.setStartTime(dto.getStartTime());
         contest.setEndTime(dto.getEndTime());
+        contest.setScoreboardFreezeTime(dto.getScoreboardFreezeTime());
+        contest.setPenaltyPerWrong(resolvePenaltyPerWrongForSave(dto.getPenaltyPerWrong(), existing.getPenaltyPerWrong()));
         contest.setStatus(dto.getStatus() == null ? 1 : dto.getStatus());
         contest.setUpdateTime(LocalDateTime.now());
         contestMapper.updateById(contest);
 
         replaceContestProblems(contestId, validProblemIds);
+    }
+
+    @Override
+    @Transactional
+    public void deleteContest(Long operatorId, Long contestId, boolean isAdmin) {
+        Contest existing = getContestOrThrow(contestId, true);
+        if (!isAdmin && !operatorId.equals(existing.getCreatorId())) {
+            throw new BusinessException(ResultCode.FORBIDDEN.getCode(), "Forbidden");
+        }
+
+        contestProblemMapper.delete(new LambdaQueryWrapper<ContestProblem>()
+                .eq(ContestProblem::getContestId, contestId));
+        contestParticipantMapper.delete(new LambdaQueryWrapper<ContestParticipant>()
+                .eq(ContestParticipant::getContestId, contestId));
+        contestScoreMapper.delete(new LambdaQueryWrapper<ContestScore>()
+                .eq(ContestScore::getContestId, contestId));
+        contestMapper.deleteById(contestId);
     }
 
     @Override
@@ -173,7 +204,6 @@ public class ContestServiceImpl implements ContestService {
         ContestParticipant participant = new ContestParticipant();
         participant.setContestId(contestId);
         participant.setUserId(userId);
-        participant.setCreateTime(LocalDateTime.now());
         contestParticipantMapper.insert(participant);
     }
 
@@ -195,6 +225,48 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
+    public Page<ContestRankingItemVO> getContestScoreSnapshot(Long contestId, Integer page, Integer size, boolean canViewHidden) {
+        getContestOrThrow(contestId, canViewHidden);
+        int safePage = page == null || page < 1 ? 1 : page;
+        int safeSize = size == null || size < 1 ? 20 : Math.min(size, 100);
+
+        Page<ContestScore> scorePage = contestScoreMapper.selectPage(
+                new Page<>(safePage, safeSize),
+                new LambdaQueryWrapper<ContestScore>()
+                        .eq(ContestScore::getContestId, contestId)
+                        .orderByAsc(ContestScore::getRankNo)
+                        .orderByAsc(ContestScore::getId)
+        );
+
+        if (scorePage.getRecords().isEmpty()) {
+            return getContestRanking(contestId, safePage, safeSize, canViewHidden);
+        }
+
+        List<Long> userIds = scorePage.getRecords().stream()
+                .map(ContestScore::getUserId)
+                .filter(id -> id != null)
+                .distinct()
+                .toList();
+        Map<Long, User> userMap = loadUserMap(userIds);
+
+        Page<ContestRankingItemVO> resultPage = new Page<>(safePage, safeSize, scorePage.getTotal());
+        resultPage.setRecords(scorePage.getRecords().stream().map(score -> {
+            ContestRankingItemVO vo = new ContestRankingItemVO();
+            vo.setRank(score.getRankNo());
+            vo.setUserId(score.getUserId());
+            User user = userMap.get(score.getUserId());
+            vo.setUsername(user == null ? null : user.getUsername());
+            vo.setNickname(user == null ? null : user.getNickname());
+            vo.setAcceptedCount(score.getAcceptedCount());
+            vo.setTotalPenalty(score.getTotalPenalty());
+            vo.setTotalSubmissions(score.getTotalSubmissions());
+            vo.setLastAcceptedTime(score.getLastAcceptedTime());
+            return vo;
+        }).toList());
+        return resultPage;
+    }
+
+    @Override
     public List<ContestRankingItemVO> getContestRankingAll(Long contestId, boolean canViewHidden) {
         Contest contest = getContestOrThrow(contestId, canViewHidden);
         List<Long> problemIds = contestProblemMapper.selectList(
@@ -202,6 +274,7 @@ public class ContestServiceImpl implements ContestService {
                 .stream().map(ContestProblem::getProblemId).toList();
 
         if (problemIds.isEmpty()) {
+            persistContestScores(contestId, Collections.emptyList());
             return Collections.emptyList();
         }
 
@@ -210,12 +283,11 @@ public class ContestServiceImpl implements ContestService {
                 .stream().map(ContestParticipant::getUserId).distinct().toList();
 
         if (participantIds.isEmpty()) {
+            persistContestScores(contestId, Collections.emptyList());
             return Collections.emptyList();
         }
 
-        LocalDateTime rankingEnd = LocalDateTime.now().isBefore(contest.getEndTime())
-                ? LocalDateTime.now()
-                : contest.getEndTime();
+        LocalDateTime rankingEnd = resolveRankingEnd(contest, canViewHidden);
 
         LambdaQueryWrapper<Submission> submissionWrapper = new LambdaQueryWrapper<>();
         submissionWrapper.in(Submission::getUserId, participantIds)
@@ -224,8 +296,11 @@ public class ContestServiceImpl implements ContestService {
                 .le(Submission::getCreateTime, rankingEnd)
                 .orderByAsc(Submission::getCreateTime)
                 .orderByAsc(Submission::getId);
-        List<Submission> submissions = submissionMapper.selectList(submissionWrapper);
-        return buildRanking(contest, participantIds, submissions);
+        List<Submission> submissions = filterSubmissionsByWindow(
+                submissionMapper.selectList(submissionWrapper), contest.getStartTime(), rankingEnd);
+        List<ContestRankingItemVO> ranking = buildRanking(contest, participantIds, submissions);
+        persistContestScores(contestId, ranking);
+        return ranking;
     }
 
     @Override
@@ -255,9 +330,7 @@ public class ContestServiceImpl implements ContestService {
             return vo;
         }
 
-        LocalDateTime rankingEnd = LocalDateTime.now().isBefore(contest.getEndTime())
-                ? LocalDateTime.now()
-                : contest.getEndTime();
+        LocalDateTime rankingEnd = resolveRankingEnd(contest, canViewHidden);
         List<Submission> submissions = submissionMapper.selectList(
                 new LambdaQueryWrapper<Submission>()
                         .in(Submission::getUserId, participantIds)
@@ -267,6 +340,7 @@ public class ContestServiceImpl implements ContestService {
                         .orderByAsc(Submission::getCreateTime)
                         .orderByAsc(Submission::getId)
         );
+        submissions = filterSubmissionsByWindow(submissions, contest.getStartTime(), rankingEnd);
 
         int totalSubmissions = submissions.size();
         int acceptedSubmissions = 0;
@@ -355,6 +429,7 @@ public class ContestServiceImpl implements ContestService {
     }
 
     private List<ContestRankingItemVO> buildRanking(Contest contest, List<Long> participantIds, List<Submission> submissions) {
+        int penaltyPerWrong = resolvePenaltyPerWrong(contest);
         Map<Long, UserStats> statsMap = new LinkedHashMap<>();
         for (Long userId : participantIds) {
             statsMap.put(userId, new UserStats());
@@ -375,7 +450,7 @@ public class ContestServiceImpl implements ContestService {
                 problemStats.solved = true;
                 userStats.acceptedCount++;
                 long minutes = Math.max(0, Duration.between(contest.getStartTime(), submission.getCreateTime()).toMinutes());
-                userStats.totalPenalty += (int) minutes + problemStats.wrongAttempts * 20;
+                userStats.totalPenalty += (int) minutes + problemStats.wrongAttempts * penaltyPerWrong;
                 userStats.lastAcceptedTime = maxTime(userStats.lastAcceptedTime, submission.getCreateTime());
             } else {
                 problemStats.wrongAttempts++;
@@ -406,8 +481,18 @@ public class ContestServiceImpl implements ContestService {
         if (!dto.getEndTime().isAfter(dto.getStartTime())) {
             throw new BusinessException(ResultCode.BAD_REQUEST.getCode(), "End time must be after start time");
         }
+        if (dto.getScoreboardFreezeTime() != null) {
+            if (dto.getScoreboardFreezeTime().isBefore(dto.getStartTime())
+                    || dto.getScoreboardFreezeTime().isAfter(dto.getEndTime())) {
+                throw new BusinessException(ResultCode.BAD_REQUEST.getCode(),
+                        "Scoreboard freeze time must be between start and end time");
+            }
+        }
         if (dto.getStatus() != null && !Integer.valueOf(0).equals(dto.getStatus()) && !Integer.valueOf(1).equals(dto.getStatus())) {
             throw new BusinessException(ResultCode.BAD_REQUEST.getCode(), "Invalid contest status");
+        }
+        if (dto.getPenaltyPerWrong() != null && (dto.getPenaltyPerWrong() < 0 || dto.getPenaltyPerWrong() > 120)) {
+            throw new BusinessException(ResultCode.BAD_REQUEST.getCode(), "Invalid penalty per wrong submission");
         }
 
         List<Long> validProblemIds = sanitizeProblemIds(dto.getProblemIds());
@@ -509,19 +594,23 @@ public class ContestServiceImpl implements ContestService {
     private ContestVO toContestVO(Contest contest,
                                   Map<Long, Integer> participantCountMap,
                                   Map<Long, Integer> problemCountMap,
-                                  Set<Long> joinedContestIds) {
+                                  Set<Long> joinedContestIds,
+                                  boolean canViewHidden) {
         ContestVO vo = new ContestVO();
         vo.setId(contest.getId());
         vo.setTitle(contest.getTitle());
         vo.setDescription(contest.getDescription());
         vo.setStartTime(contest.getStartTime());
         vo.setEndTime(contest.getEndTime());
+        vo.setScoreboardFreezeTime(contest.getScoreboardFreezeTime());
+        vo.setPenaltyPerWrong(resolvePenaltyPerWrong(contest));
         vo.setCreatorId(contest.getCreatorId());
         vo.setStatus(contest.getStatus());
         vo.setParticipantCount(participantCountMap.getOrDefault(contest.getId(), 0));
         vo.setProblemCount(problemCountMap.getOrDefault(contest.getId(), 0));
         vo.setJoined(joinedContestIds.contains(contest.getId()));
         vo.setContestStatus(calculateContestStatus(contest.getStartTime(), contest.getEndTime()));
+        vo.setRankingFrozen(isRankingFrozen(contest, canViewHidden));
         return vo;
     }
 
@@ -550,6 +639,80 @@ public class ContestServiceImpl implements ContestService {
         }
         return userMapper.selectBatchIds(userIds).stream()
                 .collect(Collectors.toMap(User::getId, user -> user, (a, b) -> a));
+    }
+
+    private int resolvePenaltyPerWrong(Contest contest) {
+        return resolvePenaltyPerWrong(contest == null ? null : contest.getPenaltyPerWrong());
+    }
+
+    private int resolvePenaltyPerWrong(Integer value) {
+        if (value == null) {
+            return DEFAULT_PENALTY_PER_WRONG;
+        }
+        return Math.max(0, Math.min(value, 120));
+    }
+
+    private int resolvePenaltyPerWrongForSave(Integer inputValue, Integer fallbackValue) {
+        if (inputValue != null) {
+            return resolvePenaltyPerWrong(inputValue);
+        }
+        if (fallbackValue != null) {
+            return resolvePenaltyPerWrong(fallbackValue);
+        }
+        return resolvePenaltyPerWrong(loadDefaultPenaltyPerWrongFromConfig());
+    }
+
+    private Integer loadDefaultPenaltyPerWrongFromConfig() {
+        Map<String, String> configMap = systemConfigService.getConfigMapByKeys(List.of(CONFIG_KEY_DEFAULT_PENALTY));
+        String rawValue = configMap.get(CONFIG_KEY_DEFAULT_PENALTY);
+        if (!StringUtils.hasText(rawValue)) {
+            return DEFAULT_PENALTY_PER_WRONG;
+        }
+        try {
+            return Integer.parseInt(rawValue.trim());
+        } catch (NumberFormatException ignored) {
+            return DEFAULT_PENALTY_PER_WRONG;
+        }
+    }
+
+    private LocalDateTime resolveRankingEnd(Contest contest, boolean canViewHidden) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime naturalEnd = now.isBefore(contest.getEndTime()) ? now : contest.getEndTime();
+        if (!isRankingFrozen(contest, canViewHidden)) {
+            return naturalEnd;
+        }
+        LocalDateTime freezeTime = contest.getScoreboardFreezeTime();
+        if (freezeTime == null) {
+            return naturalEnd;
+        }
+        return freezeTime.isBefore(naturalEnd) ? freezeTime : naturalEnd;
+    }
+
+    private boolean isRankingFrozen(Contest contest, boolean canViewHidden) {
+        if (contest == null || canViewHidden) {
+            return false;
+        }
+        LocalDateTime freezeTime = contest.getScoreboardFreezeTime();
+        if (freezeTime == null) {
+            return false;
+        }
+        LocalDateTime now = LocalDateTime.now();
+        return now.isAfter(freezeTime) && now.isBefore(contest.getEndTime());
+    }
+
+    private List<Submission> filterSubmissionsByWindow(List<Submission> submissions,
+                                                        LocalDateTime startTime,
+                                                        LocalDateTime endTime) {
+        if (submissions == null || submissions.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return submissions.stream()
+                .filter(submission -> submission.getCreateTime() != null)
+                .filter(submission -> !submission.getCreateTime().isBefore(startTime))
+                .filter(submission -> !submission.getCreateTime().isAfter(endTime))
+                .sorted(Comparator.comparing(Submission::getCreateTime)
+                        .thenComparing(Submission::getId, Comparator.nullsLast(Comparator.naturalOrder())))
+                .toList();
     }
 
     private String calculateContestStatus(LocalDateTime startTime, LocalDateTime endTime) {
@@ -586,6 +749,28 @@ public class ContestServiceImpl implements ContestService {
             return;
         }
         map.put(key, map.getOrDefault(key, 0) + 1);
+    }
+
+    private void persistContestScores(Long contestId, List<ContestRankingItemVO> ranking) {
+        contestScoreMapper.delete(new LambdaQueryWrapper<ContestScore>()
+                .eq(ContestScore::getContestId, contestId));
+        if (ranking == null || ranking.isEmpty()) {
+            return;
+        }
+        LocalDateTime now = LocalDateTime.now();
+        for (ContestRankingItemVO item : ranking) {
+            ContestScore score = new ContestScore();
+            score.setContestId(contestId);
+            score.setUserId(item.getUserId());
+            score.setRankNo(item.getRank());
+            score.setAcceptedCount(item.getAcceptedCount());
+            score.setTotalPenalty(item.getTotalPenalty());
+            score.setTotalSubmissions(item.getTotalSubmissions());
+            score.setLastAcceptedTime(item.getLastAcceptedTime());
+            score.setCreateTime(now);
+            score.setUpdateTime(now);
+            contestScoreMapper.insert(score);
+        }
     }
 
     private static class UserStats {

@@ -1,0 +1,149 @@
+[
+  {
+    "title": "公平分摊（Fair Division）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【中文题意】\nn 个人合买礼物，总价为 p。第 i 个人最多可支付 a_i（单位分）。在不超过各自上限的前提下，按“尽量公平”原则分摊费用：先最小化相对平均值 p/n 的最大偏差，再依次比较次大偏差；若仍有多解，上限更高者优先多付，再按输入顺序靠前者优先多付。\n\n【English Statement】\nIt’s your friend’s birthday, and you and some other people\n    decided to buy him a copy of StarCraft II, because who wouldn’t\n    want to have that?\n\n    You agreed to divide the costs as fairly as possible. Since\n    some of you have more money available than others, you also\n    agreed that nobody has to pay more than he can afford. Every\n    contribution will be a multiple of 1 cent, and nobody can pay\n    fractions of a cent.\n\n    Everybody writes down the maximum amount he is able to\n    contribute. Taking into account these maximum amounts from\n    everybody, you share the cost of the present as fairly as\n    possible. That means, you minimize the largest distance of the\n    contributions to $\\frac{1}{n}$-th of the total cost. In\n    case of a tie, minimize the second largest distance and so on.\n    Since the smallest unit of contribution is 1 cent, there might\n    be more than one possible division of the cost. In that case,\n    persons with a higher maximum amount pay more. If there is\n    still ambiguity, those who come first in the list pay more.\n\n    Since you bought the present, it is your task to figure out\n    how much everybody has to pay (including you).",
+    "inputFormat": "【中文说明】\n输入格式请结合英文原题理解；本题保留英文官方输入定义。\n\n【Input (EN)】\nOn the first line a positive integer: the number of test\n    cases, at most 100. After that per test case:\n\n        One line with two integers $p$ and $n$: the price of the present in\n        cents $(1 \\le p \\le 1\\, 000\\,\n        000)$ and the number of people $(2\\le n\\le 100)$ who contribute\n        to the present (including you).\n\n        One line with $n$\n        integers $a_ i$\n        $(1 \\le a_ i \\le 1\\, 000\\,\n        000)$, where $a_\n        i$ is the maximum amount, in cents, that the\n        $i$-th person on the\n        list is able to contribute.",
+    "outputFormat": "【中文说明】\n输出格式请结合英文原题理解；本题保留英文官方输出定义。\n\n【Output (EN)】\nPer test case:\n\n        One line with $n$\n        integers: the amounts each person has to contribute\n        according to the scheme, or “IMPOSSIBLE” if the amount cannot be\n        shared.",
+    "sampleInput": "3\n20 4\n10 10 4 4\n7 3\n1 1 4\n34 5\n9 8 9 9 4",
+    "sampleOutput": "6 6 4 4\nIMPOSSIBLE\n8 7 8 7 4",
+    "timeLimit": 1000,
+    "memoryLimit": 1048576,
+    "testCases": [
+      {
+        "input": "3\n20 4\n10 10 4 4\n7 3\n1 1 4\n34 5\n9 8 9 9 4",
+        "output": "6 6 4 4\nIMPOSSIBLE\n8 7 8 7 4"
+      }
+    ],
+    "source": "ICPC NWERC 2010 / Kattis / Problem A",
+    "externalId": "nwerc2010-A-fairdivision",
+    "slug": "fairdivision"
+  },
+  {
+    "title": "免费礼物分配（Free Goodies）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【中文题意】\nPetra 和 Jan 轮流挑选礼物，每件礼物对两人的价值不同。已知先手与每件礼物在两人视角下的价值，双方按各自策略选取，直到礼物选完。请输出两人最终获得的总价值（按各自估值计算）。\n\n【English Statement】\nPetra and Jan have just received a box full of free goodies,\n    and want to divide the goodies between them. However, it is not\n    easy to do this fairly, since they both value different goodies\n    differently.\n\n    To divide the goodies, they have decided upon the following\n    procedure: they choose goodies one by one, in turn, until all\n    the goodies are chosen. A coin is tossed to decide who gets to\n    choose the first goodie.\n\n    Petra and Jan have different strategies in deciding what to\n    choose. When faced with a choice, Petra always selects the\n    goodie that is most valuable to her. In case of a tie, she is\n    very considerate and picks the one that is least valuable to\n    Jan. (Since Petra and Jan are good friends, they know exactly\n    how much value the other places on each goodie.)\n\n    Jan’s strategy, however, consists of maximizing his own\n    final value. He is also very considerate, so if multiple\n    choices lead to the same optimal result, he prefers Petra to\n    have as much final value as possible.\n\n    You are given the result of the initial coin toss. After Jan\n    and Petra have finished dividing all the goodies between\n    themselves, what is the total value of the goodies each of them\n    ends up with?",
+    "inputFormat": "【中文说明】\n输入格式请结合英文原题理解；本题保留英文官方输入定义。\n\n【Input (EN)】\nOn the first line a positive integer: the number of test\n    cases, at most 100. After that per test case:\n\n        One line with an integer $n$ $(1\\le n\\le 1\\, 000)$: the number\n        of goodies.\n\n        One line with a string, either “Petra” or “Jan”:\n        the person that chooses first.\n\n        $n$ lines with two\n        integers $p_ i$ and\n        $j_ i$ $(0\\le p_ i,j_ i\\le 1\\, 000)$\n        each: the values that Petra and Jan assign to the\n        $i$-th goodie,\n        respectively.",
+    "outputFormat": "【中文说明】\n输出格式请结合英文原题理解；本题保留英文官方输出定义。\n\n【Output (EN)】\nPer test case:\n\n        One line with two integers: the value Petra gets and the\n        value Jan gets. Both values must be according to their own\n        valuations.",
+    "sampleInput": "3\n4\nPetra\n100 80\n70 80\n50 80\n30 50\n4\nPetra\n10 1\n1 10\n6 6\n4 4\n7\nJan\n4 1\n3 1\n2 1\n1 1\n1 2\n1 3\n1 4",
+    "sampleOutput": "170 130\n14 16\n9 10",
+    "timeLimit": 6000,
+    "memoryLimit": 1048576,
+    "testCases": [
+      {
+        "input": "3\n4\nPetra\n100 80\n70 80\n50 80\n30 50\n4\nPetra\n10 1\n1 10\n6 6\n4 4\n7\nJan\n4 1\n3 1\n2 1\n1 1\n1 2\n1 3\n1 4",
+        "output": "170 130\n14 16\n9 10"
+      }
+    ],
+    "source": "ICPC NWERC 2010 / Kattis / Problem B",
+    "externalId": "nwerc2010-B-freegoodies",
+    "slug": "freegoodies"
+  },
+  {
+    "title": "最高分名字输入（High Score）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【中文题意】\n你要用摇杆输入目标名字。初始字符串全为 A，光标在首位；上下可修改字符，左右可移动光标且支持环绕。求输入目标字符串所需的最少摇杆操作次数。\n\n【English Statement】\nYou’ve just been playing a video game in which you had to\n    move a worm through a maze using a joystick. You got the high\n    score, and now you have to enter your name using this joystick.\n    This works as follows.\n\n    The initial name displayed on the screen is a string\n    consisting only of ‘A’ characters.\n    Initially the first letter of the string is selected. When you\n    move the joystick forward, the selected letter is changed to\n    the letter that immediately follows it in the alphabet. When\n    you move the joystick backward, the selected letter is changed\n    to the letter that immediately precedes it in the alphabet. The\n    alphabet wraps around, so the letter following ‘Z’ is\n    ‘A’ and the letter preceding ‘A’ is\n    ‘Z’.\n\n    Moving the joystick left or right changes the selection one\n    step to the left or right, respectively. The selection also\n    wraps around, so moving left when the first letter is selected\n    will select the last letter and vice versa.\n\n    Because you would like to spend as little time as possible\n    on entering your name, you want to know the smallest possible\n    number of joystick moves needed to do this. Given the name you\n    want to enter, write a program that calculates the minimum\n    number of moves needed. You may assume that the length of the\n    initial string is the same as the length of the name that you\n    want to enter. Furthermore, it does not matter which letter is\n    selected at the end of the process.",
+    "inputFormat": "【中文说明】\n输入格式请结合英文原题理解；本题保留英文官方输入定义。\n\n【Input (EN)】\nOn the first line a positive integer: the number of test\n    cases, at most 100. After that per test case:\n\n        One line with a string $s$ $(1 \\le \\textrm{length}(s) \\le 1\\,\n        000)$ consisting of uppercase letters: the name that\n        you want to enter.",
+    "outputFormat": "【中文说明】\n输出格式请结合英文原题理解；本题保留英文官方输出定义。\n\n【Output (EN)】\nPer test case:\n\n        One line with an integer: the minimum number of joystick\n        moves needed.",
+    "sampleInput": "2\nJEROEN\nJAN",
+    "sampleOutput": "56\n23",
+    "timeLimit": 1000,
+    "memoryLimit": 1048576,
+    "testCases": [
+      {
+        "input": "2\nJEROEN\nJAN",
+        "output": "56\n23"
+      }
+    ],
+    "source": "ICPC NWERC 2010 / Kattis / Problem C",
+    "externalId": "nwerc2010-C-highscore",
+    "slug": "highscore"
+  },
+  {
+    "title": "丘陵驾驶（Hill Driving）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【中文题意】\n给定一条回家路线，每段有长度与坡度。车辆油耗模型由参数给定，并受最高车速与油量限制。可在不同路段选择速度，目标是最短总耗时；若油量不足以到达，输出 IMPOSSIBLE。\n\n【English Statement】\nYou’re driving your car in the local hills and returning to\n    your home town. You’d like to get back as quickly as possible;\n    however, you notice that you don’t have much fuel left. You\n    know the most efficient route to take. Some parts of this route\n    go downhill, and some go uphill. The different parts have\n    different lengths and slopes. How quickly can you reach home\n    with the little fuel you have left?\n\n    We will assume a very simple model for the fuel consumption\n    of your car. Fuel consumption (per unit distance travelled)\n    will increase linearly with your driving speed $v$. However, there is an offset which\n    depends on the slope $s$\n    of the hill. For example, when going downhill you might be able\n    to go at $10$ km/h\n    without expending any fuel; on the other hand, if you were\n    travelling that road uphill, you might expend fuel as if you\n    were driving $10$ km/h faster on a flat road.\n    More specifically, the car’s fuel consumption $c$ in liters per kilometer is given\n    by\n\n\\begin{equation} c = \\max\n    (0,\\alpha \\, v + \\beta \\, s), \\end{equation}\n    where $\\alpha $ is the\n    standard fuel consumption rate on a flat road, $v$ is your speed in km/h,\n    $s$ is the slope of the\n    road, and $\\beta $ is a\n    positive constant. Acceleration and deceleration do not cost\n    fuel and can be done instantaneously.\n\n    Note that your car has a maximum (safe) speed which cannot\n    be exceeded.",
+    "inputFormat": "【中文说明】\n输入格式请结合英文原题理解；本题保留英文官方输入定义。\n\n【Input (EN)】\nOn the first line a positive integer: the number of test\n    cases, at most $10$. After\n    that per test case:\n\n        One line with four real numbers $\\alpha $ ($0.1\\le \\alpha \\le 100$),\n        $\\beta $ ($0.1 \\le \\beta \\le 100$),\n        $v_{\\rm max}$\n        ($10 \\le v_{\\rm max} \\le\n        200$) and $f$\n        ($0 \\le f \\le 50$):\n        the standard (flat road) fuel consumption rate of your car,\n        the slope factor, the maximum speed of your car in km/h,\n        and the amount of fuel you have left in liters,\n        respectively.\n\n        One line with an integer $r$ ($1 \\le r \\le 10\\, 000$): the\n        number of road segments.\n\n        $r$ lines with two\n        real numbers $x_ i$\n        and $y_ i$\n        ($1 \\le x_ i \\le 1\\,\n        000$, $-1\\, 000 \\le y\n        \\le 1\\, 000$) each: the horizontal distance and\n        height change (both in meters) of the $i$-th road segment. Each road\n        segment has constant slope.\n\n    All real numbers in the input have at most $5$ digits after the decimal\n    point.",
+    "outputFormat": "【中文说明】\n输出格式请结合英文原题理解；本题保留英文官方输出定义。\n\n【Output (EN)】\nPer test case:\n\n        One line with a real number: the fastest time in hours\n        in which you can reach town. It is guaranteed that if it is\n        possible to reach town at all, it will always be possible\n        in less than 24 hours. If it is impossible to reach town,\n        the line must contain “IMPOSSIBLE” instead.\n\n    Your output should have a relative or absolute error of at\n    most $10^{-6}$.",
+    "sampleInput": "3\n10.0 1.0 150 0.0\n1\n100.0 -100.0\n10.0 100.0 150 1.0\n2\n100 0\n100 100\n0.5 0.1 100 10\n3\n1000 0\n100 10\n100 -10",
+    "sampleOutput": "1.4142135624\nIMPOSSIBLE\n0.0721197512",
+    "timeLimit": 2000,
+    "memoryLimit": 1048576,
+    "testCases": [
+      {
+        "input": "3\n10.0 1.0 150 0.0\n1\n100.0 -100.0\n10.0 100.0 150 1.0\n2\n100 0\n100 100\n0.5 0.1 100 10\n3\n1000 0\n100 10\n100 -10",
+        "output": "1.4142135624\nIMPOSSIBLE\n0.0721197512"
+      }
+    ],
+    "source": "ICPC NWERC 2010 / Kattis / Problem D",
+    "externalId": "nwerc2010-D-hilldriving",
+    "slug": "hilldriving"
+  },
+  {
+    "title": "Risk 兵力调度（Risk）",
+    "difficulty": "MEDIUM",
+    "status": 1,
+    "description": "【中文题意】\n在图上进行一回合兵力重分配：你的军队只能在己方控制且相邻连通的区域间移动，且每个区域至少保留 1 名士兵。请最大化回合结束后“边境区域（与敌方相邻）中最弱区域的兵力值”。\n\n【English Statement】\nRisk is a board game played on a world map. This world is\n    divided into regions by borders. Each region is controlled by a\n    player (either you or one of your opponents). Any region that\n    you control contains a positive number of your armies.\n\n    In each turn, you are allowed to move your armies. Each of\n    your armies may either stay where it is, or move from a region\n    to a bordering region under your control. The movements are\n    performed one by one, in an order of your choice. At all times,\n    each region must contain at least one army.\n\n    For strategic purposes, it is important to move your armies\n    to regions that border your opponents’ regions and minimize the\n    number of armies on your regions that are totally surrounded by\n    other regions under your control. You want your weakest link,\n    i.e., the border region with the minimum number of armies, to\n    be as strong as possible. What is the maximum number of armies\n    that can be placed on it after one turn?",
+    "inputFormat": "【中文说明】\n输入格式请结合英文原题理解；本题保留英文官方输入定义。\n\n【Input (EN)】\nOn the first line a positive integer: the number of test\n    cases, at most 100. After that per test case:\n\n        One line with an integer $n$ ($1\\le n\\le 100$): the number of\n        regions.\n\n        One line with $n$\n        integers $a_ i$\n        $(0\\le a_ i\\le 100)$:\n        the number of your armies on each region. A number\n        $0$ indicates that a\n        region is controlled by your opponents, while a positive\n        number indicates that it is under your control.\n\n        $n$ lines with\n        $n$ characters, where\n        each character is either ‘Y’ or\n        ‘N’. The $i$-th character of the\n        $j$-th line is\n        ‘Y’ if regions $i$ and $j$ border, and ‘N’ otherwise. This relationship is\n        symmetric and the $i$-th character of the\n        $i$-th line will\n        always be ‘N’.\n\n    In every test case, you control at least one region, and\n    your opponents control at least one region. Furthermore, at\n    least one of your regions borders at least one of your\n    opponents’ regions.",
+    "outputFormat": "【中文说明】\n输出格式请结合英文原题理解；本题保留英文官方输出定义。\n\n【Output (EN)】\nPer test case:\n\n        One line with an integer: the maximum number of armies\n        on your weakest border region after one turn of moving.",
+    "sampleInput": "2\n3\n1 1 0\nNYN\nYNY\nNYN\n7\n7 3 3 2 0 0 5\nNYNNNNN\nYNYYNNN\nNYNYYNN\nNYYNYNN\nNNYYNNN\nNNNNNNY\nNNNNNYN",
+    "sampleOutput": "1\n4",
+    "timeLimit": 3000,
+    "memoryLimit": 1048576,
+    "testCases": [
+      {
+        "input": "2\n3\n1 1 0\nNYN\nYNY\nNYN\n7\n7 3 3 2 0 0 5\nNYNNNNN\nYNYYNNN\nNYNYYNN\nNYYNYNN\nNNYYNNN\nNNNNNNY\nNNNNNYN",
+        "output": "1\n4"
+      }
+    ],
+    "source": "ICPC NWERC 2010 / Kattis / Problem F",
+    "externalId": "nwerc2010-F-risk",
+    "slug": "risk"
+  },
+  {
+    "title": "卖地（Selling Land）",
+    "difficulty": "HARD",
+    "status": 1,
+    "description": "【中文题意】\n给定由 . 和 # 组成的网格，. 表示可售地块。你只能出售轴对齐矩形地块，收益与周长相关。需要在最优方案下统计各周长矩形出现次数，并按指定格式输出。\n\n【English Statement】\nAs you may know, the country of Absurdistan is full of\n    abnormalities. For example, the whole country can be divided\n    into unit squares that are either grass or swamp. Also, the\n    country is famous for its incapable bureaucrats. If you want to\n    buy a piece of land (called a parcel), you can only buy a\n    rectangular area, because they cannot handle other shapes. The\n    price of the parcel is determined by them and is proportional\n    to the perimeter of the parcel, since the bureaucrats are\n    unable to multiply integers and thus cannot calculate the area\n    of the parcel.\n\n    Per owns a parcel in Absurdistan surrounded by swamp and he\n    wants to sell it, possibly in parts, to some buyers. When he\n    sells a rectangular part of his land, he is obliged to announce\n    this to the local bureaucrats. They will first tell him the\n    price he is supposed to sell it for. Then they will write down\n    the name of the new owner and the coordinates of the south-east\n    corner of the parcel being sold. If somebody else already owns\n    a parcel with a south-east corner at the same spot, the\n    bureaucrats will deny the change of ownership.\n\n    Per realizes that he can easily trick the system. He can\n    sell overlapping areas, because bureaucrats only check whether\n    the south-east corners are identical. However, nobody wants to\n    buy a parcel containing swamp.\n\n        Figure 1: In this example, dark squares represent\n        swamp. Per may, for example, sell three overlapping grey\n        areas, with dimensions $2\\times 1$, $2\\times 4$ and $4\\times 1$ respectively. The\n        total perimeter is $6 + 12 +\n        10=28$. Note that he can get more money by selling\n        even more land. This figure corresponds to the case in the\n        sample input.\n\n    Now Per would like to know how many parcels of each\n    perimeter he needs to sell in order to maximize his profit. Can\n    you help him? You may assume that he can always find a buyer\n    for each piece of land, as long as it doesn’t contain any\n    swamps. Also, Per is sure that no square within his parcel is\n    owned by somebody else.",
+    "inputFormat": "【中文说明】\n输入格式请结合英文原题理解；本题保留英文官方输入定义。\n\n【Input (EN)】\nOn the first line a positive integer: the number of test\n    cases, at most 100. After that per test case:\n\n        One line with two integers $n$ and $m$ ($1\\leq n, m \\leq 1\\, 000$): the\n        dimensions of Per’s parcel.\n\n        $n$ lines, each\n        with $m$ characters.\n        Each character is either ‘#’ or ‘.’. The\n        $j$-th character on\n        the $i$-th line is a\n        ‘#’ if position $(i,\n        j)$ is a swamp, and ‘.’ if it is grass. The\n        north-west corner of Per’s parcel has coordinates\n        $(1, 1)$, and the\n        south-east corner has coordinates $(n,m)$.",
+    "outputFormat": "【中文说明】\n输出格式请结合英文原题理解；本题保留英文官方输出定义。\n\n【Output (EN)】\nPer test case:\n\n        Zero or more lines containing a complete list of how\n        many parcels of each perimeter Per needs to sell in order\n        to maximize his profit. More specifically, if Per should\n        sell $p_ i$ parcels of\n        perimeter $i$ in the\n        optimal solution, output a single line “$p_ i$ x $i$”. The lines should be sorted\n        in increasing order of $i$. No two lines should have the\n        same value of $i$, and\n        you should not output lines with $p_ i=0$.",
+    "sampleInput": "2\n6 5\n..#.#\n.#...\n#..##\n...#.\n#....\n#..#.\n3 4\n.#..\n...#\n....",
+    "sampleOutput": "6 x 4\n5 x 6\n5 x 8\n3 x 10\n1 x 12\n2 x 4\n3 x 6\n3 x 8\n2 x 10",
+    "timeLimit": 1000,
+    "memoryLimit": 1048576,
+    "testCases": [
+      {
+        "input": "2\n6 5\n..#.#\n.#...\n#..##\n...#.\n#....\n#..#.\n3 4\n.#..\n...#\n....",
+        "output": "6 x 4\n5 x 6\n5 x 8\n3 x 10\n1 x 12\n2 x 4\n3 x 6\n3 x 8\n2 x 10"
+      }
+    ],
+    "source": "ICPC NWERC 2010 / Kattis / Problem G",
+    "externalId": "nwerc2010-G-sellingland",
+    "slug": "sellingland"
+  },
+  {
+    "title": "股票撮合（Stock Prices）",
+    "difficulty": "EASY",
+    "status": 1,
+    "description": "【中文题意】\n维护买单与卖单簿：当最高买价 >= 最低卖价时持续撮合成交。每条订单处理后，输出当前最低卖价（ask）、最高买价（bid）与最近成交价；不存在时输出 -。\n\n【English Statement】\nIn this problem we deal with the calculation of stock\n    prices. You need to know the following things about stock\n    prices:\n\n        The ask price is the lowest price at which\n        someone is willing to sell a share of a stock.\n\n        The bid price is the highest price at which\n        someone is willing to buy a share of a stock.\n\n        The stock price is the price at which the last\n        deal was established.\n\n    Whenever the bid price is greater than or equal to the ask\n    price, a deal is established. A buy order offering the bid\n    price is matched with a sell order demanding the ask price, and\n    shares are exchanged at the rate of the ask price until either\n    the sell order or the buy order (or both) is fulfilled (i.e.,\n    the buyer wants no more stocks, or the seller wants to sell no\n    more stocks). You will be given a list of orders (either buy or\n    sell) and you have to calculate, after each order, the current\n    ask price, bid price and stock price.",
+    "inputFormat": "【中文说明】\n输入格式请结合英文原题理解；本题保留英文官方输入定义。\n\n【Input (EN)】\nOn the first line a positive integer: the number of test\n    cases, at most 100. After that per test case:\n\n        One line with an integer $n$ $(1 \\le n \\le 1\\, 000)$: the\n        number of orders.\n\n        $n$ lines of the\n        form “order_type $x$ shares at\n        $y$”, where\n        order_type is either “buy” or\n        “sell”, $x$\n        ($1 \\le x \\le 1\\,\n        000$) is the number of shares of a stock someone\n        wishes to buy or to sell, and $y$ ($1 \\le y \\le 1\\, 000$) is the\n        desired price.",
+    "outputFormat": "【中文说明】\n输出格式请结合英文原题理解；本题保留英文官方输出定义。\n\n【Output (EN)】\nPer test case:\n\n        $n$ lines, each of\n        the form “$a_ i$\n        $b_ i$ $s_ i$”, where $a_ i$, $b_ i$ and $s_ i$ are the current ask, bid\n        and stock prices, respectively, after the $i$-th order has been processed\n        and all possible deals have taken place. Whenever a price\n        is not defined, output “-” instead of the\n        price.",
+    "sampleInput": "2\n6\nbuy 10 shares at 100\nsell 1 shares at 120\nsell 20 shares at 110\nbuy 30 shares at 110\nsell 10 shares at 99\nbuy 1 shares at 120\n6\nsell 10 shares at 100\nbuy 1 shares at 80\nbuy 20 shares at 90\nsell 30 shares at 90\nbuy 10 shares at 101\nsell 1 shares at 80",
+    "sampleOutput": "- 100 -\n120 100 -\n110 100 -\n120 110 110\n120 100 99\n- 100 120\n100 - -\n100 80 -\n100 90 -\n90 80 90\n100 80 90\n100 - 80",
+    "timeLimit": 5000,
+    "memoryLimit": 1048576,
+    "testCases": [
+      {
+        "input": "2\n6\nbuy 10 shares at 100\nsell 1 shares at 120\nsell 20 shares at 110\nbuy 30 shares at 110\nsell 10 shares at 99\nbuy 1 shares at 120\n6\nsell 10 shares at 100\nbuy 1 shares at 80\nbuy 20 shares at 90\nsell 30 shares at 90\nbuy 10 shares at 101\nsell 1 shares at 80",
+        "output": "- 100 -\n120 100 -\n110 100 -\n120 110 110\n120 100 99\n- 100 120\n100 - -\n100 80 -\n100 90 -\n90 80 90\n100 80 90\n100 - 80"
+      }
+    ],
+    "source": "ICPC NWERC 2010 / Kattis / Problem H",
+    "externalId": "nwerc2010-H-stockprices",
+    "slug": "stockprices"
+  }
+]

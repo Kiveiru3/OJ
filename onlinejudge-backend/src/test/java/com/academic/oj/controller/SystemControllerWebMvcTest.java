@@ -1,6 +1,22 @@
 package com.academic.oj.controller;
 
 import com.academic.oj.filter.JwtAuthenticationFilter;
+import com.academic.oj.mapper.AdminOperationLogMapper;
+import com.academic.oj.mapper.AdminProfileMapper;
+import com.academic.oj.mapper.ContestMapper;
+import com.academic.oj.mapper.ContestParticipantMapper;
+import com.academic.oj.mapper.ContestProblemMapper;
+import com.academic.oj.mapper.ContestScoreMapper;
+import com.academic.oj.mapper.DiscussionCommentMapper;
+import com.academic.oj.mapper.DiscussionPostMapper;
+import com.academic.oj.mapper.JudgeResultMapper;
+import com.academic.oj.mapper.ProblemMapper;
+import com.academic.oj.mapper.StudentProfileMapper;
+import com.academic.oj.mapper.SubmissionMapper;
+import com.academic.oj.mapper.SystemConfigMapper;
+import com.academic.oj.mapper.TeacherProfileMapper;
+import com.academic.oj.mapper.TestCaseMapper;
+import com.academic.oj.mapper.UserMapper;
 import com.academic.oj.service.SystemConfigService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +35,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = SystemController.class)
 @AutoConfigureMockMvc(addFilters = false)
+@MockBean(classes = {
+        AdminOperationLogMapper.class,
+        AdminProfileMapper.class,
+        ContestMapper.class,
+        ContestParticipantMapper.class,
+        ContestProblemMapper.class,
+        ContestScoreMapper.class,
+        DiscussionCommentMapper.class,
+        DiscussionPostMapper.class,
+        JudgeResultMapper.class,
+        ProblemMapper.class,
+        StudentProfileMapper.class,
+        SubmissionMapper.class,
+        SystemConfigMapper.class,
+        TeacherProfileMapper.class,
+        TestCaseMapper.class,
+        UserMapper.class
+})
 class SystemControllerWebMvcTest {
 
     @Autowired

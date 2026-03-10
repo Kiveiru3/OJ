@@ -5,10 +5,17 @@ import com.academic.oj.common.ResultCode;
 import com.academic.oj.common.exception.BusinessException;
 import com.academic.oj.dto.LoginDTO;
 import com.academic.oj.dto.RegisterDTO;
+import com.academic.oj.dto.RoleProfileDTO;
 import com.academic.oj.dto.TokenDTO;
 import com.academic.oj.dto.UserInfoDTO;
 import com.academic.oj.dto.UserListDTO;
+import com.academic.oj.entity.AdminProfile;
+import com.academic.oj.entity.StudentProfile;
+import com.academic.oj.entity.TeacherProfile;
 import com.academic.oj.entity.User;
+import com.academic.oj.mapper.AdminProfileMapper;
+import com.academic.oj.mapper.StudentProfileMapper;
+import com.academic.oj.mapper.TeacherProfileMapper;
 import com.academic.oj.mapper.UserMapper;
 import com.academic.oj.service.UserService;
 import com.academic.oj.util.JwtUtil;
@@ -28,6 +35,9 @@ import java.time.LocalDateTime;
 public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
+    private final StudentProfileMapper studentProfileMapper;
+    private final TeacherProfileMapper teacherProfileMapper;
+    private final AdminProfileMapper adminProfileMapper;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
@@ -150,6 +160,7 @@ public class UserServiceImpl implements UserService {
         user.setUpdateTime(LocalDateTime.now());
 
         userMapper.insert(user);
+        ensureRoleProfile(user.getId(), user.getRole());
     }
 
     @Override
@@ -165,6 +176,7 @@ public class UserServiceImpl implements UserService {
         userInfo.setEmail(user.getEmail());
         userInfo.setNickname(user.getNickname());
         userInfo.setRole(user.getRole());
+        ensureRoleProfile(user.getId(), user.getRole());
 
         return userInfo;
     }
@@ -208,6 +220,39 @@ public class UserServiceImpl implements UserService {
 
         user.setUpdateTime(LocalDateTime.now());
         userMapper.updateById(user);
+    }
+
+    @Override
+    public RoleProfileDTO getRoleProfile(Long userId) {
+        User user = userMapper.selectById(userId);
+        if (user == null) {
+            throw new BusinessException(ResultCode.NOT_FOUND.getCode(), "User not found");
+        }
+        ensureRoleProfile(user.getId(), user.getRole());
+        return loadRoleProfile(user);
+    }
+
+    @Override
+    public void updateRoleProfile(Long userId, RoleProfileDTO profileDTO) {
+        User user = userMapper.selectById(userId);
+        if (user == null) {
+            throw new BusinessException(ResultCode.NOT_FOUND.getCode(), "User not found");
+        }
+        ensureRoleProfile(user.getId(), user.getRole());
+        String role = user.getRole() == null ? "" : user.getRole().trim().toUpperCase();
+        switch (role) {
+            case Constants.ROLE_STUDENT:
+                upsertStudentProfile(user.getId(), profileDTO);
+                return;
+            case Constants.ROLE_TEACHER:
+                upsertTeacherProfile(user.getId(), profileDTO);
+                return;
+            case Constants.ROLE_ADMIN:
+                upsertAdminProfile(user.getId(), profileDTO);
+                return;
+            default:
+                throw new BusinessException(ResultCode.BAD_REQUEST.getCode(), "Invalid user role");
+        }
     }
 
     @Override
@@ -268,6 +313,7 @@ public class UserServiceImpl implements UserService {
         user.setStatus(status);
         user.setUpdateTime(LocalDateTime.now());
         userMapper.updateById(user);
+        ensureRoleProfile(user.getId(), normalizedRole);
     }
 
     @Override
@@ -302,5 +348,195 @@ public class UserServiceImpl implements UserService {
         if (!Integer.valueOf(0).equals(status) && !Integer.valueOf(1).equals(status)) {
             throw new BusinessException(ResultCode.BAD_REQUEST.getCode(), "Invalid status");
         }
+    }
+
+    private void ensureRoleProfile(Long userId, String role) {
+        if (userId == null || !StringUtils.hasText(role)) {
+            return;
+        }
+        String normalized = role.trim().toUpperCase();
+        if (Constants.ROLE_STUDENT.equals(normalized)) {
+            ensureStudentProfile(userId);
+            return;
+        }
+        if (Constants.ROLE_TEACHER.equals(normalized)) {
+            ensureTeacherProfile(userId);
+            return;
+        }
+        if (Constants.ROLE_ADMIN.equals(normalized)) {
+            ensureAdminProfile(userId);
+        }
+    }
+
+    private void ensureStudentProfile(Long userId) {
+        StudentProfile existing = studentProfileMapper.selectOne(
+                new LambdaQueryWrapper<StudentProfile>()
+                        .eq(StudentProfile::getUserId, userId)
+                        .last("LIMIT 1")
+        );
+        if (existing != null) {
+            return;
+        }
+        StudentProfile profile = new StudentProfile();
+        profile.setUserId(userId);
+        profile.setCreateTime(LocalDateTime.now());
+        profile.setUpdateTime(LocalDateTime.now());
+        studentProfileMapper.insert(profile);
+    }
+
+    private void ensureTeacherProfile(Long userId) {
+        TeacherProfile existing = teacherProfileMapper.selectOne(
+                new LambdaQueryWrapper<TeacherProfile>()
+                        .eq(TeacherProfile::getUserId, userId)
+                        .last("LIMIT 1")
+        );
+        if (existing != null) {
+            return;
+        }
+        TeacherProfile profile = new TeacherProfile();
+        profile.setUserId(userId);
+        profile.setCreateTime(LocalDateTime.now());
+        profile.setUpdateTime(LocalDateTime.now());
+        teacherProfileMapper.insert(profile);
+    }
+
+    private void ensureAdminProfile(Long userId) {
+        AdminProfile existing = adminProfileMapper.selectOne(
+                new LambdaQueryWrapper<AdminProfile>()
+                        .eq(AdminProfile::getUserId, userId)
+                        .last("LIMIT 1")
+        );
+        if (existing != null) {
+            return;
+        }
+        AdminProfile profile = new AdminProfile();
+        profile.setUserId(userId);
+        profile.setCreateTime(LocalDateTime.now());
+        profile.setUpdateTime(LocalDateTime.now());
+        adminProfileMapper.insert(profile);
+    }
+
+    private RoleProfileDTO loadRoleProfile(User user) {
+        RoleProfileDTO dto = new RoleProfileDTO();
+        dto.setUserId(user.getId());
+        dto.setRole(user.getRole());
+        String role = user.getRole() == null ? "" : user.getRole().trim().toUpperCase();
+        switch (role) {
+            case Constants.ROLE_STUDENT:
+                StudentProfile student = studentProfileMapper.selectOne(new LambdaQueryWrapper<StudentProfile>()
+                        .eq(StudentProfile::getUserId, user.getId()).last("LIMIT 1"));
+                if (student != null) {
+                    dto.setStudentNo(student.getStudentNo());
+                    dto.setClassName(student.getClassName());
+                    dto.setMajor(student.getMajor());
+                    dto.setRealName(student.getRealName());
+                    dto.setGender(student.getGender());
+                    dto.setBio(student.getBio());
+                }
+                break;
+            case Constants.ROLE_TEACHER:
+                TeacherProfile teacher = teacherProfileMapper.selectOne(new LambdaQueryWrapper<TeacherProfile>()
+                        .eq(TeacherProfile::getUserId, user.getId()).last("LIMIT 1"));
+                if (teacher != null) {
+                    dto.setTeacherNo(teacher.getTeacherNo());
+                    dto.setDepartment(teacher.getDepartment());
+                    dto.setTitle(teacher.getTitle());
+                    dto.setRealName(teacher.getRealName());
+                    dto.setGender(teacher.getGender());
+                    dto.setBio(teacher.getBio());
+                }
+                break;
+            case Constants.ROLE_ADMIN:
+                AdminProfile admin = adminProfileMapper.selectOne(new LambdaQueryWrapper<AdminProfile>()
+                        .eq(AdminProfile::getUserId, user.getId()).last("LIMIT 1"));
+                if (admin != null) {
+                    dto.setAdminCode(admin.getAdminCode());
+                    dto.setDepartment(admin.getDepartment());
+                    dto.setRealName(admin.getRealName());
+                    dto.setBio(admin.getBio());
+                }
+                break;
+            default:
+                break;
+        }
+        return dto;
+    }
+
+    private void upsertStudentProfile(Long userId, RoleProfileDTO dto) {
+        LocalDateTime now = LocalDateTime.now();
+        StudentProfile profile = studentProfileMapper.selectOne(
+                new LambdaQueryWrapper<StudentProfile>().eq(StudentProfile::getUserId, userId).last("LIMIT 1"));
+        boolean isNew = profile == null;
+        if (isNew) {
+            profile = new StudentProfile();
+            profile.setUserId(userId);
+            profile.setCreateTime(now);
+        }
+        profile.setStudentNo(trimToNull(dto.getStudentNo()));
+        profile.setClassName(trimToNull(dto.getClassName()));
+        profile.setMajor(trimToNull(dto.getMajor()));
+        profile.setRealName(trimToNull(dto.getRealName()));
+        profile.setGender(trimToNull(dto.getGender()));
+        profile.setBio(trimToNull(dto.getBio()));
+        profile.setUpdateTime(now);
+        if (isNew) {
+            studentProfileMapper.insert(profile);
+        } else {
+            studentProfileMapper.updateById(profile);
+        }
+    }
+
+    private void upsertTeacherProfile(Long userId, RoleProfileDTO dto) {
+        LocalDateTime now = LocalDateTime.now();
+        TeacherProfile profile = teacherProfileMapper.selectOne(
+                new LambdaQueryWrapper<TeacherProfile>().eq(TeacherProfile::getUserId, userId).last("LIMIT 1"));
+        boolean isNew = profile == null;
+        if (isNew) {
+            profile = new TeacherProfile();
+            profile.setUserId(userId);
+            profile.setCreateTime(now);
+        }
+        profile.setTeacherNo(trimToNull(dto.getTeacherNo()));
+        profile.setDepartment(trimToNull(dto.getDepartment()));
+        profile.setTitle(trimToNull(dto.getTitle()));
+        profile.setRealName(trimToNull(dto.getRealName()));
+        profile.setGender(trimToNull(dto.getGender()));
+        profile.setBio(trimToNull(dto.getBio()));
+        profile.setUpdateTime(now);
+        if (isNew) {
+            teacherProfileMapper.insert(profile);
+        } else {
+            teacherProfileMapper.updateById(profile);
+        }
+    }
+
+    private void upsertAdminProfile(Long userId, RoleProfileDTO dto) {
+        LocalDateTime now = LocalDateTime.now();
+        AdminProfile profile = adminProfileMapper.selectOne(
+                new LambdaQueryWrapper<AdminProfile>().eq(AdminProfile::getUserId, userId).last("LIMIT 1"));
+        boolean isNew = profile == null;
+        if (isNew) {
+            profile = new AdminProfile();
+            profile.setUserId(userId);
+            profile.setCreateTime(now);
+        }
+        profile.setAdminCode(trimToNull(dto.getAdminCode()));
+        profile.setDepartment(trimToNull(dto.getDepartment()));
+        profile.setRealName(trimToNull(dto.getRealName()));
+        profile.setBio(trimToNull(dto.getBio()));
+        profile.setUpdateTime(now);
+        if (isNew) {
+            adminProfileMapper.insert(profile);
+        } else {
+            adminProfileMapper.updateById(profile);
+        }
+    }
+
+    private String trimToNull(String value) {
+        if (value == null) {
+            return null;
+        }
+        String trimmed = value.trim();
+        return trimmed.isEmpty() ? null : trimmed;
     }
 }

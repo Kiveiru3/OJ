@@ -7,7 +7,15 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "problems:generate": "node scripts/generate_classic_problems.js",
-    "problems:import": "node scripts/import_classic_problems.js"
+    "problems:import": "node scripts/import_classic_problems.js",
+    "problems:import-batches": "node scripts/import_in_order_batches.js",
+    "problems:extract-trial": "node scripts/extract_html_problems_trial.js",
+    "problems:download-tk-free": "node scripts/download_tk_free_problems.js",
+    "problems:download-tk-zip": "node scripts/download_tk_zipdata.js",
+    "problems:merge-tk-zip-cases": "node scripts/merge_tk_zip_testcases.js",
+    "problems:build-icpc-nwerc2010-trial": "node scripts/build_icpc_nwerc2010_trial.js",
+    "smoke:test": "node scripts/smoke_test.js",
+    "smoke:contest": "node scripts/smoke_contest_e2e.js"
   },
   "dependencies": {
     "core-js": "^3.8.3",

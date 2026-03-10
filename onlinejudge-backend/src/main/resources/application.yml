@@ -11,7 +11,7 @@ spring:
   application:
     name: OnlineJudge
   
-  # 鏃ュ織閰嶇疆
+  # 日志配置
   output:
     ansi:
       enabled: always
@@ -33,6 +33,13 @@ spring:
         max-idle: 8
         min-idle: 0
 
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 0
+    locations: classpath:db/migration
+    encoding: UTF-8
+
 logging:
   level:
     com.academic.oj: DEBUG
@@ -50,23 +57,44 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
 
-# JWT閰嶇疆
+# JWT 配置
 jwt:
   secret: OnlineJudgeSecretKey2024ForAcademicProjectThisIsAVeryLongSecretKeyForHS512AlgorithmMustBeAtLeast64CharactersLongAndSecureEnough
-  expiration: 86400000  # 24灏忔椂锛屽崟浣嶏細姣
+  expiration: 86400000  # 24小时，单位：毫秒
 
-# 鏂囦欢涓婁紶閰嶇疆
+# 文件上传配置
 file:
   upload-path: ./uploads
 
-# 鍒ら閰嶇疆
+# 判题配置
 judge:
-  timeout: 5000  # 瓒呮椂鏃堕棿锛堟绉掞級
-  max-memory: 256  # 鏈€澶у唴瀛橈紙MB锛?
+  timeout: 5000  # 超时时间（毫秒）
+  time-limit-scale-percent: 150  # 判题时间按比例放大（150%）
+  time-limit-extra-ms: 800  # 额外时间补偿，吸收运行环境开销（毫秒）
+  max-memory: 256  # 最大内存（MB）
+  max-concurrent-runs: 4  # 同时判题并发数
+  queue-capacity: 200  # 判题任务队列长度
+  retry:
+    max-attempts: 2  # 判题遇到系统性异常时最大重试次数
+    backoff-ms: 200  # 每次重试间隔（毫秒）
   java-compiler: javac
   java-runtime: java
   cpp-compiler: g++
   python-runtime: python
-# 娲涜胺鐖櫕閰嶇疆
-luogu:
-  cookie: ""  # 娲涜胺Cookie锛堝彲閫夛紝浠庢祻瑙堝櫒鑾峰彇锛?
+  sandbox:
+    enabled: true
+    strict: false
+    docker-binary: docker
+    java-image: eclipse-temurin:17-jdk
+    cpp-image: gcc:13
+    python-image: python:3.11-alpine
+    cpus: "1.0"
+    pids-limit: 128
+    tmpfs-size: 64m
+    compile-timeout: 15000
+
+rate-limit:
+  enabled: true
+  login-per-minute: 30
+  submit-per-minute: 20
+

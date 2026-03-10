@@ -60,13 +60,18 @@ request.interceptors.response.use(
     }
 
     if (res.code !== 200) {
-      const message = res.message || 'Request failed'
+      let message = res.message || 'Request failed'
       if (!silent) {
         ElMessage.error(message)
       }
 
       if (res.code === 401) {
         await redirectToLogin()
+      } else if (res.code === 429) {
+        // keep server message, fallback to a clear throttling prompt
+        if (!res.message || res.message === 'Too Many Requests') {
+          message = '操作过于频繁，请稍后再试'
+        }
       }
 
       return Promise.reject(new Error(message))
@@ -87,6 +92,8 @@ request.interceptors.response.use(
         await redirectToLogin()
       } else if (status === 403) {
         message = data?.message || 'Forbidden'
+      } else if (status === 429) {
+        message = data?.message || '操作过于频繁，请稍后再试'
       } else if (status === 404) {
         message = data?.message || 'Resource not found'
       } else if (status >= 500) {

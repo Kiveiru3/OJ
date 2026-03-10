@@ -1,9 +1,11 @@
 package com.academic.oj.controller;
 
 import com.academic.oj.common.exception.BusinessException;
+import com.academic.oj.dto.SubmitDTO;
 import com.academic.oj.dto.SubmissionStatusDTO;
 import com.academic.oj.dto.SubmissionVO;
 import com.academic.oj.entity.Submission;
+import com.academic.oj.service.RateLimitService;
 import com.academic.oj.service.SubmissionService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +21,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -27,6 +31,9 @@ class SubmissionControllerTest {
 
     @Mock
     private SubmissionService submissionService;
+
+    @Mock
+    private RateLimitService rateLimitService;
 
     @InjectMocks
     private SubmissionController submissionController;
@@ -84,6 +91,57 @@ class SubmissionControllerTest {
         verify(submissionService).getSubmissionStatusById(15L);
     }
 
+    @Test
+    void submitShouldCheckRateLimitBeforeSubmit() {
+        setAuth(1L, "STUDENT");
+        SubmitDTO dto = new SubmitDTO();
+        dto.setProblemId(1001L);
+        dto.setLanguage("JAVA");
+        dto.setCode("public class Main { public static void main(String[] args) {} }");
+
+        Submission submission = new Submission();
+        submission.setId(99L);
+        submission.setUserId(1L);
+        when(submissionService.submit(1L, dto)).thenReturn(submission);
+
+        Submission result = (Submission) submissionController.submit(dto).getData();
+
+        assertEquals(99L, result.getId());
+        verify(rateLimitService).checkSubmitLimit(1L);
+        verify(submissionService).submit(1L, dto);
+    }
+
+    @Test
+    void submitShouldRejectWhenRateLimited() {
+        setAuth(1L, "STUDENT");
+        SubmitDTO dto = new SubmitDTO();
+        dto.setProblemId(1001L);
+        dto.setLanguage("JAVA");
+        dto.setCode("public class Main { public static void main(String[] args) {} }");
+
+        doThrow(new BusinessException(429, "Too many submissions"))
+                .when(rateLimitService).checkSubmitLimit(1L);
+
+        BusinessException ex = assertThrows(BusinessException.class, () -> submissionController.submit(dto));
+        assertEquals(429, ex.getCode());
+        assertEquals("Too many submissions", ex.getMessage());
+    }
+
+    @Test
+    void rejudgeShouldRejectStudent() {
+        setAuth(1L, "STUDENT");
+        BusinessException ex = assertThrows(BusinessException.class, () -> submissionController.rejudgeSubmission(99L));
+        assertEquals(403, ex.getCode());
+        verify(submissionService, never()).rejudgeSubmission(99L);
+    }
+
+    @Test
+    void rejudgeShouldAllowTeacher() {
+        setAuth(2L, "TEACHER");
+        submissionController.rejudgeSubmission(100L);
+        verify(submissionService).rejudgeSubmission(100L);
+    }
+
     private void setAuth(Long userId, String role) {
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                 userId.toString(),
@@ -93,3 +151,4 @@ class SubmissionControllerTest {
         SecurityContextHolder.getContext().setAuthentication(auth);
     }
 }
+

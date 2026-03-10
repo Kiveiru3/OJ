@@ -1,19 +1,17 @@
 package com.academic.oj.controller;
 
 import com.academic.oj.common.Result;
-import com.academic.oj.common.ResultCode;
-import com.academic.oj.common.exception.BusinessException;
 import com.academic.oj.dto.AdminResetPasswordDTO;
 import com.academic.oj.dto.AdminUserUpdateDTO;
 import com.academic.oj.dto.ChangePasswordDTO;
+import com.academic.oj.dto.RoleProfileDTO;
 import com.academic.oj.dto.UserInfoDTO;
 import com.academic.oj.dto.UserListDTO;
 import com.academic.oj.service.AdminOperationLogService;
 import com.academic.oj.service.UserService;
+import com.academic.oj.util.SecurityUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +28,19 @@ public class UserController {
         Long userId = getCurrentUserId();
         UserInfoDTO userInfo = userService.getUserInfo(userId);
         return Result.success(userInfo);
+    }
+
+    @GetMapping("/role-profile")
+    public Result<RoleProfileDTO> getMyRoleProfile() {
+        Long userId = getCurrentUserId();
+        return Result.success(userService.getRoleProfile(userId));
+    }
+
+    @PutMapping("/role-profile")
+    public Result<?> updateMyRoleProfile(@RequestBody RoleProfileDTO profileDTO) {
+        Long userId = getCurrentUserId();
+        userService.updateRoleProfile(userId, profileDTO);
+        return Result.success("Role profile updated");
     }
 
     @PutMapping("/password")
@@ -90,25 +101,27 @@ public class UserController {
         return Result.success("Password reset successfully");
     }
 
+    @GetMapping("/{id}/role-profile")
+    public Result<RoleProfileDTO> adminGetRoleProfile(@PathVariable Long id) {
+        requireAdmin();
+        return Result.success(userService.getRoleProfile(id));
+    }
+
+    @PutMapping("/{id}/role-profile")
+    public Result<?> adminUpdateRoleProfile(@PathVariable Long id, @RequestBody RoleProfileDTO profileDTO) {
+        requireAdmin();
+        Long operatorId = getCurrentUserId();
+        userService.updateRoleProfile(id, profileDTO);
+        adminOperationLogService.record(operatorId, "USER_MANAGE", "UPDATE_ROLE_PROFILE", "USER", id, "update role profile");
+        return Result.success("Role profile updated");
+    }
+
     private Long getCurrentUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return Long.parseLong(authentication.getName());
+        return SecurityUtils.getCurrentUserId();
     }
 
     private void requireAdmin() {
-        if (!hasRole("ADMIN")) {
-            throw new BusinessException(ResultCode.FORBIDDEN.getCode(), "Forbidden");
-        }
-    }
-
-    private boolean hasRole(String role) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || authentication.getAuthorities() == null) {
-            return false;
-        }
-        String expectedAuthority = "ROLE_" + role;
-        return authentication.getAuthorities().stream()
-                .anyMatch(authority -> expectedAuthority.equals(authority.getAuthority()));
+        SecurityUtils.requireRole("ADMIN");
     }
 
     private Integer normalizePage(Integer page) {

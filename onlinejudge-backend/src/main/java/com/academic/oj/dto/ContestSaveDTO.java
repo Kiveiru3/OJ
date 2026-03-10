@@ -20,10 +20,11 @@ public class ContestSaveDTO {
 
     @NotNull(message = "End time is required")
     private LocalDateTime endTime;
+    private LocalDateTime scoreboardFreezeTime;
 
     @NotEmpty(message = "At least one problem is required")
     private List<Long> problemIds;
 
     private Integer status; // 1-public, 0-hidden
+    private Integer penaltyPerWrong;
 }
-

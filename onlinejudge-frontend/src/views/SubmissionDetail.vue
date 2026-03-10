@@ -2,148 +2,153 @@
   <div class="submission-detail-container pro-page">
     <el-card v-loading="loading" class="main-card card-shadow pro-main-card">
       <template #header>
-        <div class="card-header">
-          <h2 class="submission-title">
-            <el-icon><Document /></el-icon>
-            提交详情 #{{ submission.id }}
-          </h2>
+        <div class="card-header pro-card-header">
+          <div class="header-left">
+            <el-button text @click="goBack">返回</el-button>
+            <div class="title-stack">
+              <h2 class="pro-title-text">提交详情 #{{ submission.id }}</h2>
+              <span class="title-sub">评测结果、资源占用与代码内容</span>
+            </div>
+          </div>
           <div class="header-actions">
-            <el-button
-              :disabled="!submission.problemId"
-              @click="goToProblemWithFilter"
-            >
+            <el-button :disabled="!submission.problemId" @click="goToProblemWithFilter">
               去题目页（保留筛选）
             </el-button>
-            <el-tag v-if="isJudging" type="warning" effect="dark">
-              评测中，自动刷新
-            </el-tag>
-            <el-button :icon="Refresh" @click="loadSubmission" :loading="loading">
-              刷新
+                        <el-button
+              v-if="canRejudge"
+              type="warning"
+              plain
+              :disabled="!canClickRejudge"
+              @click="handleRejudge"
+            >
+              Rejudge
             </el-button>
+            <el-tag v-if="isJudging" type="warning" effect="dark">评测中，自动刷新</el-tag>
+            <el-button :icon="Refresh" @click="loadSubmission" :loading="loading">刷新</el-button>
           </div>
         </div>
       </template>
 
       <div class="overview-grid">
-        <div class="overview-item">
+        <div class="overview-card">
           <div class="overview-label">评测状态</div>
-          <el-tag :type="getStatusType(submission.status)" effect="dark" size="large">
-            <el-icon style="margin-right: 5px;">
-              <component :is="getStatusIcon(submission.status)" />
-            </el-icon>
-            {{ getStatusText(submission.status) }}
-          </el-tag>
+          <div class="status-wrap">
+            <el-tag :type="getStatusType(submission.status)" effect="dark" size="large">
+              <el-icon style="margin-right: 5px;">
+                <component :is="getStatusIcon(submission.status)" />
+              </el-icon>
+              {{ getStatusText(submission.status) }}
+            </el-tag>
+          </div>
         </div>
-        <div class="overview-item">
+        <div class="overview-card">
           <div class="overview-label">执行时间</div>
           <div class="overview-value">{{ submission.executeTime ? `${submission.executeTime} ms` : '-' }}</div>
         </div>
-        <div class="overview-item">
+        <div class="overview-card">
           <div class="overview-label">执行内存</div>
           <div class="overview-value">{{ submission.executeMemory ? `${submission.executeMemory} KB` : '-' }}</div>
         </div>
+        <div class="overview-card">
+          <div class="overview-label">提交语言</div>
+          <div class="overview-value text-value">{{ submission.language || '-' }}</div>
+        </div>
       </div>
 
-      <div class="timeline-card">
-        <div class="timeline-title">判题进度</div>
+      <section class="section-panel">
+        <div class="section-title">判题进度</div>
         <el-steps
           :active="statusStep.active"
           align-center
           :process-status="statusStep.processStatus"
           :finish-status="statusStep.finishStatus"
+          class="steps"
         >
           <el-step title="已提交" />
           <el-step title="评测中" />
           <el-step title="完成" />
         </el-steps>
         <div class="timeline-hint">{{ statusStep.hint }}</div>
-      </div>
+      </section>
 
-      <el-descriptions :column="2" border class="submission-info">
-        <el-descriptions-item label="题目">
+      <section class="section-panel">
+        <div class="section-head">
+          <div class="section-title">提交信息</div>
           <el-link type="primary" @click="goToProblemWithFilter">
-            {{ submission.problemTitle }}
+            {{ submission.problemTitle || '未绑定题目' }}
           </el-link>
-        </el-descriptions-item>
-        <el-descriptions-item label="状态">
-          <el-tag :type="getStatusType(submission.status)" effect="dark" size="large">
-            <el-icon style="margin-right: 5px;">
-              <component :is="getStatusIcon(submission.status)" />
-            </el-icon>
-            {{ getStatusText(submission.status) }}
-          </el-tag>
-        </el-descriptions-item>
-        <el-descriptions-item label="语言">
-          <el-tag type="info" effect="plain">{{ submission.language }}</el-tag>
-        </el-descriptions-item>
-        <el-descriptions-item label="执行时间">
-          <span class="info-value">
-            {{ submission.executeTime ? submission.executeTime + 'ms' : '-' }}
-          </span>
-        </el-descriptions-item>
-        <el-descriptions-item label="内存">
-          <span class="info-value">
-            {{ submission.executeMemory ? submission.executeMemory + 'KB' : '-' }}
-          </span>
-        </el-descriptions-item>
-        <el-descriptions-item label="提交时间">
-          <span class="info-value">{{ submission.submitTime }}</span>
-        </el-descriptions-item>
-      </el-descriptions>
+        </div>
+        <el-descriptions :column="2" border class="submission-info">
+          <el-descriptions-item label="题目">
+            <el-link type="primary" @click="goToProblemWithFilter">
+              {{ submission.problemTitle }}
+            </el-link>
+          </el-descriptions-item>
+          <el-descriptions-item label="状态">
+            <el-tag :type="getStatusType(submission.status)" effect="dark">
+              {{ getStatusText(submission.status) }}
+            </el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item label="语言">
+            <el-tag type="info" effect="plain">{{ submission.language }}</el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item label="执行时间">
+            {{ submission.executeTime ? `${submission.executeTime} ms` : '-' }}
+          </el-descriptions-item>
+          <el-descriptions-item label="内存">
+            {{ submission.executeMemory ? `${submission.executeMemory} KB` : '-' }}
+          </el-descriptions-item>
+          <el-descriptions-item label="提交时间">
+            {{ submission.submitTime || '-' }}
+          </el-descriptions-item>
+        </el-descriptions>
+      </section>
 
-      <el-divider />
-
-      <div class="code-section">
-        <h3 class="section-title">
-          <el-icon><Edit /></el-icon>
-          提交代码
-        </h3>
-        <div class="section-actions">
+      <section class="section-panel">
+        <div class="section-head">
+          <div class="section-title">提交代码</div>
           <el-button size="small" @click="copyCode">复制代码</el-button>
         </div>
         <div class="code-wrapper">
-          <pre class="code-block">{{ submission.code }}</pre>
+          <pre class="code-block">{{ submission.code || '' }}</pre>
         </div>
-      </div>
+      </section>
 
-      <div v-if="submission.errorMessage" class="error-section">
-        <el-divider />
-        <h3 class="section-title error-title">
-          <el-icon><Warning /></el-icon>
-          错误信息
-        </h3>
-        <div class="section-actions">
-          <el-button size="small" type="danger" plain @click="copyErrorMessage">
-            复制错误信息
-          </el-button>
+      <section v-if="submission.errorMessage" class="section-panel error-panel">
+        <div class="section-head">
+          <div class="section-title error-title">
+            <el-icon><Warning /></el-icon>
+            错误信息
+          </div>
+          <el-button size="small" type="danger" plain @click="copyErrorMessage">复制错误信息</el-button>
         </div>
         <div class="error-wrapper">
           <pre class="error-block">{{ submission.errorMessage }}</pre>
         </div>
-      </div>
+      </section>
     </el-card>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, watch, computed } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { submissionApi } from '@/api'
-import { ElMessage } from 'element-plus'
+import { useUserStore } from '@/store/user'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import {
-  Document,
   CircleCheck,
   CircleClose,
-  Loading,
-  WarningFilled,
   InfoFilled,
-  Edit,
+  Loading,
+  Refresh,
   Warning,
-  Refresh
+  WarningFilled
 } from '@element-plus/icons-vue'
 
 const route = useRoute()
 const router = useRouter()
+const userStore = useUserStore()
 
 const loading = ref(false)
 const submission = ref({})
@@ -161,6 +166,10 @@ const FINAL_STATUS = new Set([
 const POLL_INTERVAL = 2000
 
 const isJudging = computed(() => JUDGING_STATUS.has(submission.value.status))
+const canRejudge = computed(() => userStore.isAdmin || userStore.isTeacher)
+const canClickRejudge = computed(() => {
+  return canRejudge.value && Boolean(submission.value.id) && !loading.value && !isJudging.value
+})
 
 const statusStep = computed(() => {
   const status = submission.value.status
@@ -294,7 +303,7 @@ const loadSubmission = async () => {
   loading.value = true
   try {
     const res = await submissionApi.getSubmissionDetail(route.params.id)
-    submission.value = res.data
+    submission.value = res.data || {}
     syncPolling()
   } catch (error) {
     stopPolling()
@@ -305,6 +314,32 @@ const loadSubmission = async () => {
   }
 }
 
+const handleRejudge = async () => {
+  if (!canClickRejudge.value) return
+  try {
+    await ElMessageBox.confirm(
+      'Rejudge will enqueue this submission again. Continue?',
+      'Confirm Rejudge',
+      {
+        type: 'warning',
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel'
+      }
+    )
+  } catch (error) {
+    return
+  }
+  loading.value = true
+  try {
+    await submissionApi.rejudgeSubmission(route.params.id)
+    ElMessage.success('Rejudge queued')
+    await loadSubmission()
+  } catch (error) {
+    ElMessage.error(error?.message || 'Rejudge failed')
+  } finally {
+    loading.value = false
+  }
+}
 const goToProblemWithFilter = () => {
   if (!submission.value.problemId) return
   router.push({
@@ -316,6 +351,10 @@ const goToProblemWithFilter = () => {
       filterLanguage: submission.value.language || ''
     }
   })
+}
+
+const goBack = () => {
+  router.push('/submissions')
 }
 
 const copyText = async (text, successMessage) => {
@@ -366,143 +405,152 @@ onBeforeUnmount(() => {
   border-radius: 8px;
 }
 
-.card-header {
+.header-left {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 20px;
-  background: linear-gradient(135deg, #f9fafc 0%, #eef2f6 100%);
-  border-radius: 8px 8px 0 0;
+  gap: 8px;
 }
 
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.submission-title {
+.title-stack {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0;
-  font-size: 22px;
-  font-weight: 600;
-  color: #303133;
+  flex-direction: column;
+  line-height: 1.15;
 }
 
-.submission-info {
-  margin-top: 20px;
+.title-sub {
+  margin-top: 3px;
+  color: #64748b;
+  font-size: 12px;
 }
 
-.timeline-card {
-  margin-bottom: 20px;
-  padding: 16px;
-  border: 1px solid #ebeef5;
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.overview-card {
+  border: 1px solid #dce8f8;
+  background: linear-gradient(160deg, #f9fbff 0%, #eef6ff 100%);
   border-radius: 8px;
-  background: #fff;
+  padding: 12px 14px;
+  transition: transform 0.18s ease, box-shadow 0.2s ease;
 }
 
-.timeline-title {
+.overview-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.1);
+}
+
+.overview-label {
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 5px;
+}
+
+.overview-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.text-value {
   font-size: 14px;
-  color: #606266;
-  margin-bottom: 12px;
-  font-weight: 600;
+  line-height: 1.35;
+}
+
+.status-wrap {
+  margin-top: 2px;
+}
+
+.section-panel {
+  border: 1px solid #e2e9f3;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.section-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.steps {
+  margin-top: 10px;
 }
 
 .timeline-hint {
   margin-top: 10px;
   font-size: 13px;
-  color: #909399;
+  color: #64748b;
 }
 
-.overview-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  margin-bottom: 20px;
-}
-
-.overview-item {
-  padding: 16px;
-  border: 1px solid #ebeef5;
-  border-radius: 8px;
-  background: #fafafa;
-}
-
-.overview-label {
-  font-size: 13px;
-  color: #909399;
-  margin-bottom: 8px;
-}
-
-.overview-value {
-  font-size: 20px;
-  font-weight: 600;
-  color: #303133;
-}
-
-.info-value {
-  font-size: 14px;
-  color: #606266;
-  font-weight: 500;
-}
-
-.code-section,
-.error-section {
-  margin-top: 30px;
-}
-
-.section-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 15px;
-  font-size: 18px;
-  font-weight: 600;
-  color: #303133;
-}
-
-.section-actions {
-  margin-bottom: 10px;
-}
-
-.error-title {
-  color: #f56c6c;
+.submission-info {
+  margin-top: 8px;
 }
 
 .code-wrapper,
 .error-wrapper {
-  border: 1px solid #dcdfe6;
+  border: 1px solid #d7e1ee;
   border-radius: 8px;
   overflow: hidden;
 }
 
 .code-block {
-  background: #2d2d2d;
-  color: #f8f8f2;
-  padding: 20px;
   margin: 0;
+  padding: 20px;
   overflow-x: auto;
+  background: #1f2937;
+  color: #e5e7eb;
   font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.65;
+}
+
+.error-panel {
+  border-color: #f8d7da;
+  background: linear-gradient(180deg, #fffefe 0%, #fff7f7 100%);
+}
+
+.error-title {
+  color: #c53030;
 }
 
 .error-block {
-  background: #fef0f0;
-  color: #f56c6c;
-  padding: 20px;
   margin: 0;
+  padding: 16px 18px;
   overflow-x: auto;
+  background: #fef2f2;
+  color: #b42318;
   font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 980px) {
   .overview-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 </style>

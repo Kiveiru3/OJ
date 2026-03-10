@@ -27,13 +27,23 @@ class SystemControllerTest {
 
     @Test
     void getPublicConfigsShouldUseDefaultKeysWhenInputIsNull() {
-        when(systemConfigService.getConfigMapByKeys(List.of("site.name", "site.announcement", "contest.default_page_size")))
+        when(systemConfigService.getConfigMapByKeys(List.of(
+                "site.name",
+                "site.announcement",
+                "contest.default_page_size",
+                "contest.default_penalty_per_wrong"
+        )))
                 .thenReturn(Map.of("site.name", "OJ"));
 
         Map<String, String> result = (Map<String, String>) systemController.getPublicConfigs(null).getData();
 
         assertEquals("OJ", result.get("site.name"));
-        verify(systemConfigService).getConfigMapByKeys(List.of("site.name", "site.announcement", "contest.default_page_size"));
+        verify(systemConfigService).getConfigMapByKeys(List.of(
+                "site.name",
+                "site.announcement",
+                "contest.default_page_size",
+                "contest.default_penalty_per_wrong"
+        ));
     }
 
     @Test

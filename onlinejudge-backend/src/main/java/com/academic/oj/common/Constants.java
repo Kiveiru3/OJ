@@ -17,6 +17,7 @@ public class Constants {
     
     // 提交状态
     public static final String STATUS_PENDING = "PENDING";
+    public static final String STATUS_JUDGING = "JUDGING";
     public static final String STATUS_ACCEPTED = "ACCEPTED";
     public static final String STATUS_WRONG_ANSWER = "WRONG_ANSWER";
     public static final String STATUS_TIME_LIMIT_EXCEEDED = "TIME_LIMIT_EXCEEDED";

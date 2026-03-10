@@ -1,21 +1,20 @@
 package com.academic.oj.controller;
 
 import com.academic.oj.common.Result;
-import com.academic.oj.common.ResultCode;
-import com.academic.oj.common.exception.BusinessException;
 import com.academic.oj.dto.AdminOperationLogVO;
 import com.academic.oj.dto.FeatureChecklistOverviewVO;
+import com.academic.oj.dto.JudgeResultVO;
 import com.academic.oj.dto.SystemMonitorVO;
 import com.academic.oj.dto.SystemConfigUpdateDTO;
 import com.academic.oj.entity.SystemConfig;
 import com.academic.oj.service.AdminOperationLogService;
 import com.academic.oj.service.FeatureChecklistService;
+import com.academic.oj.service.JudgeResultService;
 import com.academic.oj.service.SystemMonitorService;
 import com.academic.oj.service.SystemConfigService;
+import com.academic.oj.util.SecurityUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +29,7 @@ public class AdminSystemController {
     private final AdminOperationLogService adminOperationLogService;
     private final FeatureChecklistService featureChecklistService;
     private final SystemMonitorService systemMonitorService;
+    private final JudgeResultService judgeResultService;
 
     @GetMapping("/configs")
     public Result<List<SystemConfig>> getConfigs() {
@@ -76,28 +76,26 @@ public class AdminSystemController {
         return Result.success(monitor);
     }
 
-    private void requireAdmin() {
-        if (!hasRole("ADMIN")) {
-            throw new BusinessException(ResultCode.FORBIDDEN.getCode(), "Forbidden");
-        }
+    @GetMapping("/judge-results")
+    public Result<Page<JudgeResultVO>> getJudgeResults(
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "20") Integer size,
+            @RequestParam(required = false) Long userId,
+            @RequestParam(required = false) Long problemId,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String language) {
+        requireAdmin();
+        Page<JudgeResultVO> result = judgeResultService.getJudgeResultPage(
+                normalizePage(page), normalizeSize(size), userId, problemId, status, language);
+        return Result.success(result);
     }
 
-    private boolean hasRole(String role) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || authentication.getAuthorities() == null) {
-            return false;
-        }
-        String expectedAuthority = "ROLE_" + role;
-        return authentication.getAuthorities().stream()
-                .anyMatch(authority -> expectedAuthority.equals(authority.getAuthority()));
+    private void requireAdmin() {
+        SecurityUtils.requireRole("ADMIN");
     }
 
     private Long getCurrentUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || authentication.getName() == null) {
-            throw new BusinessException(ResultCode.UNAUTHORIZED.getCode(), "Unauthorized");
-        }
-        return Long.parseLong(authentication.getName());
+        return SecurityUtils.getCurrentUserId();
     }
 
     private Integer normalizePage(Integer page) {

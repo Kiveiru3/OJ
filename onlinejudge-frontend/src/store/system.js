@@ -4,7 +4,8 @@ import { systemApi } from '@/api'
 const DEFAULT_CONFIG = {
   'site.name': 'Online Judge',
   'site.announcement': '',
-  'contest.default_page_size': '10'
+  'contest.default_page_size': '10',
+  'contest.default_penalty_per_wrong': '20'
 }
 
 export const useSystemStore = defineStore('system', {
@@ -31,6 +32,16 @@ export const useSystemStore = defineStore('system', {
       const rounded = Math.floor(value)
       if (rounded < 1) return 10
       if (rounded > 100) return 100
+      return rounded
+    },
+    contestDefaultPenaltyPerWrong: (state) => {
+      const value = Number(state.configMap['contest.default_penalty_per_wrong'])
+      if (!Number.isFinite(value)) {
+        return Number(DEFAULT_CONFIG['contest.default_penalty_per_wrong'])
+      }
+      const rounded = Math.floor(value)
+      if (rounded < 0) return 0
+      if (rounded > 120) return 120
       return rounded
     }
   },

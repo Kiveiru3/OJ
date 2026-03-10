@@ -4,6 +4,7 @@ import com.academic.oj.dto.LoginDTO;
 import com.academic.oj.dto.TokenDTO;
 import com.academic.oj.dto.UserInfoDTO;
 import com.academic.oj.service.AdminOperationLogService;
+import com.academic.oj.service.RateLimitService;
 import com.academic.oj.service.UserService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,9 @@ class AuthControllerTest {
     @Mock
     private AdminOperationLogService adminOperationLogService;
 
+    @Mock
+    private RateLimitService rateLimitService;
+
     @InjectMocks
     private AuthController authController;
 
@@ -48,9 +52,10 @@ class AuthControllerTest {
         TokenDTO tokenDTO = new TokenDTO("mock-token", userInfoDTO);
         when(userService.login(loginDTO)).thenReturn(tokenDTO);
 
-        TokenDTO result = (TokenDTO) authController.login(loginDTO).getData();
+        TokenDTO result = (TokenDTO) authController.login(loginDTO, null).getData();
 
         assertEquals("mock-token", result.getToken());
+        verify(rateLimitService).checkLoginLimit("unknown");
         verify(adminOperationLogService).record(7L, "AUTH", "LOGIN", "USER", 7L, "username=alice");
     }
 

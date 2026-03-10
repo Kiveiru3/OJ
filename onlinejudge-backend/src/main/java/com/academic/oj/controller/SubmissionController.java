@@ -7,11 +7,11 @@ import com.academic.oj.dto.SubmitDTO;
 import com.academic.oj.dto.SubmissionStatusDTO;
 import com.academic.oj.dto.SubmissionVO;
 import com.academic.oj.entity.Submission;
+import com.academic.oj.service.RateLimitService;
 import com.academic.oj.service.SubmissionService;
+import com.academic.oj.util.SecurityUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +23,12 @@ import java.util.List;
 public class SubmissionController {
 
     private final SubmissionService submissionService;
+    private final RateLimitService rateLimitService;
 
     @PostMapping("/submit")
     public Result<Submission> submit(@Validated @RequestBody SubmitDTO submitDTO) {
         Long userId = getCurrentUserId();
+        rateLimitService.checkSubmitLimit(userId);
         Submission submission = submissionService.submit(userId, submitDTO);
         return Result.success(submission);
     }
@@ -73,27 +75,21 @@ public class SubmissionController {
             @PathVariable Long problemId,
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer size) {
-        if (!hasRole("TEACHER") && !hasRole("ADMIN")) {
-            throw new BusinessException(ResultCode.FORBIDDEN.getCode(), "Forbidden");
-        }
+        SecurityUtils.requireAnyRole("TEACHER", "ADMIN");
         List<Submission> submissions = submissionService.getSubmissionsByProblemId(
                 problemId, normalizePage(page), normalizeSize(size));
         return Result.success(submissions);
     }
 
-    private Long getCurrentUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return Long.parseLong(authentication.getName());
+    @PostMapping("/{id}/rejudge")
+    public Result<?> rejudgeSubmission(@PathVariable Long id) {
+        SecurityUtils.requireAnyRole("TEACHER", "ADMIN");
+        submissionService.rejudgeSubmission(id);
+        return Result.success("Rejudge queued");
     }
 
-    private boolean hasRole(String role) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || authentication.getAuthorities() == null) {
-            return false;
-        }
-        String expectedAuthority = "ROLE_" + role;
-        return authentication.getAuthorities().stream()
-                .anyMatch(authority -> expectedAuthority.equals(authority.getAuthority()));
+    private Long getCurrentUserId() {
+        return SecurityUtils.getCurrentUserId();
     }
 
     private Integer normalizePage(Integer page) {
@@ -113,7 +109,7 @@ public class SubmissionController {
         if (entity == null) {
             throw new BusinessException(ResultCode.NOT_FOUND.getCode(), "Submission not found");
         }
-        if (!userId.equals(entity.getUserId()) && !hasRole("ADMIN")) {
+        if (!userId.equals(entity.getUserId()) && !SecurityUtils.hasRole("ADMIN")) {
             throw new BusinessException(ResultCode.FORBIDDEN.getCode(), "Forbidden");
         }
     }
