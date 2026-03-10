@@ -1,4 +1,4 @@
-﻿USE onlinejudge;
+USE onlinejudge;
 
 -- Reset admin password to admin123 with a verified 60-char BCrypt hash
 -- Hash: $2a$10$FoAxdf9RStrvA10Njh7ErOOOhjIgJf/OVkcfS9ZjdMbXgr4N9Dl.O

@@ -1,8 +1,8 @@
-﻿/* eslint-disable no-console */
+/* eslint-disable no-console */
 const fs = require('fs')
 const path = require('path')
 
-const DEFAULT_SOURCE_DIR = 'D:\\BaiduNetdiskDownload\\0972f-main\\OJ棰樺簱'
+const DEFAULT_SOURCE_DIR = 'D:\\BaiduNetdiskDownload\\0972f-main\\OJ题库'
 const DEFAULT_OUTPUT = path.resolve(__dirname, 'data', 'html_problems_trial_200.json')
 const DEFAULT_REPORT = path.resolve(__dirname, 'data', 'html_problems_trial_report.json')
 
@@ -58,8 +58,9 @@ function detectEncoding(buffer) {
 function mojibakeScore(text) {
   const s = String(text || '')
   if (!s) return 999999
-  const badPattern = /(閿焲鏉坾閸檤閻▅鐠噟閺峾閸弢閹祙閸抾缂亅锟斤拷)/g
-  const badCount = (s.match(badPattern) || []).length
+  const replacementCount = (s.match(/�/g) || []).length
+  const latinMojibakeCount = (s.match(/[ÃÂÐ][\u0080-\u00BF]/g) || []).length
+  const badCount = replacementCount + latinMojibakeCount
   return badCount / Math.max(1, s.length)
 }
 
@@ -133,8 +134,8 @@ function cleanSingleLine(text) {
 
 function mapDifficultyFromTitle(title, timeLimit) {
   const t = String(title || '')
-  if (/绠€鍗晐鍏ラ棬|A\+B|缁冧範I|鐑韩/i.test(t)) return 'EASY'
-  if (/鍥伴毦|楂樼骇|hard/i.test(t)) return 'HARD'
+  if (/入门|简单|普及|A\+B|练习I|热身|easy/i.test(t)) return 'EASY'
+  if (/困难|提高|省选|NOI|高级|hard/i.test(t)) return 'HARD'
   if (Number(timeLimit || 0) <= 1000) return 'MEDIUM'
   return 'MEDIUM'
 }

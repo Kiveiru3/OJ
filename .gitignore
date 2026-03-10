@@ -1,4 +1,4 @@
-# --- Java / Maven 忽略项 ---
+# --- Java / Maven ---
 target/
 *.class
 *.log
@@ -7,7 +7,7 @@ target/
 *.war
 *.ear
 
-# --- IDE 忽略项 (IntelliJ / VS Code) ---
+# --- IDE (IntelliJ / VS Code) ---
 .idea/
 *.iml
 .vscode/
@@ -15,14 +15,19 @@ target/
 .project
 .classpath
 
-# --- Node / Vue 忽略项 ---
+# --- Node / Vue ---
 node_modules/
 dist/
+.eslintcache
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.eslintcache
+pnpm-debug.log*
 
-# --- 系统文件 ---
+# --- Generated Artifacts ---
+onlinejudge-frontend/dist/
+onlinejudge-frontend/scripts/data/*_report.json
+
+# --- OS Files ---
 .DS_Store
 Thumbs.db

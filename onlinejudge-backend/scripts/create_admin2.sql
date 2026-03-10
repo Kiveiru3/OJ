@@ -1,4 +1,4 @@
-﻿USE onlinejudge;
+USE onlinejudge;
 
 -- Create/repair admin2 account with a verified 60-char BCrypt hash
 -- Username: admin2

@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="system-manage-container pro-page">
     <el-card class="main-card card-shadow pro-main-card">
       <template #header>

@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="problem-detail-container pro-page">
     <el-card v-loading="loading" class="main-card card-shadow pro-main-card">
       <template #header>
