@@ -29,8 +29,40 @@
       <AppCard padding="lg">
         <h2 class="text-lg font-semibold text-slate-800">{{ currentProblemTitle }}</h2>
         <p class="mt-1 text-xs text-soft">时间限制 {{ problemDetail.timeLimit || 2000 }} ms · 内存限制 {{ problemDetail.memoryLimit || 256000 }} KB</p>
-        <div class="prose-readable mt-3 max-h-52 overflow-auto whitespace-pre-line rounded-lg bg-slate-50 p-3">
-          {{ problemDetail.description || '请选择题目后查看描述' }}
+        <div class="mt-4 space-y-3">
+          <section class="rounded-xl border border-line bg-slate-50/60 p-4">
+            <h3 class="text-sm font-semibold text-slate-800">题目描述</h3>
+            <ProblemRichContent class="mt-2" :content="problemDetail.description || '请选择题目后查看描述'" />
+          </section>
+
+          <section v-if="hasInputFormat" class="rounded-xl border border-line bg-white p-4">
+            <h3 class="text-sm font-semibold text-slate-800">输入格式</h3>
+            <ProblemRichContent class="mt-2" :content="inputFormatText" />
+          </section>
+
+          <section v-if="hasOutputFormat" class="rounded-xl border border-line bg-white p-4">
+            <h3 class="text-sm font-semibold text-slate-800">输出格式</h3>
+            <ProblemRichContent class="mt-2" :content="outputFormatText" />
+          </section>
+
+          <section v-if="hasSample" class="rounded-xl border border-line bg-white p-4">
+            <h3 class="text-sm font-semibold text-slate-800">样例</h3>
+            <div class="mt-2 grid gap-3 md:grid-cols-2">
+              <div class="rounded-lg border border-line bg-slate-900 p-3">
+                <div class="mb-2 text-xs text-slate-300">输入</div>
+                <pre class="max-h-52 overflow-auto whitespace-pre-wrap text-xs leading-6 text-slate-100">{{ sampleInputText }}</pre>
+              </div>
+              <div class="rounded-lg border border-line bg-slate-900 p-3">
+                <div class="mb-2 text-xs text-slate-300">输出</div>
+                <pre class="max-h-52 overflow-auto whitespace-pre-wrap text-xs leading-6 text-slate-100">{{ sampleOutputText }}</pre>
+              </div>
+            </div>
+          </section>
+
+          <section v-if="hasHint" class="rounded-xl border border-amber-200 bg-amber-50 p-4">
+            <h3 class="text-sm font-semibold text-amber-800">提示</h3>
+            <ProblemRichContent class="mt-2" :content="hintText" />
+          </section>
         </div>
         <textarea
           v-model="form.code"
@@ -125,6 +157,7 @@ import AppBadge from '@/components/ui/AppBadge.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import AppCard from '@/components/ui/AppCard.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
+import ProblemRichContent from '@/components/problem/ProblemRichContent.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -169,6 +202,27 @@ const currentProblemTitle = computed(() => {
   const found = problemOptions.value.find((p) => Number(p.id) === Number(currentProblemId.value))
   return found ? `#${found.id} ${found.title}` : `题目 #${currentProblemId.value}`
 })
+
+const inputFormatText = computed(() => normalizeText(problemDetail.value.inputFormat))
+const outputFormatText = computed(() => normalizeText(problemDetail.value.outputFormat))
+const hintText = computed(() => normalizeText(problemDetail.value.hint))
+const sampleInputText = computed(() => {
+  const first = problemDetail.value?.examples?.[0]?.input
+  return normalizeText(problemDetail.value.sampleInput || first)
+})
+const sampleOutputText = computed(() => {
+  const first = problemDetail.value?.examples?.[0]?.output
+  return normalizeText(problemDetail.value.sampleOutput || first)
+})
+const hasInputFormat = computed(() => !!inputFormatText.value.trim())
+const hasOutputFormat = computed(() => !!outputFormatText.value.trim())
+const hasHint = computed(() => !!hintText.value.trim())
+const hasSample = computed(() => !!sampleInputText.value.trim() || !!sampleOutputText.value.trim())
+
+function normalizeText(value) {
+  if (value === null || value === undefined) return ''
+  return String(value)
+}
 
 function clearPollTimer() {
   if (timer) {
