@@ -16,6 +16,13 @@ const props = defineProps({
   }
 })
 
+function normalizeTextInMath(source) {
+  // Keep regular math intact, but treat `$Jam$`-style proper nouns as text in math mode.
+  return source
+    .replace(/(^|[^\\])\$\$\s*([A-Z][A-Za-z]{1,31})\s*\$\$/g, (_, prefix, word) => `${prefix}$$\\text{${word}}$$`)
+    .replace(/(^|[^\\])\$\s*([A-Z][A-Za-z]{1,31})\s*\$/g, (_, prefix, word) => `${prefix}$\\text{${word}}$`)
+}
+
 const md = new MarkdownIt({
   html: false,
   linkify: true,
@@ -50,7 +57,7 @@ md.renderer.rules.link_open = (tokens, idx, options, env, self) => {
 const safeHtml = computed(() => {
   const source = String(props.content || '').trim()
   if (!source) return '<p>暂无内容</p>'
-  const raw = md.render(source)
+  const raw = md.render(normalizeTextInMath(source))
   return DOMPurify.sanitize(raw)
 })
 </script>
