@@ -1,4 +1,4 @@
-﻿import request from './request'
+import request from './request'
 
 export const authApi = {
   login(data) {
@@ -27,6 +27,21 @@ export const userApi = {
   },
   updateRoleProfile(data) {
     return request({ url: '/user/role-profile', method: 'put', data })
+  },
+  getUserList(params) {
+    return request({ url: '/user/list', method: 'get', params })
+  },
+  adminUpdateUser(id, data) {
+    return request({ url: `/user/${id}/admin`, method: 'put', data })
+  },
+  adminResetPassword(id, data) {
+    return request({ url: `/user/${id}/reset-password`, method: 'post', data })
+  },
+  adminGetRoleProfile(id) {
+    return request({ url: `/user/${id}/role-profile`, method: 'get' })
+  },
+  adminUpdateRoleProfile(id, data) {
+    return request({ url: `/user/${id}/role-profile`, method: 'put', data })
   }
 }
 
@@ -78,5 +93,38 @@ export const discussionApi = {
   },
   getPostDetail(id) {
     return request({ url: `/discussion/${id}`, method: 'get' })
+  }
+}
+
+export const teacherApi = {
+  getOverview(params) {
+    return request({ url: '/teacher/analytics/overview', method: 'get', params })
+  },
+  exportOverview(params) {
+    return request({ url: '/teacher/analytics/overview/export', method: 'get', params })
+  }
+}
+
+export const adminApi = {
+  getConfigs() {
+    return request({ url: '/admin/system/configs', method: 'get' })
+  },
+  upsertConfig(data) {
+    return request({ url: '/admin/system/config', method: 'put', data })
+  },
+  getLogs(params) {
+    return request({ url: '/admin/system/logs', method: 'get', params })
+  },
+  getMonitor() {
+    return request({ url: '/admin/system/monitor', method: 'get' })
+  },
+  getJudgeResults(params) {
+    return request({ url: '/admin/system/judge-results', method: 'get', params })
+  }
+}
+
+export const systemApi = {
+  getPublicConfigs(params) {
+    return request({ url: '/system/public-configs', method: 'get', params })
   }
 }
