@@ -1,4 +1,4 @@
-﻿import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import MainLayout from '@/layouts/MainLayout.vue'
 import { useUserStore } from '@/stores/useUserStore'
 
@@ -24,7 +24,19 @@ const routes = [
       { path: 'contests', name: 'contests', component: () => import('@/views/ContestHubView.vue'), meta: { requiresAuth: true } },
       { path: 'discuss', name: 'discuss', component: () => import('@/views/DiscussionPlazaView.vue'), meta: { requiresAuth: true } },
       { path: 'studio', name: 'studio', component: () => import('@/views/CodeStudioView.vue'), meta: { requiresAuth: true } },
-      { path: 'profile', name: 'profile', component: () => import('@/views/ProfileView.vue'), meta: { requiresAuth: true } }
+      { path: 'profile', name: 'profile', component: () => import('@/views/ProfileView.vue'), meta: { requiresAuth: true } },
+      {
+        path: 'teacher-workbench',
+        name: 'teacherWorkbench',
+        component: () => import('@/views/TeacherWorkbenchView.vue'),
+        meta: { requiresAuth: true, roles: ['TEACHER', 'ADMIN'] }
+      },
+      {
+        path: 'admin-console',
+        name: 'adminConsole',
+        component: () => import('@/views/AdminConsoleView.vue'),
+        meta: { requiresAuth: true, roles: ['ADMIN'] }
+      }
     ]
   }
 ]
@@ -52,6 +64,14 @@ router.beforeEach(async (to) => {
     } catch (_) {
       user.clearSession()
       return `/login?redirect=${encodeURIComponent(to.fullPath)}`
+    }
+  }
+
+  const requiredRoles = to.meta?.roles
+  if (requiredRoles?.length) {
+    const role = user.userInfo?.role
+    if (!requiredRoles.includes(role)) {
+      return '/'
     }
   }
 

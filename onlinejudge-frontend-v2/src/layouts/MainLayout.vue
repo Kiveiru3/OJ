@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="min-h-screen px-4 pb-8 pt-4 md:px-8">
     <header class="glass-panel sticky top-4 z-30 mx-auto mb-6 flex w-full max-w-[1400px] items-center justify-between rounded-xl border border-white/60 px-5 py-3 shadow-card">
       <div class="flex items-center gap-3">
@@ -49,7 +49,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { RouterLink, RouterView, useRouter } from 'vue-router'
 import AppButton from '@/components/ui/AppButton.vue'
 import { useAppStore } from '@/stores/useAppStore'
@@ -59,13 +59,22 @@ const app = useAppStore()
 const user = useUserStore()
 const router = useRouter()
 
-const navItems = [
-  { to: '/', label: '首页指挥舱' },
-  { to: '/problems', label: '题库中心' },
-  { to: '/contests', label: '赛事中枢' },
-  { to: '/discuss', label: '交流广场' },
-  { to: '/studio', label: '代码工坊' }
-]
+const navItems = computed(() => {
+  const common = [
+    { to: '/', label: '首页指挥舱' },
+    { to: '/problems', label: '题库中心' },
+    { to: '/contests', label: '赛事中枢' },
+    { to: '/discuss', label: '交流广场' },
+    { to: '/studio', label: '代码工坊' }
+  ]
+  if (user.isTeacher || user.isAdmin) {
+    common.push({ to: '/teacher-workbench', label: '教师工作台' })
+  }
+  if (user.isAdmin) {
+    common.push({ to: '/admin-console', label: '管理控制台' })
+  }
+  return common
+})
 
 const shortName = computed(() => {
   const nick = user.userInfo?.nickname || user.userInfo?.username || '访客'
@@ -76,6 +85,10 @@ const logout = async () => {
   await user.logout()
   router.push('/login')
 }
+
+onMounted(() => {
+  app.loadPublicConfigs()
+})
 </script>
 
 <style scoped>
