@@ -58,6 +58,9 @@ export const submissionApi = {
   submitCode(data) {
     return request({ url: '/submission/submit', method: 'post', data })
   },
+  getSubmissionById(id) {
+    return request({ url: `/submission/${id}`, method: 'get' })
+  },
   getSubmissionStatus(id, config = {}) {
     return request({ url: `/submission/${id}/status`, method: 'get', ...config })
   },

@@ -66,7 +66,8 @@
               </td>
               <td class="px-3 py-2">
                 <div class="flex flex-wrap gap-2">
-                  <AppButton size="sm" variant="secondary" @click="openUserEdit(item)">编辑</AppButton>
+                  <AppButton size="sm" variant="secondary" @click="openUserEdit(item)">编辑账号</AppButton>
+                  <AppButton size="sm" variant="secondary" @click="openProfileEditor(item)">角色档案</AppButton>
                   <AppButton size="sm" variant="ghost" @click="quickResetPassword(item)">重置密码</AppButton>
                 </div>
               </td>
@@ -233,7 +234,7 @@
 
     <div v-if="editingUser" class="fixed inset-0 z-40 flex items-center justify-center bg-black/35 p-4">
       <div class="w-full max-w-md rounded-xl bg-white p-5 shadow-card">
-        <div class="text-lg font-semibold text-slate-900">编辑用户 #{{ editingUser.id }}</div>
+        <div class="text-lg font-semibold text-slate-900">编辑账号 #{{ editingUser.id }}</div>
         <div class="mt-3 grid gap-3">
           <select v-model="editingForm.role" class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800">
             <option value="STUDENT">学生</option>
@@ -248,6 +249,43 @@
         <div class="mt-4 flex justify-end gap-2">
           <AppButton size="sm" variant="secondary" @click="editingUser = null">取消</AppButton>
           <AppButton size="sm" :disabled="editingSaving" @click="saveUserEdit">{{ editingSaving ? '保存中...' : '保存' }}</AppButton>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="profileUser" class="fixed inset-0 z-40 flex items-center justify-center bg-black/35 p-4">
+      <div class="w-full max-w-2xl rounded-xl bg-white p-5 shadow-card">
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="text-lg font-semibold text-slate-900">角色档案编辑</div>
+            <div class="text-xs text-soft">用户 #{{ profileUser.id }} · {{ profileUser.username }} · {{ roleLabel(profileUser.role) }}</div>
+          </div>
+          <AppButton size="sm" variant="ghost" @click="closeProfileEditor">关闭</AppButton>
+        </div>
+
+        <div v-if="profileLoading" class="mt-4 grid gap-2">
+          <div v-for="n in 6" :key="`profile-skeleton-${n}`" class="skeleton h-10 rounded-lg" />
+        </div>
+
+        <div v-else class="mt-4 grid gap-3 md:grid-cols-2">
+          <input v-if="isStudentProfile" v-model.trim="profileForm.studentNo" class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="学号" />
+          <input v-if="isStudentProfile" v-model.trim="profileForm.className" class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="班级" />
+          <input v-if="isStudentProfile" v-model.trim="profileForm.major" class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="专业" />
+
+          <input v-if="isTeacherProfile" v-model.trim="profileForm.teacherNo" class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="工号" />
+          <input v-if="isTeacherProfile" v-model.trim="profileForm.title" class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="职称" />
+
+          <input v-if="isAdminProfile" v-model.trim="profileForm.adminCode" class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="管理编号" />
+
+          <input v-model.trim="profileForm.realName" class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="真实姓名" />
+          <input v-model.trim="profileForm.gender" class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="性别（可选）" />
+          <input v-model.trim="profileForm.department" class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="院系/部门（可选）" />
+          <textarea v-model.trim="profileForm.bio" class="md:col-span-2 h-24 rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="个人简介（可选）" />
+        </div>
+
+        <div class="mt-4 flex justify-end gap-2">
+          <AppButton size="sm" variant="secondary" @click="closeProfileEditor">取消</AppButton>
+          <AppButton size="sm" :disabled="profileSaving || profileLoading" @click="saveProfileEditor">{{ profileSaving ? '保存中...' : '保存档案' }}</AppButton>
         </div>
       </div>
     </div>
@@ -278,6 +316,22 @@ const userQuery = reactive({ page: 1, size: 10, keyword: '', role: '', status: '
 const editingUser = ref(null)
 const editingForm = reactive({ role: 'STUDENT', status: 1 })
 const editingSaving = ref(false)
+
+const profileUser = ref(null)
+const profileLoading = ref(false)
+const profileSaving = ref(false)
+const profileForm = reactive({
+  studentNo: '',
+  className: '',
+  major: '',
+  teacherNo: '',
+  title: '',
+  adminCode: '',
+  department: '',
+  realName: '',
+  gender: '',
+  bio: ''
+})
 
 const configsLoading = ref(false)
 const configsSaving = ref(false)
@@ -312,6 +366,10 @@ const monitorCards = computed(() => [
   { label: '判题队列状态', value: monitorData.value.queueStatus || 'UNKNOWN' }
 ])
 
+const isStudentProfile = computed(() => profileUser.value?.role === 'STUDENT')
+const isTeacherProfile = computed(() => profileUser.value?.role === 'TEACHER')
+const isAdminProfile = computed(() => profileUser.value?.role === 'ADMIN')
+
 function roleLabel(role) {
   if (role === 'ADMIN') return '管理员'
   if (role === 'TEACHER') return '教师'
@@ -329,6 +387,54 @@ function normalizePageData(data) {
     records: data?.records || [],
     total: Number(data?.total || 0)
   }
+}
+
+function resetProfileForm() {
+  profileForm.studentNo = ''
+  profileForm.className = ''
+  profileForm.major = ''
+  profileForm.teacherNo = ''
+  profileForm.title = ''
+  profileForm.adminCode = ''
+  profileForm.department = ''
+  profileForm.realName = ''
+  profileForm.gender = ''
+  profileForm.bio = ''
+}
+
+function applyProfileData(data = {}) {
+  profileForm.studentNo = data.studentNo || ''
+  profileForm.className = data.className || ''
+  profileForm.major = data.major || ''
+  profileForm.teacherNo = data.teacherNo || ''
+  profileForm.title = data.title || ''
+  profileForm.adminCode = data.adminCode || ''
+  profileForm.department = data.department || ''
+  profileForm.realName = data.realName || ''
+  profileForm.gender = data.gender || ''
+  profileForm.bio = data.bio || ''
+}
+
+function buildProfilePayload() {
+  const payload = {
+    department: profileForm.department || '',
+    realName: profileForm.realName || '',
+    gender: profileForm.gender || '',
+    bio: profileForm.bio || ''
+  }
+  if (isStudentProfile.value) {
+    payload.studentNo = profileForm.studentNo || ''
+    payload.className = profileForm.className || ''
+    payload.major = profileForm.major || ''
+  }
+  if (isTeacherProfile.value) {
+    payload.teacherNo = profileForm.teacherNo || ''
+    payload.title = profileForm.title || ''
+  }
+  if (isAdminProfile.value) {
+    payload.adminCode = profileForm.adminCode || ''
+  }
+  return payload
 }
 
 async function fetchUsers() {
@@ -382,6 +488,39 @@ async function quickResetPassword(row) {
   }
   await userApi.adminResetPassword(row.id, { newPassword })
   window.alert('重置成功')
+}
+
+async function openProfileEditor(row) {
+  profileUser.value = { id: row.id, username: row.username, role: row.role || 'STUDENT' }
+  profileLoading.value = true
+  resetProfileForm()
+  try {
+    const res = await userApi.adminGetRoleProfile(row.id)
+    const data = res?.data || {}
+    if (data.role) {
+      profileUser.value.role = String(data.role).toUpperCase()
+    }
+    applyProfileData(data)
+  } finally {
+    profileLoading.value = false
+  }
+}
+
+function closeProfileEditor() {
+  profileUser.value = null
+  profileLoading.value = false
+  profileSaving.value = false
+}
+
+async function saveProfileEditor() {
+  if (!profileUser.value) return
+  profileSaving.value = true
+  try {
+    await userApi.adminUpdateRoleProfile(profileUser.value.id, buildProfilePayload())
+    closeProfileEditor()
+  } finally {
+    profileSaving.value = false
+  }
 }
 
 async function fetchConfigs() {
