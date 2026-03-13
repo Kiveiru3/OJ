@@ -1,0 +1,72 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Inter', sans-serif;
+  color: #0f1115;
+  background: #f3f5f9;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(1200px 600px at -10% -10%, rgba(14, 165, 233, 0.08), transparent 45%),
+    radial-gradient(900px 480px at 110% -20%, rgba(59, 130, 246, 0.08), transparent 45%),
+    linear-gradient(180deg, #f7f9fc 0%, #eef2f8 100%);
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(10px);
+}
+
+.prose-readable {
+  line-height: 1.85;
+  font-size: 15px;
+  color: #263042;
+}
+
+.section-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: 0.01em;
+}
+
+.section-subtitle {
+  margin-top: 6px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: #e9eef6;
+}
+
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent);
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
