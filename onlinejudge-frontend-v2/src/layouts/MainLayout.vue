@@ -14,8 +14,8 @@
           v-for="item in navItems"
           :key="item.to"
           :to="item.to"
-          class="rounded-lg px-3 py-2 text-sm text-slate-600 transition hover:bg-slate-900 hover:text-white"
-          active-class="bg-slate-900 text-white"
+          class="rounded-lg px-3 py-2 text-sm transition"
+          :class="isNavActive(item.to) ? 'bg-slate-900 text-white' : 'text-slate-600 hover:bg-slate-900 hover:text-white'"
         >
           {{ item.label }}
         </RouterLink>
@@ -50,13 +50,14 @@
 
 <script setup>
 import { computed, onMounted } from 'vue'
-import { RouterLink, RouterView, useRouter } from 'vue-router'
+import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
 import AppButton from '@/components/ui/AppButton.vue'
 import { useAppStore } from '@/stores/useAppStore'
 import { useUserStore } from '@/stores/useUserStore'
 
 const app = useAppStore()
 const user = useUserStore()
+const route = useRoute()
 const router = useRouter()
 
 const navItems = computed(() => {
@@ -84,6 +85,14 @@ const shortName = computed(() => {
 const logout = async () => {
   await user.logout()
   router.push('/login')
+}
+
+const isNavActive = (path) => {
+  const currentPath = route.path
+  if (path === '/') {
+    return currentPath === '/'
+  }
+  return currentPath === path || currentPath.startsWith(`${path}/`)
 }
 
 onMounted(() => {
