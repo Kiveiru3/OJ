@@ -53,7 +53,36 @@
 
     <AppCard v-if="focused">
       <h2 class="text-lg font-semibold text-slate-800">题面预览：#{{ focused.id }} {{ focused.title }}</h2>
-      <div class="prose-readable mt-3 whitespace-pre-line">{{ focused.description || '暂无描述' }}</div>
+      <div v-if="previewLoading" class="mt-3 grid gap-2">
+        <div v-for="n in 4" :key="`preview-skeleton-${n}`" class="skeleton h-10 rounded-lg" />
+      </div>
+      <div v-else class="mt-3 space-y-3">
+        <section class="rounded-xl border border-line bg-slate-50/60 p-4">
+          <h3 class="text-sm font-semibold text-slate-800">题目描述</h3>
+          <ProblemRichContent class="mt-2" :content="focused.description || '暂无描述'" />
+        </section>
+        <section v-if="focused.inputFormat" class="rounded-xl border border-line bg-white p-4">
+          <h3 class="text-sm font-semibold text-slate-800">输入格式</h3>
+          <ProblemRichContent class="mt-2" :content="focused.inputFormat" />
+        </section>
+        <section v-if="focused.outputFormat" class="rounded-xl border border-line bg-white p-4">
+          <h3 class="text-sm font-semibold text-slate-800">输出格式</h3>
+          <ProblemRichContent class="mt-2" :content="focused.outputFormat" />
+        </section>
+        <section v-if="focused.sampleInput || focused.sampleOutput" class="rounded-xl border border-line bg-white p-4">
+          <h3 class="text-sm font-semibold text-slate-800">样例</h3>
+          <div class="mt-2 grid gap-3 md:grid-cols-2">
+            <div class="rounded-lg border border-line bg-slate-900 p-3">
+              <div class="mb-2 text-xs text-slate-300">输入</div>
+              <pre class="max-h-52 overflow-auto whitespace-pre-wrap text-xs leading-6 text-slate-100">{{ focused.sampleInput || '-' }}</pre>
+            </div>
+            <div class="rounded-lg border border-line bg-slate-900 p-3">
+              <div class="mb-2 text-xs text-slate-300">输出</div>
+              <pre class="max-h-52 overflow-auto whitespace-pre-wrap text-xs leading-6 text-slate-100">{{ focused.sampleOutput || '-' }}</pre>
+            </div>
+          </div>
+        </section>
+      </div>
     </AppCard>
   </section>
 </template>
@@ -66,10 +95,12 @@ import AppBadge from '@/components/ui/AppBadge.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import AppCard from '@/components/ui/AppCard.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
+import ProblemRichContent from '@/components/problem/ProblemRichContent.vue'
 
 const loading = ref(false)
 const problems = ref([])
 const focused = ref(null)
+const previewLoading = ref(false)
 const total = ref(0)
 const page = ref(1)
 const size = ref(12)
@@ -107,8 +138,15 @@ async function load() {
   }
 }
 
-function preview(item) {
+async function preview(item) {
   focused.value = item
+  previewLoading.value = true
+  try {
+    const res = await problemApi.getProblemDetail(item.id)
+    focused.value = res.data || item
+  } finally {
+    previewLoading.value = false
+  }
 }
 
 function search() {
