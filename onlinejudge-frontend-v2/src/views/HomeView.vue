@@ -71,7 +71,7 @@
         <div class="rounded-lg border border-line p-4">
           <div class="text-xs text-soft">最近状态</div>
           <div class="mt-2">
-            <AppBadge :tone="personalBoard.latestStatusTone">{{ personalBoard.latestStatus }}</AppBadge>
+            <AppBadge :tone="personalBoard.latestStatusTone">{{ statusText(personalBoard.latestStatus) }}</AppBadge>
           </div>
         </div>
       </div>
@@ -86,7 +86,7 @@
             <div v-for="item in recentSubmissionList" :key="item.id" class="rounded-md bg-slate-50 p-3">
               <div class="flex items-center justify-between text-sm">
                 <span class="font-medium text-slate-800">#{{ item.id }} · 题目 #{{ item.problemId }}</span>
-                <AppBadge :tone="statusTone(item.status)">{{ item.status || '-' }}</AppBadge>
+                <AppBadge :tone="statusTone(item.status)">{{ statusText(item.status) }}</AppBadge>
               </div>
               <div class="mt-1 text-xs text-soft">{{ formatDateTime(item.submitTime) }}</div>
             </div>
@@ -176,6 +176,20 @@ function statusTone(status) {
   if (status === 'PENDING' || status === 'JUDGING') return 'warn'
   if (status === 'WRONG_ANSWER' || status === 'COMPILE_ERROR' || status === 'RUNTIME_ERROR') return 'danger'
   return 'neutral'
+}
+
+function statusText(status) {
+  const map = {
+    ACCEPTED: '通过',
+    WRONG_ANSWER: '答案错误',
+    TIME_LIMIT_EXCEEDED: '超出时间限制',
+    MEMORY_LIMIT_EXCEEDED: '超出内存限制',
+    RUNTIME_ERROR: '运行时错误',
+    COMPILE_ERROR: '编译错误',
+    PENDING: '等待评测',
+    JUDGING: '评测中'
+  }
+  return map[status] || status || '-'
 }
 
 function buildPersonalBoard(contestPage, submissionPage) {
