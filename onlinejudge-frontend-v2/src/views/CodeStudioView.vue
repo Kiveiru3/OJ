@@ -76,7 +76,7 @@
           <h3 class="text-base font-semibold text-slate-800">评测状态</h3>
           <div v-if="latest.id" class="mt-3 space-y-2 text-sm">
             <div class="rounded-md border border-line px-3 py-2">提交 ID：{{ latest.id }}</div>
-            <div class="rounded-md border border-line px-3 py-2">状态：<span class="font-semibold">{{ latest.status || '-' }}</span></div>
+            <div class="rounded-md border border-line px-3 py-2">状态：<span class="font-semibold">{{ statusText(latest.status) }}</span></div>
             <div class="rounded-md border border-line px-3 py-2">耗时：{{ latest.executeTime ?? '-' }} ms</div>
             <div class="rounded-md border border-line px-3 py-2">内存：{{ latest.executeMemory ?? '-' }} KB</div>
             <div v-if="latest.submitTime" class="rounded-md border border-line px-3 py-2 text-soft">提交时间：{{ formatDate(latest.submitTime) }}</div>
@@ -101,14 +101,14 @@
             <div class="grid grid-cols-2 gap-2">
               <select v-model="historyStatus" class="rounded-lg border border-line px-3 py-2 text-xs outline-none focus:border-slate-800">
                 <option value="">全部状态</option>
-                <option value="ACCEPTED">ACCEPTED</option>
-                <option value="WRONG_ANSWER">WRONG_ANSWER</option>
-                <option value="TIME_LIMIT_EXCEEDED">TIME_LIMIT_EXCEEDED</option>
-                <option value="MEMORY_LIMIT_EXCEEDED">MEMORY_LIMIT_EXCEEDED</option>
-                <option value="RUNTIME_ERROR">RUNTIME_ERROR</option>
-                <option value="COMPILE_ERROR">COMPILE_ERROR</option>
-                <option value="PENDING">PENDING</option>
-                <option value="JUDGING">JUDGING</option>
+                <option value="ACCEPTED">通过</option>
+                <option value="WRONG_ANSWER">答案错误</option>
+                <option value="TIME_LIMIT_EXCEEDED">超出时间限制</option>
+                <option value="MEMORY_LIMIT_EXCEEDED">超出内存限制</option>
+                <option value="RUNTIME_ERROR">运行时错误</option>
+                <option value="COMPILE_ERROR">编译错误</option>
+                <option value="PENDING">等待评测</option>
+                <option value="JUDGING">评测中</option>
               </select>
               <select v-model="historyLanguage" class="rounded-lg border border-line px-3 py-2 text-xs outline-none focus:border-slate-800">
                 <option value="">全部语言</option>
@@ -132,7 +132,7 @@
             >
               <div class="flex items-center justify-between">
                 <span class="font-medium text-slate-800">#{{ item.id }}</span>
-                <AppBadge :tone="statusTone(item.status)">{{ item.status || '-' }}</AppBadge>
+                <AppBadge :tone="statusTone(item.status)">{{ statusText(item.status) }}</AppBadge>
               </div>
               <div class="mt-1 text-xs text-soft">题目 #{{ item.problemId }} · {{ item.language || '-' }}</div>
               <div class="mt-1 text-xs text-soft">{{ formatDate(item.submitTime) }}</div>
@@ -236,6 +236,20 @@ function statusTone(status) {
   if (status === 'PENDING' || status === 'JUDGING') return 'warn'
   if (status === 'WRONG_ANSWER' || status === 'COMPILE_ERROR' || status === 'RUNTIME_ERROR') return 'danger'
   return 'neutral'
+}
+
+function statusText(status) {
+  const map = {
+    ACCEPTED: '通过',
+    WRONG_ANSWER: '答案错误',
+    TIME_LIMIT_EXCEEDED: '超出时间限制',
+    MEMORY_LIMIT_EXCEEDED: '超出内存限制',
+    RUNTIME_ERROR: '运行时错误',
+    COMPILE_ERROR: '编译错误',
+    PENDING: '等待评测',
+    JUDGING: '评测中'
+  }
+  return map[status] || status || '-'
 }
 
 function formatDate(value) {
