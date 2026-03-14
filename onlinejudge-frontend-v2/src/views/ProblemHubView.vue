@@ -36,6 +36,7 @@
         </div>
         <div class="mt-4 flex gap-2">
           <RouterLink :to="`/studio?problemId=${item.id}`"><AppButton size="sm">去做题</AppButton></RouterLink>
+          <RouterLink :to="`/discuss?problemId=${item.id}`"><AppButton size="sm" variant="secondary">查看题解</AppButton></RouterLink>
           <AppButton size="sm" variant="secondary" @click="preview(item)">预览题面</AppButton>
         </div>
       </AppCard>
