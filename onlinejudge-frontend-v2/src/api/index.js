@@ -96,6 +96,15 @@ export const discussionApi = {
   },
   getPostDetail(id) {
     return request({ url: `/discussion/${id}`, method: 'get' })
+  },
+  getCommentList(postId, params) {
+    return request({ url: `/discussion/${postId}/comments`, method: 'get', params })
+  },
+  createComment(postId, data) {
+    return request({ url: `/discussion/${postId}/comments`, method: 'post', data })
+  },
+  deleteComment(commentId) {
+    return request({ url: `/discussion/comments/${commentId}`, method: 'delete' })
   }
 }
 
