@@ -78,6 +78,7 @@ const navItems = computed(() => {
   ]
   if (user.isLoggedIn) {
     common.push({ to: '/studio', label: '做题' })
+    common.push({ to: '/ai-chat', label: 'AI助手' })
     common.push({ to: '/messages', label: '私信' })
   }
   if (user.isTeacher || user.isAdmin) {

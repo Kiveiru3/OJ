@@ -25,6 +25,7 @@ const routes = [
       { path: 'discuss', name: 'discuss', component: () => import('@/views/DiscussionPlazaView.vue') },
       { path: 'discuss/:id', name: 'discussDetail', component: () => import('@/views/DiscussionDetailView.vue') },
       { path: 'studio', name: 'studio', component: () => import('@/views/CodeStudioView.vue'), meta: { requiresAuth: true } },
+      { path: 'ai-chat', name: 'aiChat', component: () => import('@/views/AiChatView.vue'), meta: { requiresAuth: true } },
       { path: 'messages', name: 'messages', component: () => import('@/views/MessageCenterView.vue'), meta: { requiresAuth: true } },
       { path: 'profile', name: 'profile', component: () => import('@/views/ProfileView.vue'), meta: { requiresAuth: true } },
       { path: 'users/:id', name: 'userHome', component: () => import('@/views/UserHomeView.vue'), meta: { requiresAuth: true } },

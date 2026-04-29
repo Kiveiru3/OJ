@@ -252,6 +252,11 @@
         </AppCard>
       </div>
     </div>
+
+    <DraggableAiAssistant
+      :problem-id="currentProblemId"
+      :problem-title="currentProblemTitle"
+    />
   </section>
 </template>
 
@@ -266,6 +271,7 @@ import AppCard from '@/components/ui/AppCard.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
 import CodeEditor from '@/components/problem/CodeEditor.vue'
 import ProblemRichContent from '@/components/problem/ProblemRichContent.vue'
+import DraggableAiAssistant from '@/components/ai/DraggableAiAssistant.vue'
 
 const route = useRoute()
 const router = useRouter()
