@@ -42,6 +42,10 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
     @Override
     public VerificationCodeDTO sendPhoneCode(String phone) {
         String normalizedPhone = normalizePhone(phone);
+        if (smsSender != null && smsSender.managesVerification()) {
+            return smsSender.sendManagedVerificationCode(normalizedPhone);
+        }
+
         CodeEntry existing = codeStore.get(normalizedPhone);
         Instant now = Instant.now();
         if (existing != null && Duration.between(existing.sentAt(), now).compareTo(SEND_COOLDOWN) < 0) {
@@ -65,6 +69,10 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
         String normalizedPhone = normalizePhone(phone);
         if (!StringUtils.hasText(code)) {
             throw new BusinessException(ResultCode.BAD_REQUEST.getCode(), "Verification code is required");
+        }
+        if (smsSender != null && smsSender.managesVerification()) {
+            smsSender.verifyManagedCode(normalizedPhone, code.trim());
+            return;
         }
 
         CodeEntry entry = codeStore.get(normalizedPhone);

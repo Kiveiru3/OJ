@@ -123,4 +123,20 @@ sms:
     endpoint: ${ALIYUN_SMS_ENDPOINT:dysmsapi.aliyuncs.com}
     sign-name: ${ALIYUN_SMS_SIGN_NAME:}
     template-code: ${ALIYUN_SMS_TEMPLATE_CODE:}
+  aliyun-auth:
+    access-key-id: ${ALIBABA_CLOUD_ACCESS_KEY_ID:}
+    access-key-secret: ${ALIBABA_CLOUD_ACCESS_KEY_SECRET:}
+    endpoint: ${ALIYUN_PNVS_ENDPOINT:dypnsapi.aliyuncs.com}
+    scheme-name: ${ALIYUN_SMS_AUTH_SCHEME_NAME:}
+    country-code: ${ALIYUN_SMS_AUTH_COUNTRY_CODE:86}
+    sign-name: ${ALIYUN_SMS_AUTH_SIGN_NAME:}
+    template-code: ${ALIYUN_SMS_AUTH_TEMPLATE_CODE:}
+    template-param: '${ALIYUN_SMS_AUTH_TEMPLATE_PARAM:{"code":"##code##","min":"5"}}'
+    code-length: ${ALIYUN_SMS_AUTH_CODE_LENGTH:6}
+    valid-time: ${ALIYUN_SMS_AUTH_VALID_TIME:300}
+    duplicate-policy: ${ALIYUN_SMS_AUTH_DUPLICATE_POLICY:1}
+    interval: ${ALIYUN_SMS_AUTH_INTERVAL:60}
+    code-type: ${ALIYUN_SMS_AUTH_CODE_TYPE:1}
+    auto-retry: ${ALIYUN_SMS_AUTH_AUTO_RETRY:1}
+    case-auth-policy: ${ALIYUN_SMS_AUTH_CASE_AUTH_POLICY:1}
 

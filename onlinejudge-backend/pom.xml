@@ -31,6 +31,7 @@
         <fastjson.version>2.0.43</fastjson.version>
         <flyway.version>9.22.3</flyway.version>
         <aliyun-sms.version>4.5.1</aliyun-sms.version>
+        <aliyun-pnvs.version>2.0.0</aliyun-pnvs.version>
     </properties>
 
     <dependencyManagement>
@@ -138,6 +139,11 @@
             <groupId>com.aliyun</groupId>
             <artifactId>dysmsapi20170525</artifactId>
             <version>${aliyun-sms.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>dypnsapi20170525</artifactId>
+            <version>${aliyun-pnvs.version}</version>
         </dependency>
 
         <!-- Lombok -->
