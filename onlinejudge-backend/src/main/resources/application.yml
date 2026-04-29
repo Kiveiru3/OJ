@@ -36,13 +36,13 @@ spring:
 
   ai:
     model:
-      chat: ${SPRING_AI_MODEL_CHAT:none}
+      chat: ${SPRING_AI_MODEL_CHAT:openai}
     openai:
       api-key: ${OPENAI_API_KEY:}
-      base-url: ${OPENAI_BASE_URL:https://api.openai.com}
+      base-url: ${OPENAI_BASE_URL:https://api.deepseek.com}
       chat:
         options:
-          model: ${OPENAI_CHAT_MODEL:gpt-4o-mini}
+          model: ${OPENAI_CHAT_MODEL:deepseek-chat}
           temperature: 0.3
 
   flyway:
@@ -114,4 +114,13 @@ auth:
   verification-code:
     ttl-seconds: 300
     expose-in-response: ${AUTH_CODE_EXPOSE:true}
+
+sms:
+  provider: ${SMS_PROVIDER:mock}
+  aliyun:
+    access-key-id: ${ALIBABA_CLOUD_ACCESS_KEY_ID:}
+    access-key-secret: ${ALIBABA_CLOUD_ACCESS_KEY_SECRET:}
+    endpoint: ${ALIYUN_SMS_ENDPOINT:dysmsapi.aliyuncs.com}
+    sign-name: ${ALIYUN_SMS_SIGN_NAME:}
+    template-code: ${ALIYUN_SMS_TEMPLATE_CODE:}
 

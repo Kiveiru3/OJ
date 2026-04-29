@@ -30,6 +30,7 @@
         <jwt.version>0.11.5</jwt.version>
         <fastjson.version>2.0.43</fastjson.version>
         <flyway.version>9.22.3</flyway.version>
+        <aliyun-sms.version>4.5.1</aliyun-sms.version>
     </properties>
 
     <dependencyManagement>
@@ -130,6 +131,13 @@
             <groupId>com.alibaba.fastjson2</groupId>
             <artifactId>fastjson2</artifactId>
             <version>${fastjson.version}</version>
+        </dependency>
+
+        <!-- Aliyun SMS -->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>dysmsapi20170525</artifactId>
+            <version>${aliyun-sms.version}</version>
         </dependency>
 
         <!-- Lombok -->

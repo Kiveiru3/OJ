@@ -3,8 +3,10 @@ package com.academic.oj.service.impl;
 import com.academic.oj.common.ResultCode;
 import com.academic.oj.common.exception.BusinessException;
 import com.academic.oj.dto.VerificationCodeDTO;
+import com.academic.oj.service.SmsSender;
 import com.academic.oj.service.VerificationCodeService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -26,12 +28,15 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
     private final Map<String, CodeEntry> codeStore = new ConcurrentHashMap<>();
     private final Duration ttl;
     private final boolean exposeCodeInResponse;
+    private final SmsSender smsSender;
 
     public VerificationCodeServiceImpl(
             @Value("${auth.verification-code.ttl-seconds:300}") long ttlSeconds,
-            @Value("${auth.verification-code.expose-in-response:true}") boolean exposeCodeInResponse) {
+            @Value("${auth.verification-code.expose-in-response:true}") boolean exposeCodeInResponse,
+            ObjectProvider<SmsSender> smsSenderProvider) {
         this.ttl = Duration.ofSeconds(Math.max(60, ttlSeconds));
         this.exposeCodeInResponse = exposeCodeInResponse;
+        this.smsSender = smsSenderProvider.getIfAvailable();
     }
 
     @Override
@@ -45,8 +50,12 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
 
         String code = String.format("%06d", RANDOM.nextInt(CODE_LENGTH_BOUND));
         Instant expiresAt = now.plus(ttl);
+        if (smsSender != null) {
+            smsSender.sendVerificationCode(normalizedPhone, code);
+        } else {
+            log.info("Mock phone verification code for {} is {}, expires at {}", normalizedPhone, code, expiresAt);
+        }
         codeStore.put(normalizedPhone, new CodeEntry(code, now, expiresAt));
-        log.info("Phone verification code for {} is {}, expires at {}", normalizedPhone, code, expiresAt);
         return new VerificationCodeDTO(normalizedPhone, Math.toIntExact(ttl.toSeconds()),
                 exposeCodeInResponse ? code : null);
     }
