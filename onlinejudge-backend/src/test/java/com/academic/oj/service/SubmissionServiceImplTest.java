@@ -9,7 +9,9 @@ import com.academic.oj.entity.Problem;
 import com.academic.oj.entity.Submission;
 import com.academic.oj.mapper.JudgeResultMapper;
 import com.academic.oj.mapper.ProblemMapper;
+import com.academic.oj.mapper.SubmissionCaseResultMapper;
 import com.academic.oj.mapper.SubmissionMapper;
+import com.academic.oj.mapper.UserMapper;
 import com.academic.oj.service.impl.SubmissionServiceImpl;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
@@ -44,6 +46,12 @@ class SubmissionServiceImplTest {
 
     @Mock
     private JudgeResultMapper judgeResultMapper;
+
+    @Mock
+    private SubmissionCaseResultMapper submissionCaseResultMapper;
+
+    @Mock
+    private UserMapper userMapper;
 
     @Mock
     private JudgeService judgeService;

@@ -2,8 +2,9 @@ package com.academic.oj.dto;
 
 import lombok.Data;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 @Data
 public class RegisterDTO {
@@ -16,6 +17,14 @@ public class RegisterDTO {
     @Email(message = "Invalid email format")
     @NotBlank(message = "Email cannot be blank")
     private String email;
+
+    @NotBlank(message = "Phone cannot be blank")
+    @Pattern(regexp = "^1[3-9]\\d{9}$", message = "Invalid phone number format")
+    private String phone;
+
+    @NotBlank(message = "Verification code cannot be blank")
+    @Pattern(regexp = "^\\d{6}$", message = "Verification code must be 6 digits")
+    private String verificationCode;
     
     private String nickname;
 }

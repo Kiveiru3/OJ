@@ -26,6 +26,7 @@ import com.academic.oj.mapper.StudentProfileMapper;
 import com.academic.oj.mapper.TeacherProfileMapper;
 import com.academic.oj.mapper.UserMapper;
 import com.academic.oj.service.UserService;
+import com.academic.oj.service.VerificationCodeService;
 import com.academic.oj.util.JwtUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -60,6 +61,7 @@ public class UserServiceImpl implements UserService {
     private final SubmissionMapper submissionMapper;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final VerificationCodeService verificationCodeService;
 
     @Override
     public TokenDTO login(LoginDTO loginDTO) {
@@ -149,6 +151,7 @@ public class UserServiceImpl implements UserService {
         userInfo.setId(user.getId());
         userInfo.setUsername(user.getUsername());
         userInfo.setEmail(user.getEmail());
+        userInfo.setPhone(user.getPhone());
         userInfo.setNickname(user.getNickname());
         userInfo.setAvatar(user.getAvatar());
         userInfo.setRole(user.getRole());
@@ -158,6 +161,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void register(RegisterDTO registerDTO) {
+        verificationCodeService.verifyPhoneCode(registerDTO.getPhone(), registerDTO.getVerificationCode());
+
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(User::getUsername, registerDTO.getUsername());
         if (userMapper.selectOne(wrapper) != null) {
@@ -170,10 +175,17 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException("Email already exists");
         }
 
+        wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getPhone, registerDTO.getPhone());
+        if (userMapper.selectOne(wrapper) != null) {
+            throw new BusinessException("Phone already exists");
+        }
+
         User user = new User();
         user.setUsername(registerDTO.getUsername());
         user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
         user.setEmail(registerDTO.getEmail());
+        user.setPhone(registerDTO.getPhone());
         user.setNickname(registerDTO.getNickname() != null ? registerDTO.getNickname() : registerDTO.getUsername());
         user.setRole(Constants.ROLE_STUDENT);
         user.setStatus(1);
@@ -195,6 +207,7 @@ public class UserServiceImpl implements UserService {
         userInfo.setId(user.getId());
         userInfo.setUsername(user.getUsername());
         userInfo.setEmail(user.getEmail());
+        userInfo.setPhone(user.getPhone());
         userInfo.setNickname(user.getNickname());
         userInfo.setAvatar(user.getAvatar());
         userInfo.setRole(user.getRole());
@@ -234,6 +247,20 @@ public class UserServiceImpl implements UserService {
                 throw new BusinessException("Email already exists");
             }
             user.setEmail(userInfo.getEmail());
+        }
+
+        if (userInfo.getPhone() != null) {
+            String phone = userInfo.getPhone().trim();
+            if (!phone.matches("^1[3-9]\\d{9}$")) {
+                throw new BusinessException(ResultCode.BAD_REQUEST.getCode(), "Invalid phone number format");
+            }
+            LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+            wrapper.eq(User::getPhone, phone);
+            wrapper.ne(User::getId, userId);
+            if (userMapper.selectOne(wrapper) != null) {
+                throw new BusinessException("Phone already exists");
+            }
+            user.setPhone(phone);
         }
 
         if (userInfo.getNickname() != null) {
@@ -363,6 +390,7 @@ public class UserServiceImpl implements UserService {
             dto.setNickname(user.getNickname());
             dto.setAvatar(user.getAvatar());
             dto.setEmail(user.getEmail());
+            dto.setPhone(user.getPhone());
             dto.setRole(user.getRole());
             dto.setStatus(user.getStatus());
             dto.setCreateTime(user.getCreateTime());

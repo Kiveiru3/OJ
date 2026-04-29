@@ -11,14 +11,18 @@ import com.academic.oj.mapper.ContestParticipantMapper;
 import com.academic.oj.mapper.ContestProblemMapper;
 import com.academic.oj.mapper.ContestScoreMapper;
 import com.academic.oj.mapper.DiscussionCommentMapper;
+import com.academic.oj.mapper.DiscussionPostLikeMapper;
 import com.academic.oj.mapper.DiscussionPostMapper;
 import com.academic.oj.mapper.JudgeResultMapper;
+import com.academic.oj.mapper.PrivateMessageMapper;
 import com.academic.oj.mapper.ProblemMapper;
 import com.academic.oj.mapper.StudentProfileMapper;
+import com.academic.oj.mapper.SubmissionCaseResultMapper;
 import com.academic.oj.mapper.SubmissionMapper;
 import com.academic.oj.mapper.SystemConfigMapper;
 import com.academic.oj.mapper.TeacherProfileMapper;
 import com.academic.oj.mapper.TestCaseMapper;
+import com.academic.oj.mapper.UserFollowMapper;
 import com.academic.oj.mapper.UserMapper;
 import com.academic.oj.service.RateLimitService;
 import com.academic.oj.service.SubmissionService;
@@ -59,14 +63,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         ContestProblemMapper.class,
         ContestScoreMapper.class,
         DiscussionCommentMapper.class,
+        DiscussionPostLikeMapper.class,
         DiscussionPostMapper.class,
         JudgeResultMapper.class,
+        PrivateMessageMapper.class,
         ProblemMapper.class,
         StudentProfileMapper.class,
+        SubmissionCaseResultMapper.class,
         SubmissionMapper.class,
         SystemConfigMapper.class,
         TeacherProfileMapper.class,
         TestCaseMapper.class,
+        UserFollowMapper.class,
         UserMapper.class
 })
 class SubmissionControllerWebMvcTest {

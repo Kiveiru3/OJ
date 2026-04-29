@@ -7,8 +7,17 @@ export const authApi = {
   register(data) {
     return request({ url: '/auth/register', method: 'post', data })
   },
+  sendVerificationCode(data) {
+    return request({ url: '/auth/verification-code', method: 'post', data })
+  },
   logout() {
     return request({ url: '/auth/logout', method: 'post' })
+  }
+}
+
+export const aiApi = {
+  chat(data) {
+    return request({ url: '/ai/chat', method: 'post', data })
   }
 }
 

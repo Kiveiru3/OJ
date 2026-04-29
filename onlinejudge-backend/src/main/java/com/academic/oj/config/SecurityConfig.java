@@ -19,9 +19,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
@@ -35,25 +35,22 @@ public class SecurityConfig {
         ObjectMapper objectMapper = new ObjectMapper();
 
         http
-            .csrf().disable()
-            .cors().and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .exceptionHandling()
-                .authenticationEntryPoint((request, response, ex) ->
-                        writeErrorResponse(response, objectMapper, ResultCode.UNAUTHORIZED))
-                .accessDeniedHandler((request, response, ex) ->
-                        writeErrorResponse(response, objectMapper, ResultCode.FORBIDDEN))
-            .and()
-            .authorizeRequests()
-                .antMatchers("/auth/**").permitAll()
-                .antMatchers("/system/public-configs").permitAll()
-                .antMatchers(HttpMethod.GET, "/problem/list", "/problem/*").permitAll()
-                .antMatchers(HttpMethod.GET, "/contest/list", "/contest/*", "/contest/*/ranking").permitAll()
-                .antMatchers(HttpMethod.GET, "/discussion/list", "/discussion/*", "/discussion/*/comments").permitAll()
-                .antMatchers(HttpMethod.GET, "/submission/points/ranking").permitAll()
-                .anyRequest().authenticated()
-            .and()
+            .csrf(csrf -> csrf.disable())
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .exceptionHandling(exceptions -> exceptions
+                    .authenticationEntryPoint((request, response, ex) ->
+                            writeErrorResponse(response, objectMapper, ResultCode.UNAUTHORIZED))
+                    .accessDeniedHandler((request, response, ex) ->
+                            writeErrorResponse(response, objectMapper, ResultCode.FORBIDDEN)))
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers("/auth/**").permitAll()
+                    .requestMatchers("/system/public-configs").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/problem/list", "/problem/*").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/contest/list", "/contest/*", "/contest/*/ranking").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/discussion/list", "/discussion/*", "/discussion/*/comments").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/submission/points/ranking").permitAll()
+                    .anyRequest().authenticated())
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         
         return http.build();

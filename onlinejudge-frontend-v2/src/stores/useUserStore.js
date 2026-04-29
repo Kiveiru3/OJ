@@ -37,6 +37,10 @@ export const useUserStore = defineStore('user', {
       return authApi.register(form)
     },
 
+    async sendVerificationCode(phone) {
+      return authApi.sendVerificationCode({ phone })
+    },
+
     async logout() {
       try {
         await authApi.logout()

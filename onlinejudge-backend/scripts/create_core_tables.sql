@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `username` VARCHAR(64) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
   `email` VARCHAR(128) NULL,
+  `phone` VARCHAR(20) NULL,
   `nickname` VARCHAR(64) NULL,
   `avatar` TEXT NULL,
   `role` VARCHAR(16) NOT NULL DEFAULT 'STUDENT',
@@ -17,6 +18,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_user_username` (`username`),
   UNIQUE KEY `uk_user_email` (`email`),
+  UNIQUE KEY `uk_user_phone` (`phone`),
   KEY `idx_user_role_status` (`role`, `status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

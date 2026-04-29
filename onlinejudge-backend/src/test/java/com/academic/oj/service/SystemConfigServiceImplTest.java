@@ -31,24 +31,24 @@ class SystemConfigServiceImplTest {
     void upsertConfigShouldRejectInvalidContestPageSize() {
         assertThrows(BusinessException.class, () ->
                 systemConfigService.upsertConfig(1L, "contest.default_page_size", "abc", "bad value"));
-        verify(systemConfigMapper, never()).insert(any());
-        verify(systemConfigMapper, never()).updateById(any());
+        verify(systemConfigMapper, never()).insert(any(SystemConfig.class));
+        verify(systemConfigMapper, never()).updateById(any(SystemConfig.class));
     }
 
     @Test
     void upsertConfigShouldRejectInvalidContestPenalty() {
         assertThrows(BusinessException.class, () ->
                 systemConfigService.upsertConfig(1L, "contest.default_penalty_per_wrong", "121", "bad value"));
-        verify(systemConfigMapper, never()).insert(any());
-        verify(systemConfigMapper, never()).updateById(any());
+        verify(systemConfigMapper, never()).insert(any(SystemConfig.class));
+        verify(systemConfigMapper, never()).updateById(any(SystemConfig.class));
     }
 
     @Test
     void upsertConfigShouldRejectBlankSiteName() {
         assertThrows(BusinessException.class, () ->
                 systemConfigService.upsertConfig(1L, "site.name", "   ", "blank"));
-        verify(systemConfigMapper, never()).insert(any());
-        verify(systemConfigMapper, never()).updateById(any());
+        verify(systemConfigMapper, never()).insert(any(SystemConfig.class));
+        verify(systemConfigMapper, never()).updateById(any(SystemConfig.class));
     }
 
     @Test

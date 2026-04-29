@@ -22,16 +22,28 @@ spring:
     username: root
     password: root
   
-  redis:
-    host: localhost
-    port: 6379
-    database: 0
-    timeout: 3000
-    lettuce:
-      pool:
-        max-active: 8
-        max-idle: 8
-        min-idle: 0
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+      timeout: 3000
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+
+  ai:
+    model:
+      chat: ${SPRING_AI_MODEL_CHAT:none}
+    openai:
+      api-key: ${OPENAI_API_KEY:}
+      base-url: ${OPENAI_BASE_URL:https://api.openai.com}
+      chat:
+        options:
+          model: ${OPENAI_CHAT_MODEL:gpt-4o-mini}
+          temperature: 0.3
 
   flyway:
     enabled: true
@@ -97,4 +109,9 @@ rate-limit:
   enabled: true
   login-per-minute: 30
   submit-per-minute: 20
+
+auth:
+  verification-code:
+    ttl-seconds: 300
+    expose-in-response: ${AUTH_CODE_EXPOSE:true}
 

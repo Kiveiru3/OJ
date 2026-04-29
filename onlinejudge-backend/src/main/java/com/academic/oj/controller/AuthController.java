@@ -3,17 +3,20 @@ package com.academic.oj.controller;
 import com.academic.oj.common.Result;
 import com.academic.oj.dto.LoginDTO;
 import com.academic.oj.dto.RegisterDTO;
+import com.academic.oj.dto.SendVerificationCodeDTO;
 import com.academic.oj.dto.TokenDTO;
+import com.academic.oj.dto.VerificationCodeDTO;
 import com.academic.oj.service.AdminOperationLogService;
 import com.academic.oj.service.RateLimitService;
 import com.academic.oj.service.UserService;
+import com.academic.oj.service.VerificationCodeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/auth")
@@ -23,6 +26,7 @@ public class AuthController {
     private final UserService userService;
     private final AdminOperationLogService adminOperationLogService;
     private final RateLimitService rateLimitService;
+    private final VerificationCodeService verificationCodeService;
 
     @PostMapping("/login")
     public Result<TokenDTO> login(@Validated @RequestBody LoginDTO loginDTO, HttpServletRequest request) {
@@ -40,6 +44,11 @@ public class AuthController {
     public Result<?> register(@Validated @RequestBody RegisterDTO registerDTO) {
         userService.register(registerDTO);
         return Result.success("Registration successful");
+    }
+
+    @PostMapping("/verification-code")
+    public Result<VerificationCodeDTO> sendVerificationCode(@Validated @RequestBody SendVerificationCodeDTO dto) {
+        return Result.success(verificationCodeService.sendPhoneCode(dto.getPhone()));
     }
 
     @PostMapping("/logout")
