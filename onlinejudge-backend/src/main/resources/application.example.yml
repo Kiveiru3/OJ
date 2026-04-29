@@ -42,7 +42,7 @@ spring:
       base-url: ${OPENAI_BASE_URL:https://api.deepseek.com}
       chat:
         options:
-          model: ${OPENAI_CHAT_MODEL:deepseek-chat}
+          model: ${OPENAI_CHAT_MODEL:deepseek-v4-flash}
           temperature: 0.3
 
   flyway:

@@ -29,6 +29,10 @@ onlinejudge-frontend-v2/dist/
 tmp_docx_split/
 scripts/__pycache__/
 
+# --- Local Spring config ---
+onlinejudge-backend/src/main/resources/application.yml
+onlinejudge-backend/src/main/resources/application.yaml
+
 # --- Local Python tooling ---
 .venv/
 .venv-docx/
