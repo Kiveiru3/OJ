@@ -64,8 +64,8 @@ class TeacherAnalyticsControllerTest {
 
         String csv = (String) teacherAnalyticsController.exportOverviewCsv(7).getData();
 
-        assertTrue(csv.contains("Metric,Value"));
-        assertTrue(csv.contains("Students,10"));
+        assertTrue(csv.contains("指标,数值"));
+        assertTrue(csv.contains("学生总数,10"));
         verify(adminOperationLogService).record(2L, "TEACHER_ANALYTICS", "EXPORT_OVERVIEW", "DASHBOARD", null, "days=7");
     }
 

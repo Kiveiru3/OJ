@@ -1,9 +1,27 @@
-<template>
+﻿<template>
   <section class="space-y-6">
     <header>
       <h1 class="section-title">管理控制台</h1>
-      <p class="section-subtitle">管理员核心能力：用户、配置、日志、系统监控与判题观测。</p>
+      <p class="section-subtitle">管理员核心能力：用户、系统配置、操作日志、系统监控与判题观测。</p>
     </header>
+
+    <div class="grid gap-4 md:grid-cols-3">
+      <AppCard class="bg-[linear-gradient(135deg,#0f172a,#1e293b)] text-white">
+        <div class="text-xs uppercase tracking-[0.2em] text-slate-300">Console</div>
+        <div class="mt-3 text-2xl font-semibold">统一管理工作台</div>
+        <div class="mt-2 text-sm text-slate-300">围绕用户、配置、论坛、监控和判题建立一站式运维视图。</div>
+      </AppCard>
+      <AppCard>
+        <div class="text-xs text-soft">当前配置项</div>
+        <div class="mt-2 text-3xl font-semibold text-slate-900">{{ configRows.length }}</div>
+        <div class="mt-2 text-sm text-soft">支持在线修改站点名称、公告和竞赛默认参数。</div>
+      </AppCard>
+      <AppCard>
+        <div class="text-xs text-soft">待处理论坛帖子</div>
+        <div class="mt-2 text-3xl font-semibold text-slate-900">{{ pendingForumCount }}</div>
+        <div class="mt-2 text-sm text-soft">可直接查看热门帖热度、审核状态与发布时间。</div>
+      </AppCard>
+    </div>
 
     <AppCard>
       <div class="flex flex-wrap gap-2">
@@ -21,7 +39,11 @@
 
     <AppCard v-if="activeTab === 'users'" class="space-y-4">
       <div class="flex flex-wrap items-end gap-2">
-        <input v-model.trim="userQuery.keyword" class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="用户名/昵称/邮箱" />
+        <input
+          v-model.trim="userQuery.keyword"
+          class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800"
+          placeholder="用户名/昵称/邮箱"
+        />
         <select v-model="userQuery.role" class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800">
           <option value="">全部角色</option>
           <option value="STUDENT">学生</option>
@@ -55,8 +77,8 @@
             <tr v-for="item in userRows" :key="item.id" class="border-b border-line/80 hover:bg-slate-50">
               <td class="px-3 py-2 text-slate-700">{{ item.id }}</td>
               <td class="px-3 py-2">
-                <div class="font-medium text-slate-800">{{ item.username }}</div>
-                <div class="text-xs text-soft">{{ item.nickname || '-' }} · {{ item.email || '-' }}</div>
+                <UserIdentity :user="item" avatar-size="xs" />
+                <div class="text-xs text-soft">{{ item.nickname || '-' }} / {{ item.email || '-' }}</div>
               </td>
               <td class="px-3 py-2 text-slate-700">{{ roleLabel(item.role) }}</td>
               <td class="px-3 py-2">
@@ -80,17 +102,44 @@
       </div>
 
       <div class="flex items-center justify-end gap-2 text-sm">
-        <AppButton size="sm" variant="secondary" :disabled="userQuery.page <= 1 || usersLoading" @click="changeUserPage(userQuery.page - 1)">上一页</AppButton>
+        <AppButton size="sm" variant="secondary" :disabled="userQuery.page <= 1 || usersLoading" @click="changeUserPage(userQuery.page - 1)">
+          上一页
+        </AppButton>
         <span class="text-soft">第 {{ userQuery.page }} 页 / 共 {{ userTotalPages }} 页</span>
-        <AppButton size="sm" variant="secondary" :disabled="userQuery.page >= userTotalPages || usersLoading" @click="changeUserPage(userQuery.page + 1)">下一页</AppButton>
+        <AppButton size="sm" variant="secondary" :disabled="userQuery.page >= userTotalPages || usersLoading" @click="changeUserPage(userQuery.page + 1)">
+          下一页
+        </AppButton>
       </div>
     </AppCard>
 
-    <AppCard v-if="activeTab === 'configs'" class="space-y-4">
+    <AppCard v-if="activeTab === 'configs'" class="space-y-4 overflow-hidden">
+      <div class="rounded-2xl border border-slate-200 bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.08),transparent_40%),linear-gradient(180deg,#f8fbff,#f3f6fb)] p-4">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <div class="text-sm font-semibold text-slate-900">系统配置中心</div>
+            <div class="mt-1 text-xs text-soft">配置项展示为中文名称，同时保留原始键名，便于排查和交接。</div>
+          </div>
+          <div class="rounded-full bg-white px-3 py-1 text-xs text-slate-600 shadow-sm">
+            共 {{ configRows.length }} 项
+          </div>
+        </div>
+      </div>
       <div class="flex flex-wrap items-end gap-2">
-        <input v-model.trim="configForm.configKey" class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="配置键，如 site.name" />
-        <input v-model.trim="configForm.configValue" class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="配置值" />
-        <input v-model.trim="configForm.description" class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="描述（可选）" />
+        <input
+          v-model.trim="configForm.configKey"
+          class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800"
+          placeholder="配置标识，如 site.name"
+        />
+        <input
+          v-model.trim="configForm.configValue"
+          class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800"
+          placeholder="配置值"
+        />
+        <input
+          v-model.trim="configForm.description"
+          class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800"
+          placeholder="描述（可选）"
+        />
         <AppButton size="sm" :disabled="configsSaving" @click="saveConfig">{{ configsSaving ? '保存中...' : '保存配置' }}</AppButton>
         <AppButton size="sm" variant="secondary" :disabled="configsLoading" @click="fetchConfigs">刷新</AppButton>
       </div>
@@ -103,7 +152,7 @@
         <table class="min-w-full text-sm">
           <thead>
             <tr class="border-b border-line text-left text-soft">
-              <th class="px-3 py-2 font-medium">配置键</th>
+              <th class="px-3 py-2 font-medium">配置项</th>
               <th class="px-3 py-2 font-medium">配置值</th>
               <th class="px-3 py-2 font-medium">描述</th>
               <th class="px-3 py-2 font-medium">更新时间</th>
@@ -111,9 +160,12 @@
           </thead>
           <tbody>
             <tr v-for="item in configRows" :key="item.id || item.configKey" class="border-b border-line/80 hover:bg-slate-50">
-              <td class="px-3 py-2 text-slate-800">{{ item.configKey }}</td>
+              <td class="px-3 py-2">
+                <div class="font-medium text-slate-800">{{ configKeyLabel(item.configKey) }}</div>
+                <div class="mt-1 text-xs text-soft">{{ item.configKey }}</div>
+              </td>
               <td class="px-3 py-2 text-slate-700">{{ item.configValue || '' }}</td>
-              <td class="px-3 py-2 text-soft">{{ item.description || '-' }}</td>
+              <td class="px-3 py-2 text-soft">{{ configDescriptionText(item) }}</td>
               <td class="px-3 py-2 text-soft">{{ item.updateTime || '-' }}</td>
             </tr>
             <tr v-if="!configRows.length">
@@ -126,9 +178,21 @@
 
     <AppCard v-if="activeTab === 'logs'" class="space-y-4">
       <div class="flex flex-wrap items-end gap-2">
-        <input v-model.trim="logQuery.keyword" class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="关键字" />
-        <input v-model.trim="logQuery.module" class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="模块，如 USER_MANAGE" />
-        <input v-model.trim="logQuery.action" class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="动作，如 UPDATE_USER" />
+        <input
+          v-model.trim="logQuery.keyword"
+          class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800"
+          placeholder="关键词"
+        />
+        <input
+          v-model.trim="logQuery.module"
+          class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800"
+          placeholder="模块，如 USER_MANAGE"
+        />
+        <input
+          v-model.trim="logQuery.action"
+          class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800"
+          placeholder="动作，如 UPDATE_USER"
+        />
         <AppButton size="sm" :disabled="logsLoading" @click="fetchLogs">查询</AppButton>
       </div>
 
@@ -163,9 +227,115 @@
       </div>
 
       <div class="flex items-center justify-end gap-2 text-sm">
-        <AppButton size="sm" variant="secondary" :disabled="logQuery.page <= 1 || logsLoading" @click="changeLogPage(logQuery.page - 1)">上一页</AppButton>
+        <AppButton size="sm" variant="secondary" :disabled="logQuery.page <= 1 || logsLoading" @click="changeLogPage(logQuery.page - 1)">
+          上一页
+        </AppButton>
         <span class="text-soft">第 {{ logQuery.page }} 页 / 共 {{ logTotalPages }} 页</span>
-        <AppButton size="sm" variant="secondary" :disabled="logQuery.page >= logTotalPages || logsLoading" @click="changeLogPage(logQuery.page + 1)">下一页</AppButton>
+        <AppButton size="sm" variant="secondary" :disabled="logQuery.page >= logTotalPages || logsLoading" @click="changeLogPage(logQuery.page + 1)">
+          下一页
+        </AppButton>
+      </div>
+    </AppCard>
+
+    <AppCard v-if="activeTab === 'forum'" class="space-y-4">
+      <div class="flex flex-wrap items-end gap-2">
+        <input
+          v-model.trim="forumQuery.keyword"
+          class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800"
+          placeholder="按标题或内容关键词筛选"
+        />
+        <input
+          v-model.trim="forumQuery.problemId"
+          class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800"
+          placeholder="题目 ID（可选）"
+        />
+        <select v-model="forumQuery.auditStatus" class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800">
+          <option value="">全部审核状态</option>
+          <option value="0">待审核</option>
+          <option value="1">已通过</option>
+          <option value="2">已驳回</option>
+        </select>
+        <AppButton size="sm" :disabled="forumLoading" @click="fetchForumPosts">查询</AppButton>
+      </div>
+
+      <div v-if="forumLoading" class="grid gap-2">
+        <div v-for="n in 8" :key="`forum-skeleton-${n}`" class="skeleton h-10 rounded-lg" />
+      </div>
+
+      <div v-else class="overflow-x-auto">
+        <table class="min-w-full text-sm">
+          <thead>
+            <tr class="border-b border-line text-left text-soft">
+              <th class="px-3 py-2 font-medium">帖子</th>
+              <th class="px-3 py-2 font-medium">作者</th>
+              <th class="px-3 py-2 font-medium">关联题目</th>
+              <th class="px-3 py-2 font-medium">审核状态</th>
+              <th class="px-3 py-2 font-medium">热度</th>
+              <th class="px-3 py-2 font-medium">发布时间</th>
+              <th class="px-3 py-2 font-medium">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in forumRows" :key="item.id" class="border-b border-line/80 hover:bg-slate-50">
+              <td class="px-3 py-2 text-slate-700">
+                <div class="font-medium text-slate-800">#{{ item.id }} {{ item.title }}</div>
+                <div class="text-xs text-soft line-clamp-2">{{ item.contentPreview || '-' }}</div>
+              </td>
+              <td class="px-3 py-2">
+                <UserIdentity :user="item" avatar-size="xs" />
+              </td>
+              <td class="px-3 py-2 text-soft">{{ item.problemId ? `#${item.problemId}` : '-' }}</td>
+              <td class="px-3 py-2">
+                <span
+                  class="rounded-full px-2 py-1 text-xs"
+                  :class="auditStatusClass(item.auditStatus)"
+                >
+                  {{ auditStatusText(item.auditStatus) }}
+                </span>
+              </td>
+              <td class="px-3 py-2 text-soft">
+                <div>点赞 {{ item.likeCount ?? 0 }}</div>
+                <div class="text-xs text-slate-400">浏览 {{ item.viewCount ?? 0 }}</div>
+              </td>
+              <td class="px-3 py-2 text-soft">{{ item.createTime || '-' }}</td>
+              <td class="px-3 py-2">
+                <div class="flex flex-wrap gap-2">
+                  <AppButton size="sm" variant="secondary" @click="openDiscussionPost(item)">查看详情</AppButton>
+                  <AppButton
+                    size="sm"
+                    variant="secondary"
+                    :disabled="forumDeleting || Number(item.auditStatus) === 1"
+                    @click="auditDiscussionPost(item, 1)"
+                  >
+                    通过
+                  </AppButton>
+                  <AppButton
+                    size="sm"
+                    variant="secondary"
+                    :disabled="forumDeleting || Number(item.auditStatus) === 2"
+                    @click="auditDiscussionPost(item, 2)"
+                  >
+                    驳回
+                  </AppButton>
+                  <AppButton size="sm" variant="ghost" :disabled="forumDeleting" @click="removeDiscussionPost(item)">删除帖子</AppButton>
+                </div>
+              </td>
+            </tr>
+            <tr v-if="!forumRows.length">
+              <td colspan="7" class="px-3 py-6 text-center text-sm text-soft">暂无论坛帖子</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="flex items-center justify-end gap-2 text-sm">
+        <AppButton size="sm" variant="secondary" :disabled="forumQuery.page <= 1 || forumLoading" @click="changeForumPage(forumQuery.page - 1)">
+          上一页
+        </AppButton>
+        <span class="text-soft">第 {{ forumQuery.page }} 页 / 共 {{ forumTotalPages }} 页</span>
+        <AppButton size="sm" variant="secondary" :disabled="forumQuery.page >= forumTotalPages || forumLoading" @click="changeForumPage(forumQuery.page + 1)">
+          下一页
+        </AppButton>
       </div>
     </AppCard>
 
@@ -186,10 +356,26 @@
 
     <AppCard v-if="activeTab === 'judge'" class="space-y-4">
       <div class="flex flex-wrap items-end gap-2">
-        <input v-model.trim="judgeQuery.userId" class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="用户 ID" />
-        <input v-model.trim="judgeQuery.problemId" class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="题目 ID" />
-        <input v-model.trim="judgeQuery.status" class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="状态，如 ACCEPTED" />
-        <input v-model.trim="judgeQuery.language" class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="语言，如 JAVA" />
+        <input
+          v-model.trim="judgeQuery.userId"
+          class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800"
+          placeholder="用户 ID"
+        />
+        <input
+          v-model.trim="judgeQuery.problemId"
+          class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800"
+          placeholder="题目 ID"
+        />
+        <input
+          v-model.trim="judgeQuery.status"
+          class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800"
+          placeholder="状态，如 ACCEPTED"
+        />
+        <input
+          v-model.trim="judgeQuery.language"
+          class="rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800"
+          placeholder="语言，如 JAVA"
+        />
         <AppButton size="sm" :disabled="judgeLoading" @click="fetchJudgeResults">查询</AppButton>
       </div>
 
@@ -212,7 +398,9 @@
           <tbody>
             <tr v-for="item in judgeRows" :key="item.id" class="border-b border-line/80 hover:bg-slate-50">
               <td class="px-3 py-2 text-slate-700">#{{ item.submissionId || '-' }}</td>
-              <td class="px-3 py-2 text-soft">{{ item.username || '-' }} ({{ item.userId || '-' }})</td>
+              <td class="px-3 py-2 text-soft">
+                <UserIdentity :user="{ username: item.username, userId: item.userId }" avatar-size="xs" />
+              </td>
               <td class="px-3 py-2 text-soft">{{ item.problemTitle || '-' }} ({{ item.problemId || '-' }})</td>
               <td class="px-3 py-2 text-soft">{{ item.language || '-' }}</td>
               <td class="px-3 py-2 text-slate-700">{{ item.status || '-' }}</td>
@@ -226,9 +414,13 @@
       </div>
 
       <div class="flex items-center justify-end gap-2 text-sm">
-        <AppButton size="sm" variant="secondary" :disabled="judgeQuery.page <= 1 || judgeLoading" @click="changeJudgePage(judgeQuery.page - 1)">上一页</AppButton>
+        <AppButton size="sm" variant="secondary" :disabled="judgeQuery.page <= 1 || judgeLoading" @click="changeJudgePage(judgeQuery.page - 1)">
+          上一页
+        </AppButton>
         <span class="text-soft">第 {{ judgeQuery.page }} 页 / 共 {{ judgeTotalPages }} 页</span>
-        <AppButton size="sm" variant="secondary" :disabled="judgeQuery.page >= judgeTotalPages || judgeLoading" @click="changeJudgePage(judgeQuery.page + 1)">下一页</AppButton>
+        <AppButton size="sm" variant="secondary" :disabled="judgeQuery.page >= judgeTotalPages || judgeLoading" @click="changeJudgePage(judgeQuery.page + 1)">
+          下一页
+        </AppButton>
       </div>
     </AppCard>
 
@@ -258,7 +450,7 @@
         <div class="flex items-center justify-between">
           <div>
             <div class="text-lg font-semibold text-slate-900">角色档案编辑</div>
-            <div class="text-xs text-soft">用户 #{{ profileUser.id }} · {{ profileUser.username }} · {{ roleLabel(profileUser.role) }}</div>
+            <div class="text-xs text-soft">用户 #{{ profileUser.id }} / {{ profileUser.username }} / {{ roleLabel(profileUser.role) }}</div>
           </div>
           <AppButton size="sm" variant="ghost" @click="closeProfileEditor">关闭</AppButton>
         </div>
@@ -294,19 +486,23 @@
 
 <script setup>
 import { computed, onMounted, reactive, ref, watch } from 'vue'
-import { adminApi, userApi } from '@/api'
+import { adminApi, discussionApi, userApi } from '@/api'
 import AppButton from '@/components/ui/AppButton.vue'
 import AppCard from '@/components/ui/AppCard.vue'
+import UserIdentity from '@/components/ui/UserIdentity.vue'
+import { useUiStore } from '@/stores/useUiStore'
 
 const tabs = [
   { key: 'users', label: '用户管理' },
   { key: 'configs', label: '系统配置' },
   { key: 'logs', label: '操作日志' },
+  { key: 'forum', label: '论坛管理' },
   { key: 'monitor', label: '系统监控' },
   { key: 'judge', label: '判题结果' }
 ]
 
 const activeTab = ref('users')
+const ui = useUiStore()
 
 const usersLoading = ref(false)
 const userRows = ref([])
@@ -343,6 +539,12 @@ const logRows = ref([])
 const logTotal = ref(0)
 const logQuery = reactive({ page: 1, size: 10, keyword: '', module: '', action: '' })
 
+const forumLoading = ref(false)
+const forumDeleting = ref(false)
+const forumRows = ref([])
+const forumTotal = ref(0)
+const forumQuery = reactive({ page: 1, size: 10, keyword: '', problemId: '', auditStatus: '' })
+
 const monitorLoading = ref(false)
 const monitorData = ref({})
 
@@ -353,16 +555,33 @@ const judgeQuery = reactive({ page: 1, size: 10, userId: '', problemId: '', stat
 
 const userTotalPages = computed(() => Math.max(1, Math.ceil(userTotal.value / userQuery.size)))
 const logTotalPages = computed(() => Math.max(1, Math.ceil(logTotal.value / logQuery.size)))
+const forumTotalPages = computed(() => Math.max(1, Math.ceil(forumTotal.value / forumQuery.size)))
 const judgeTotalPages = computed(() => Math.max(1, Math.ceil(judgeTotal.value / judgeQuery.size)))
+const pendingForumCount = computed(() => forumRows.value.filter((item) => Number(item.auditStatus) === 0).length)
+
+const configKeyLabelMap = {
+  'site.name': '站点名称',
+  'site.announcement': '首页公告',
+  'contest.default_page_size': '竞赛榜单默认页大小'
+}
+
+const configDescriptionLabelMap = {
+  'Website display name': '网站显示名称',
+  'Homepage announcement': '首页公告内容',
+  'Default contest ranking page size': '竞赛榜单默认分页大小'
+}
 
 const monitorCards = computed(() => [
   { label: '用户总量', value: monitorData.value.totalUsers ?? 0 },
   { label: '启用用户', value: monitorData.value.enabledUsers ?? 0 },
+  { label: '近7天新增学生', value: monitorData.value.newStudents7d ?? 0 },
+  { label: '近7天新增教师', value: monitorData.value.newTeachers7d ?? 0 },
   { label: '题目总量', value: monitorData.value.totalProblems ?? 0 },
+  { label: '近7天新增题目', value: monitorData.value.newProblems7d ?? 0 },
   { label: '总提交量', value: monitorData.value.totalSubmissions ?? 0 },
   { label: '今日提交', value: monitorData.value.submissionsToday ?? 0 },
   { label: '通过率', value: formatRate(monitorData.value.acceptanceRate) },
-  { label: '运行中竞赛', value: monitorData.value.runningContests ?? 0 },
+  { label: '进行中竞赛', value: monitorData.value.runningContests ?? 0 },
   { label: '判题队列状态', value: monitorData.value.queueStatus || 'UNKNOWN' }
 ])
 
@@ -380,6 +599,32 @@ function roleLabel(role) {
 function formatRate(rate) {
   if (rate === null || rate === undefined || Number.isNaN(Number(rate))) return '0.00%'
   return `${Number(rate).toFixed(2)}%`
+}
+
+function configKeyLabel(key) {
+  return configKeyLabelMap[key] || '自定义配置'
+}
+
+function configDescriptionText(item) {
+  const raw = item?.description || ''
+  if (configDescriptionLabelMap[raw]) {
+    return configDescriptionLabelMap[raw]
+  }
+  return raw || '未填写说明'
+}
+
+function auditStatusText(status) {
+  const v = Number(status)
+  if (v === 1) return '已通过'
+  if (v === 2) return '已驳回'
+  return '待审核'
+}
+
+function auditStatusClass(status) {
+  const v = Number(status)
+  if (v === 1) return 'bg-emerald-100 text-emerald-700'
+  if (v === 2) return 'bg-rose-100 text-rose-700'
+  return 'bg-amber-100 text-amber-700'
 }
 
 function normalizePageData(data) {
@@ -480,14 +725,14 @@ async function saveUserEdit() {
 }
 
 async function quickResetPassword(row) {
-  const newPassword = window.prompt(`请输入用户 ${row.username} 的新密码（至少6位）`)
+  const newPassword = window.prompt(`请输入用户 ${row.username} 的新密码（至少 6 位）`)
   if (!newPassword) return
   if (newPassword.length < 6) {
-    window.alert('密码至少 6 位')
+    await ui.alert({ message: '密码至少 6 位' })
     return
   }
   await userApi.adminResetPassword(row.id, { newPassword })
-  window.alert('重置成功')
+  await ui.alert({ message: '重置成功' })
 }
 
 async function openProfileEditor(row) {
@@ -535,7 +780,7 @@ async function fetchConfigs() {
 
 async function saveConfig() {
   if (!configForm.configKey.trim()) {
-    window.alert('配置键不能为空')
+    await ui.alert({ message: '配置键不能为空' })
     return
   }
   configsSaving.value = true
@@ -577,6 +822,81 @@ function changeLogPage(page) {
   fetchLogs()
 }
 
+async function fetchForumPosts() {
+  forumLoading.value = true
+  try {
+    const pid = Number(forumQuery.problemId)
+    const hasAuditFilter = String(forumQuery.auditStatus).trim() !== ''
+    const audit = hasAuditFilter ? Number(forumQuery.auditStatus) : NaN
+    const params = {
+      page: forumQuery.page,
+      size: forumQuery.size,
+      keyword: forumQuery.keyword || undefined,
+      problemId: Number.isFinite(pid) && pid > 0 ? pid : undefined,
+      auditStatus: Number.isFinite(audit) && audit >= 0 ? audit : undefined
+    }
+    const res = await discussionApi.getPostList(params)
+    const pageData = normalizePageData(res?.data)
+    forumRows.value = pageData.records
+    forumTotal.value = pageData.total
+  } finally {
+    forumLoading.value = false
+  }
+}
+
+function changeForumPage(page) {
+  forumQuery.page = page
+  fetchForumPosts()
+}
+
+function openDiscussionPost(row) {
+  if (!row?.id) return
+  window.open(`/discuss/${row.id}`, '_blank')
+}
+
+async function auditDiscussionPost(row, status) {
+  if (!row?.id) return
+  const actionText = status === 1 ? '通过' : '驳回'
+  const ok = await ui.confirm({
+    title: '帖子审核',
+    message: `确认${actionText}帖子「${row.title}」吗？`,
+    okText: actionText,
+    cancelText: '取消'
+  })
+  if (!ok) return
+
+  let auditRemark = ''
+  if (status === 2) {
+    auditRemark = window.prompt('请输入驳回原因（可选）') || ''
+  }
+
+  forumDeleting.value = true
+  try {
+    await discussionApi.auditPost(row.id, { auditStatus: status, auditRemark })
+    await fetchForumPosts()
+  } finally {
+    forumDeleting.value = false
+  }
+}
+
+async function removeDiscussionPost(row) {
+  if (!row?.id) return
+  const ok = await ui.confirm({
+    title: '删除帖子',
+    message: `确定删除帖子「${row.title}」吗？`,
+    okText: '删除',
+    cancelText: '取消'
+  })
+  if (!ok) return
+  forumDeleting.value = true
+  try {
+    await discussionApi.deletePost(row.id)
+    await fetchForumPosts()
+  } finally {
+    forumDeleting.value = false
+  }
+}
+
 async function fetchMonitor() {
   monitorLoading.value = true
   try {
@@ -616,6 +936,7 @@ watch(activeTab, (tab) => {
   if (tab === 'users') fetchUsers()
   if (tab === 'configs') fetchConfigs()
   if (tab === 'logs') fetchLogs()
+  if (tab === 'forum') fetchForumPosts()
   if (tab === 'monitor') fetchMonitor()
   if (tab === 'judge') fetchJudgeResults()
 })

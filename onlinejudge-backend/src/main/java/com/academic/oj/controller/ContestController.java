@@ -34,14 +34,14 @@ public class ContestController {
             @RequestParam(required = false) String keyword) {
         boolean canViewHidden = SecurityUtils.hasRole("TEACHER") || SecurityUtils.hasRole("ADMIN");
         Page<ContestVO> contestPage = contestService.getContestList(
-                getCurrentUserId(), normalizePage(page), normalizeSize(size), keyword, canViewHidden);
+                getCurrentUserIdSafely(), normalizePage(page), normalizeSize(size), keyword, canViewHidden);
         return Result.success(contestPage);
     }
 
     @GetMapping("/{id}")
     public Result<ContestDetailVO> getContestDetail(@PathVariable Long id) {
         boolean canViewHidden = SecurityUtils.hasRole("TEACHER") || SecurityUtils.hasRole("ADMIN");
-        ContestDetailVO detail = contestService.getContestDetail(getCurrentUserId(), id, canViewHidden);
+        ContestDetailVO detail = contestService.getContestDetail(getCurrentUserIdSafely(), id, canViewHidden);
         return Result.success(detail);
     }
 
@@ -127,6 +127,10 @@ public class ContestController {
 
     private Long getCurrentUserId() {
         return SecurityUtils.getCurrentUserId();
+    }
+
+    private Long getCurrentUserIdSafely() {
+        return SecurityUtils.getCurrentUserIdOrNull();
     }
 
     private Integer normalizePage(Integer page) {

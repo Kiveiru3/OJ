@@ -11,8 +11,11 @@ public class SystemMonitorVO {
     private Long totalUsers;
     private Long enabledUsers;
     private Long newUsersToday;
+    private Long newStudents7d;
+    private Long newTeachers7d;
 
     private Long totalProblems;
+    private Long newProblems7d;
     private Long totalSubmissions;
     private Long acceptedSubmissions;
     private Long pendingSubmissions;

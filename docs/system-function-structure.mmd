@@ -1,0 +1,38 @@
+flowchart TB
+    classDef module fill:#ffffff,stroke:#111827,stroke-width:1.6px,color:#111827;
+    classDef hub fill:#f8fafc,stroke:#111827,stroke-width:1.8px,color:#111827;
+    classDef core fill:#eef2ff,stroke:#111827,stroke-width:2px,color:#111827;
+
+    U["用户端"]:::hub
+    S["程序设计评测系统"]:::core
+    M["教师端 / 管理端"]:::hub
+
+    U --> S --> M
+
+    subgraph STUDENT["学生功能模块"]
+        direction LR
+        U1["登录注册模块"]:::module
+        U2["首页指挥舱模块"]:::module
+        U3["题库中心模块"]:::module
+        U4["代码工坊模块"]:::module
+        U5["赛事中枢模块"]:::module
+        U6["交流广场模块"]:::module
+        U7["消息中心模块"]:::module
+        U8["个人中心模块"]:::module
+    end
+
+    subgraph MANAGE["教师与管理功能模块"]
+        direction LR
+        M1["题目管理模块"]:::module
+        M2["测试用例管理模块"]:::module
+        M3["竞赛管理模块"]:::module
+        M4["教学分析模块"]:::module
+        M5["用户管理模块"]:::module
+        M6["系统配置模块"]:::module
+        M7["操作日志模块"]:::module
+        M8["论坛审核模块"]:::module
+        M9["判题观测模块"]:::module
+    end
+
+    STUDENT --> U
+    M --> MANAGE

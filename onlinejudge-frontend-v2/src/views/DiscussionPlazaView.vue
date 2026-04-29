@@ -1,106 +1,114 @@
-<template>
+﻿<template>
   <section class="space-y-6">
     <header>
-      <h1 class="section-title">交流广场</h1>
-      <p class="section-subtitle">
-        支持帖子检索、发帖、题解查看与评论回复。
-        <span v-if="activeProblemId > 0">当前题目筛选：#{{ activeProblemId }}</span>
-      </p>
+      <div class="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h1 class="section-title">讨论广场</h1>
+          <p class="section-subtitle">
+            交流题解、提问与经验，帖子按点赞热度优先推荐，再结合发布时间排序。
+            <span v-if="activeProblemId">当前按题目筛选：#{{ activeProblemId }}</span>
+          </p>
+        </div>
+        <div class="rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-medium text-amber-700">
+          热门优先推荐
+        </div>
+      </div>
     </header>
 
     <AppCard>
-      <div class="grid gap-3 md:grid-cols-[1fr_160px_120px_120px]">
-        <input v-model.trim="keyword" class="w-full rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="搜索标题或内容" @keyup.enter="search" />
-        <input v-model.trim="problemId" class="w-full rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="题目ID(可选)" @keyup.enter="search" />
+      <div class="grid gap-3 md:grid-cols-[1fr_200px_140px_160px]">
+        <input
+          v-model.trim="keyword"
+          class="w-full rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800"
+          placeholder="搜索帖子标题或内容"
+          @keyup.enter="search"
+        />
+        <input
+          v-model.trim="problemId"
+          class="w-full rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800"
+          placeholder="题目 ID（可选）"
+          @keyup.enter="search"
+        />
         <AppButton @click="search">搜索</AppButton>
-        <AppButton variant="secondary" @click="toggleCreate">{{ creating ? '收起' : '发帖' }}</AppButton>
+        <AppButton variant="secondary" @click="toggleCreate">{{ creating ? '取消发帖' : (userStore.isLoggedIn ? '发布帖子' : '登录后发帖') }}</AppButton>
       </div>
     </AppCard>
 
     <AppCard v-if="creating">
-      <h2 class="text-lg font-semibold text-slate-800">发布帖子</h2>
+      <h2 class="text-lg font-semibold text-slate-800">发布新帖</h2>
       <div class="mt-3 space-y-3">
-        <input v-model.trim="newPost.title" class="w-full rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="标题" />
-        <input v-model.trim="newPost.problemId" class="w-full rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="关联题目ID（可空）" />
-        <textarea v-model.trim="newPost.content" class="h-36 w-full rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800" placeholder="内容（支持 Markdown）" />
+        <input
+          v-model.trim="newPost.title"
+          class="w-full rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800"
+          placeholder="帖子标题"
+        />
+        <input
+          v-model.trim="newPost.problemId"
+          class="w-full rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800"
+          placeholder="关联题目 ID（可选）"
+        />
+        <textarea
+          v-model.trim="newPost.content"
+          class="h-36 w-full rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800"
+          placeholder="帖子内容（支持 Markdown）"
+        />
         <p v-if="postError" class="text-sm text-rose-600">{{ postError }}</p>
-        <AppButton :disabled="posting" @click="submitPost">{{ posting ? '发布中...' : '发布' }}</AppButton>
+        <AppButton :disabled="posting" @click="submitPost">{{ posting ? '发布中...' : '确认发布' }}</AppButton>
       </div>
     </AppCard>
 
-    <div class="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
-      <AppCard>
-        <h2 class="text-lg font-semibold text-slate-800">帖子流</h2>
-        <div class="mt-4 space-y-3">
-          <article v-for="post in posts" :key="post.id" class="rounded-lg border p-4 transition" :class="selectedPostId === post.id ? 'border-slate-900 bg-slate-50' : 'border-line hover:border-slate-700'">
-            <button class="w-full text-left" @click="selectPost(post.id)">
-              <h3 class="text-[15px] font-semibold text-slate-800">{{ post.title }}</h3>
-              <p class="mt-1 text-sm text-soft line-clamp-2">{{ post.contentPreview || post.content || '' }}</p>
-              <div class="mt-2 flex flex-wrap items-center gap-3 text-xs text-soft">
-                <span>{{ post.nickname || post.username || `用户#${post.userId}` }}</span>
-                <span>•</span>
-                <span>浏览 {{ post.viewCount || 0 }}</span>
-                <span v-if="post.problemId">•</span>
-                <span v-if="post.problemId">题目 #{{ post.problemId }}</span>
-              </div>
-            </button>
-          </article>
-        </div>
-      </AppCard>
-
-      <AppCard>
-        <h2 class="text-lg font-semibold text-slate-800">帖子详情</h2>
-        <div v-if="selectedPost" class="mt-3 space-y-3">
-          <div class="text-base font-semibold text-slate-800">{{ selectedPost.title }}</div>
-          <div class="text-xs text-soft">
-            {{ selectedPost.nickname || selectedPost.username || '-' }} · {{ formatTime(selectedPost.createTime) }}
-            <span v-if="selectedPost.problemId"> · 题目 #{{ selectedPost.problemId }}</span>
-          </div>
-          <ProblemRichContent :content="selectedPost.content || selectedPost.contentPreview || ''" />
-
-          <div class="rounded-lg border border-line p-3">
-            <div class="mb-2 flex items-center justify-between">
-              <h3 class="text-sm font-semibold text-slate-800">回复</h3>
-              <AppButton size="sm" variant="secondary" :disabled="commentLoading" @click="loadComments(selectedPost.id)">
-                {{ commentLoading ? '刷新中...' : '刷新' }}
-              </AppButton>
-            </div>
-
-            <div v-if="commentLoading" class="grid gap-2">
-              <div v-for="n in 3" :key="`comment-skeleton-${n}`" class="skeleton h-14 rounded-lg" />
-            </div>
-
-            <div v-else-if="comments.length" class="space-y-2">
-              <div v-for="comment in comments" :key="comment.id" class="rounded-md border border-line bg-slate-50 p-3">
-                <div class="flex items-center justify-between text-xs text-soft">
-                  <span>{{ comment.nickname || comment.username || `用户#${comment.userId}` }}</span>
-                  <span>{{ formatTime(comment.createTime) }}</span>
-                </div>
-                <ProblemRichContent class="mt-2" :content="comment.content || ''" />
-                <div class="mt-2 flex gap-2">
-                  <AppButton size="sm" variant="ghost" @click="replyToComment(comment)">回复</AppButton>
-                  <AppButton v-if="comment.editable || isAdmin" size="sm" variant="ghost" @click="removeComment(comment)">删除</AppButton>
-                </div>
-              </div>
-            </div>
-            <div v-else class="text-sm text-soft">暂无回复，欢迎抢沙发</div>
-
-            <div class="mt-3 space-y-2">
-              <textarea
-                v-model.trim="commentDraft"
-                class="h-24 w-full rounded-lg border border-line px-3 py-2 text-sm outline-none focus:border-slate-800"
-                placeholder="写下你的回复（支持 Markdown）"
-              />
-              <p v-if="commentError" class="text-sm text-rose-600">{{ commentError }}</p>
-              <AppButton size="sm" :disabled="commentPosting || !selectedPostId" @click="submitComment">
-                {{ commentPosting ? '发布中...' : '发布回复' }}
-              </AppButton>
-            </div>
-          </div>
-        </div>
-        <EmptyState v-else message="请选择左侧帖子查看详情" />
-      </AppCard>
+    <div v-if="loading" class="grid gap-3">
+      <div v-for="n in 6" :key="`post-skeleton-${n}`" class="skeleton h-24 rounded-xl" />
     </div>
+
+    <div v-else-if="posts.length" class="grid gap-4 md:grid-cols-2">
+      <article
+        v-for="post in posts"
+        :key="post.id"
+        class="group cursor-pointer rounded-[18px] border border-line bg-white p-5 shadow-card transition-colors hover:border-slate-400"
+        @click="openPost(post.id)"
+      >
+        <div class="flex items-start justify-between gap-3">
+          <div class="space-y-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="rounded-full bg-slate-900 px-2.5 py-1 text-[11px] font-semibold tracking-[0.12em] text-white">DISCUSS</span>
+              <span v-if="post.likeCount" class="rounded-full bg-rose-50 px-2.5 py-1 text-[11px] font-medium text-rose-700">
+                热度 {{ post.likeCount }}
+              </span>
+            </div>
+            <h3 class="line-clamp-2 text-lg font-semibold text-slate-800">{{ post.title }}</h3>
+          </div>
+          <div class="flex flex-col items-end gap-2">
+            <span v-if="post.problemId" class="shrink-0 rounded-full border border-slate-200 px-2 py-0.5 text-xs text-slate-600">
+              #{{ post.problemId }}
+            </span>
+            <span v-if="showAuditBadge(post)" class="rounded-full px-2 py-0.5 text-xs" :class="auditStatusClass(post.auditStatus)">
+              {{ auditStatusText(post.auditStatus) }}
+            </span>
+          </div>
+        </div>
+        <p class="mt-2 line-clamp-3 text-sm leading-6 text-soft">{{ post.contentPreview || post.content || '' }}</p>
+        <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap items-center gap-3 text-xs text-soft">
+            <UserIdentity :user="post" avatar-size="xs" />
+            <span>浏览 {{ post.viewCount || 0 }}</span>
+            <span>点赞 {{ post.likeCount || 0 }}</span>
+            <span>{{ formatTime(post.createTime) }}</span>
+          </div>
+          <button
+            type="button"
+            class="inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium transition"
+            :class="post.liked ? 'border-rose-200 bg-rose-50 text-rose-700' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:text-slate-800'"
+            @click.stop="toggleLike(post)"
+          >
+            <span>{{ post.liked ? '已点赞' : '点赞' }}</span>
+            <span>{{ post.likeCount || 0 }}</span>
+          </button>
+        </div>
+      </article>
+    </div>
+
+    <EmptyState v-else message="暂无帖子，欢迎发布第一条讨论" />
 
     <div class="flex items-center justify-between">
       <p class="text-sm text-soft">共 {{ total }} 帖 · 当前第 {{ page }} 页</p>
@@ -113,14 +121,15 @@
 </template>
 
 <script setup>
-import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { discussionApi } from '@/api'
-import ProblemRichContent from '@/components/problem/ProblemRichContent.vue'
+import { useUserStore } from '@/stores/useUserStore'
+import UserIdentity from '@/components/ui/UserIdentity.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import AppCard from '@/components/ui/AppCard.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
-import { useUserStore } from '@/stores/useUserStore'
+import { requireLoginAction } from '@/utils/authAction'
 
 const route = useRoute()
 const router = useRouter()
@@ -132,17 +141,9 @@ const posting = ref(false)
 const postError = ref('')
 
 const posts = ref([])
-const selectedPost = ref(null)
-const selectedPostId = ref(0)
 const total = ref(0)
 const page = ref(1)
-const size = ref(10)
-
-const commentLoading = ref(false)
-const commentPosting = ref(false)
-const commentError = ref('')
-const comments = ref([])
-const commentDraft = ref('')
+const size = ref(12)
 
 const keyword = ref('')
 const problemId = ref('')
@@ -153,7 +154,6 @@ const newPost = reactive({
   problemId: ''
 })
 
-const isAdmin = computed(() => userStore.userInfo?.role === 'ADMIN')
 const activeProblemId = computed(() => {
   const pid = Number(problemId.value)
   return Number.isFinite(pid) && pid > 0 ? pid : 0
@@ -162,6 +162,30 @@ const activeProblemId = computed(() => {
 function formatTime(value) {
   if (!value) return '-'
   return String(value).replace('T', ' ').slice(0, 19)
+}
+
+function auditStatusText(status) {
+  const v = Number(status)
+  if (v === 1) return '已通过'
+  if (v === 2) return '已驳回'
+  return '待审核'
+}
+
+function auditStatusClass(status) {
+  const v = Number(status)
+  if (v === 1) return 'bg-emerald-100 text-emerald-700'
+  if (v === 2) return 'bg-rose-100 text-rose-700'
+  return 'bg-amber-100 text-amber-700'
+}
+
+function showAuditBadge(post) {
+  if (!post) return false
+  if (Number(post.auditStatus) !== 1) return true
+  return userStore.isAdmin
+}
+
+function getCurrentRedirectPath() {
+  return route.fullPath || '/discuss'
 }
 
 function syncRouteQuery() {
@@ -184,48 +208,35 @@ async function load() {
     })
     posts.value = res.data?.records || []
     total.value = Number(res.data?.total || 0)
-
-    if (selectedPostId.value && !posts.value.some((p) => p.id === selectedPostId.value)) {
-      selectedPost.value = null
-      selectedPostId.value = 0
-      comments.value = []
-    }
-
-    if (!selectedPostId.value && posts.value.length) {
-      await selectPost(posts.value[0].id)
-    }
   } finally {
     loading.value = false
   }
 }
 
-async function loadComments(postId) {
-  commentLoading.value = true
-  try {
-    const res = await discussionApi.getCommentList(postId, { page: 1, size: 50 })
-    comments.value = res.data?.records || []
-  } finally {
-    commentLoading.value = false
+async function toggleCreate() {
+  const ok = await requireLoginAction({
+    userStore,
+    router,
+    redirect: getCurrentRedirectPath(),
+    actionText: '发布帖子'
+  })
+  if (!ok) {
+    return
   }
-}
-
-async function selectPost(id) {
-  const res = await discussionApi.getPostDetail(id)
-  selectedPost.value = res.data || null
-  selectedPostId.value = selectedPost.value?.id || 0
-  commentDraft.value = ''
-  commentError.value = ''
-  if (selectedPostId.value) {
-    await loadComments(selectedPostId.value)
-  }
-}
-
-function toggleCreate() {
   creating.value = !creating.value
 }
 
 async function submitPost() {
   postError.value = ''
+  const ok = await requireLoginAction({
+    userStore,
+    router,
+    redirect: getCurrentRedirectPath(),
+    actionText: '发布帖子'
+  })
+  if (!ok) {
+    return
+  }
   if (!newPost.title || !newPost.content) {
     postError.value = '标题和内容不能为空'
     return
@@ -244,45 +255,46 @@ async function submitPost() {
     creating.value = false
     await load()
   } catch (e) {
-    postError.value = e.message || '发布失败'
+    postError.value = e.message || '发帖失败'
   } finally {
     posting.value = false
   }
 }
 
-function replyToComment(comment) {
-  const name = comment.nickname || comment.username || `用户#${comment.userId}`
-  commentDraft.value = `@${name} ${commentDraft.value || ''}`.trim()
-}
-
-async function removeComment(comment) {
-  if (!selectedPostId.value) return
-  const ok = window.confirm('确定删除这条回复吗？')
-  if (!ok) return
-  await discussionApi.deleteComment(comment.id)
-  await loadComments(selectedPostId.value)
-}
-
-async function submitComment() {
-  commentError.value = ''
-  if (!selectedPostId.value) {
-    commentError.value = '请先选择帖子'
+async function toggleLike(post) {
+  const ok = await requireLoginAction({
+    userStore,
+    router,
+    redirect: getCurrentRedirectPath(),
+    actionText: post?.liked ? '取消点赞' : '点赞帖子'
+  })
+  if (!ok || !post?.id) {
     return
   }
-  if (!commentDraft.value) {
-    commentError.value = '回复内容不能为空'
-    return
-  }
-  commentPosting.value = true
+
+  const liked = !!post.liked
+  post.liked = !liked
+  post.likeCount = Math.max(0, Number(post.likeCount || 0) + (liked ? -1 : 1))
+
   try {
-    await discussionApi.createComment(selectedPostId.value, { content: commentDraft.value })
-    commentDraft.value = ''
-    await loadComments(selectedPostId.value)
+    if (liked) {
+      await discussionApi.unlikePost(post.id)
+    } else {
+      await discussionApi.likePost(post.id)
+    }
+    posts.value = [...posts.value].sort((a, b) => {
+      const likeDiff = Number(b.likeCount || 0) - Number(a.likeCount || 0)
+      if (likeDiff !== 0) return likeDiff
+      return String(b.createTime || '').localeCompare(String(a.createTime || ''))
+    })
   } catch (e) {
-    commentError.value = e.message || '发布回复失败'
-  } finally {
-    commentPosting.value = false
+    post.liked = liked
+    post.likeCount = Math.max(0, Number(post.likeCount || 0) + (liked ? 1 : -1))
   }
+}
+
+function openPost(postId) {
+  router.push(`/discuss/${postId}`)
 }
 
 function search() {
@@ -298,25 +310,19 @@ function prevPage() {
 }
 
 function nextPage() {
+  if (page.value * size.value >= total.value) return
   page.value += 1
   load()
 }
 
 watch(
-  () => route.query.problemId,
-  (pid) => {
-    const nextPid = pid ? String(pid) : ''
-    if (problemId.value !== nextPid) {
-      problemId.value = nextPid
-      page.value = 1
-      load()
-    }
-  }
+  () => route.query,
+  (q) => {
+    keyword.value = typeof q.keyword === 'string' ? q.keyword : ''
+    problemId.value = typeof q.problemId === 'string' ? q.problemId : ''
+    page.value = 1
+    load()
+  },
+  { immediate: true }
 )
-
-onMounted(async () => {
-  keyword.value = route.query.keyword ? String(route.query.keyword) : ''
-  problemId.value = route.query.problemId ? String(route.query.problemId) : ''
-  await load()
-})
 </script>

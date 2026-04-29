@@ -3,6 +3,7 @@ package com.academic.oj.controller;
 import com.academic.oj.common.exception.BusinessException;
 import com.academic.oj.dto.RoleProfileDTO;
 import com.academic.oj.dto.UserListDTO;
+import com.academic.oj.dto.UserPublicProfileVO;
 import com.academic.oj.service.AdminOperationLogService;
 import com.academic.oj.service.UserService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -74,6 +75,20 @@ class UserControllerTest {
 
         assertEquals("20261234", result.getStudentNo());
         verify(userService).getRoleProfile(8L);
+    }
+
+    @Test
+    void getPublicProfileShouldReturnUserData() {
+        setAuth(5L, "TEACHER");
+        UserPublicProfileVO vo = new UserPublicProfileVO();
+        vo.setUserId(9L);
+        vo.setNickname("学生A");
+        when(userService.getPublicProfile(9L)).thenReturn(vo);
+
+        UserPublicProfileVO result = (UserPublicProfileVO) userController.getPublicProfile(9L).getData();
+
+        assertEquals("学生A", result.getNickname());
+        verify(userService).getPublicProfile(9L);
     }
 
     @Test

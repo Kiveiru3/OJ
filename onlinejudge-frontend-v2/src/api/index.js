@@ -16,6 +16,9 @@ export const userApi = {
   getUserInfo() {
     return request({ url: '/user/info', method: 'get' })
   },
+  getPublicProfile(userId) {
+    return request({ url: `/user/public/${userId}`, method: 'get' })
+  },
   updateUserInfo(data) {
     return request({ url: '/user/update', method: 'put', data })
   },
@@ -51,6 +54,24 @@ export const problemApi = {
   },
   getProblemDetail(id) {
     return request({ url: `/problem/${id}`, method: 'get' })
+  },
+  createProblem(data) {
+    return request({ url: '/problem', method: 'post', data })
+  },
+  updateProblem(id, data) {
+    return request({ url: `/problem/${id}`, method: 'put', data })
+  },
+  deleteProblem(id) {
+    return request({ url: `/problem/${id}`, method: 'delete' })
+  }
+}
+
+export const testCaseApi = {
+  getProblemTestCases(problemId) {
+    return request({ url: `/problem/${problemId}/test-cases`, method: 'get' })
+  },
+  replaceProblemTestCases(problemId, data) {
+    return request({ url: `/problem/${problemId}/test-cases`, method: 'put', data })
   }
 }
 
@@ -66,6 +87,12 @@ export const submissionApi = {
   },
   getSubmissionList(params) {
     return request({ url: '/submission/list', method: 'get', params })
+  },
+  getPointRanking(params) {
+    return request({ url: '/submission/points/ranking', method: 'get', params })
+  },
+  getMyPointSummary() {
+    return request({ url: '/submission/points/me', method: 'get' })
   }
 }
 
@@ -75,6 +102,15 @@ export const contestApi = {
   },
   getContestDetail(id) {
     return request({ url: `/contest/${id}`, method: 'get' })
+  },
+  createContest(data) {
+    return request({ url: '/contest', method: 'post', data })
+  },
+  updateContest(id, data) {
+    return request({ url: `/contest/${id}`, method: 'put', data })
+  },
+  deleteContest(id) {
+    return request({ url: `/contest/${id}`, method: 'delete' })
   },
   joinContest(id) {
     return request({ url: `/contest/${id}/join`, method: 'post' })
@@ -94,6 +130,15 @@ export const discussionApi = {
   deletePost(id) {
     return request({ url: `/discussion/${id}`, method: 'delete' })
   },
+  auditPost(id, data) {
+    return request({ url: `/discussion/${id}/audit`, method: 'put', data })
+  },
+  likePost(id) {
+    return request({ url: `/discussion/${id}/like`, method: 'post' })
+  },
+  unlikePost(id) {
+    return request({ url: `/discussion/${id}/like`, method: 'delete' })
+  },
   getPostDetail(id) {
     return request({ url: `/discussion/${id}`, method: 'get' })
   },
@@ -105,6 +150,36 @@ export const discussionApi = {
   },
   deleteComment(commentId) {
     return request({ url: `/discussion/comments/${commentId}`, method: 'delete' })
+  }
+}
+
+export const socialApi = {
+  getFollowStatus(targetUserId) {
+    return request({ url: '/social/follow/status', method: 'get', params: { targetUserId } })
+  },
+  follow(targetUserId) {
+    return request({ url: `/social/follow/${targetUserId}`, method: 'post' })
+  },
+  unfollow(targetUserId) {
+    return request({ url: `/social/follow/${targetUserId}`, method: 'delete' })
+  },
+  getFollowing(params) {
+    return request({ url: '/social/follow/following', method: 'get', params })
+  },
+  getFollowers(params) {
+    return request({ url: '/social/follow/followers', method: 'get', params })
+  },
+  sendMessage(data) {
+    return request({ url: '/social/message', method: 'post', data })
+  },
+  getMessageList(params) {
+    return request({ url: '/social/message/list', method: 'get', params })
+  },
+  getMessageThreads(params) {
+    return request({ url: '/social/message/threads', method: 'get', params })
+  },
+  markConversationRead(peerUserId) {
+    return request({ url: '/social/message/read', method: 'put', params: { peerUserId } })
   }
 }
 

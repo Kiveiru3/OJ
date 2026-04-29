@@ -10,9 +10,9 @@ public class ContestRankingItemVO {
     private Long userId;
     private String username;
     private String nickname;
+    private String avatar;
     private Integer acceptedCount;
     private Integer totalPenalty;
     private Integer totalSubmissions;
     private LocalDateTime lastAcceptedTime;
 }
-

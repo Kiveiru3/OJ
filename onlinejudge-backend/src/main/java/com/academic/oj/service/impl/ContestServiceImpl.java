@@ -257,6 +257,7 @@ public class ContestServiceImpl implements ContestService {
             User user = userMap.get(score.getUserId());
             vo.setUsername(user == null ? null : user.getUsername());
             vo.setNickname(user == null ? null : user.getNickname());
+            vo.setAvatar(user == null ? null : user.getAvatar());
             vo.setAcceptedCount(score.getAcceptedCount());
             vo.setTotalPenalty(score.getTotalPenalty());
             vo.setTotalSubmissions(score.getTotalSubmissions());
@@ -405,6 +406,7 @@ public class ContestServiceImpl implements ContestService {
         vo.setUserId(userId);
         vo.setUsername(user != null ? user.getUsername() : null);
         vo.setNickname(user != null ? user.getNickname() : null);
+        vo.setAvatar(user != null ? user.getAvatar() : null);
         vo.setAcceptedCount(stats.acceptedCount);
         vo.setTotalPenalty(stats.totalPenalty);
         vo.setTotalSubmissions(stats.totalSubmissions);

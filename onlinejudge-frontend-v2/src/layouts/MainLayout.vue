@@ -1,11 +1,10 @@
-<template>
-  <div class="min-h-screen px-4 pb-8 pt-4 md:px-8">
-    <header class="glass-panel sticky top-4 z-30 mx-auto mb-6 flex w-full max-w-[1400px] items-center justify-between rounded-xl border border-white/60 px-5 py-3 shadow-card">
+﻿<template>
+  <div class="flex min-h-screen flex-col px-4 pb-6 pt-4 md:px-8">
+    <header class="glass-panel sticky top-4 z-30 mx-auto mb-6 flex w-full max-w-[1400px] items-center justify-between rounded-xl border border-line bg-white px-5 py-3 shadow-card">
       <div class="flex items-center gap-3">
-        <div class="h-9 w-9 animate-floaty rounded-lg bg-gradient-to-br from-sky-500 to-blue-600" />
+        <div class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-300 bg-slate-900 text-sm font-semibold text-white">OJ</div>
         <div>
-          <div class="text-sm font-semibold text-ink">{{ app.siteName }}</div>
-          <div class="text-xs text-soft">{{ app.announcement }}</div>
+          <div class="text-sm font-semibold text-ink">{{ app.siteName || '在线评测平台' }}</div>
         </div>
       </div>
 
@@ -30,21 +29,29 @@
         </RouterLink>
 
         <template v-else>
-          <RouterLink to="/profile" class="flex h-10 w-10 items-center justify-center rounded-full border border-line bg-white text-sm font-semibold text-slate-700 transition hover:border-slate-800">
-            {{ shortName }}
+          <RouterLink :to="myHomePath" class="flex items-center gap-2 rounded-full border border-line bg-white px-2 py-1 text-sm transition hover:border-slate-800">
+            <UserAvatar :user="user.userInfo || {}" size="sm" />
+            <span class="max-w-[120px] truncate text-slate-700">{{ displayName }}</span>
           </RouterLink>
           <AppButton size="sm" variant="ghost" @click="logout">退出</AppButton>
         </template>
       </div>
     </header>
 
-    <main class="mx-auto max-w-[1400px]">
+    <main class="mx-auto w-full max-w-[1400px] flex-1">
       <RouterView v-slot="{ Component }">
         <Transition name="fade-slide" mode="out-in">
           <component :is="Component" />
         </Transition>
       </RouterView>
     </main>
+
+    <footer class="mx-auto mt-8 w-full max-w-[1400px] rounded-xl border border-line bg-white px-5 py-4 text-xs text-soft">
+      <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+        <span>{{ app.siteName || '在线评测平台' }} · 程序设计教学系统</span>
+        <span>支持：题库练习 / 在线判题 / 竞赛组织 / 讨论交流</span>
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -52,8 +59,10 @@
 import { computed, onMounted } from 'vue'
 import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
 import AppButton from '@/components/ui/AppButton.vue'
+import UserAvatar from '@/components/ui/UserAvatar.vue'
 import { useAppStore } from '@/stores/useAppStore'
 import { useUserStore } from '@/stores/useUserStore'
+import { getDisplayName } from '@/utils/avatar'
 
 const app = useAppStore()
 const user = useUserStore()
@@ -62,12 +71,15 @@ const router = useRouter()
 
 const navItems = computed(() => {
   const common = [
-    { to: '/', label: '首页指挥舱' },
-    { to: '/problems', label: '题库中心' },
-    { to: '/contests', label: '赛事中枢' },
-    { to: '/discuss', label: '交流广场' },
-    { to: '/studio', label: '代码工坊' }
+    { to: '/', label: '首页' },
+    { to: '/problems', label: '题库' },
+    { to: '/contests', label: '竞赛' },
+    { to: '/discuss', label: '讨论' }
   ]
+  if (user.isLoggedIn) {
+    common.push({ to: '/studio', label: '做题' })
+    common.push({ to: '/messages', label: '私信' })
+  }
   if (user.isTeacher || user.isAdmin) {
     common.push({ to: '/teacher-workbench', label: '教师工作台' })
   }
@@ -77,9 +89,10 @@ const navItems = computed(() => {
   return common
 })
 
-const shortName = computed(() => {
-  const nick = user.userInfo?.nickname || user.userInfo?.username || '访客'
-  return nick.slice(0, 1)
+const displayName = computed(() => getDisplayName(user.userInfo || {}))
+const myHomePath = computed(() => {
+  const id = Number(user.userInfo?.id || 0)
+  return id > 0 ? `/users/${id}` : '/profile'
 })
 
 const logout = async () => {
@@ -97,6 +110,9 @@ const isNavActive = (path) => {
 
 onMounted(() => {
   app.loadPublicConfigs()
+  if (user.isLoggedIn) {
+    user.ensureUserInfo().catch(() => null)
+  }
 })
 </script>
 

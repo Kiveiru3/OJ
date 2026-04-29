@@ -1,0 +1,39 @@
+erDiagram
+    USER {
+      BIGINT id
+      VARCHAR username
+      VARCHAR role
+      VARCHAR email
+    }
+    PROBLEM {
+      BIGINT id
+      VARCHAR title
+      VARCHAR difficulty
+      INT time_limit
+      INT memory_limit
+    }
+    TEST_CASE {
+      BIGINT id
+      BIGINT problem_id
+      TINYINT is_sample
+    }
+    SUBMISSION {
+      BIGINT id
+      BIGINT user_id
+      BIGINT problem_id
+      VARCHAR language
+      VARCHAR status
+      DATETIME create_time
+    }
+    JUDGE_RESULT {
+      BIGINT id
+      BIGINT submission_id
+      VARCHAR status
+      INT time_used
+      INT memory_used
+    }
+
+    USER ||--o{ SUBMISSION : submits
+    PROBLEM ||--o{ TEST_CASE : owns
+    PROBLEM ||--o{ SUBMISSION : receives
+    SUBMISSION ||--|| JUDGE_RESULT : judged_as

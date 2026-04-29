@@ -1,0 +1,20 @@
+{
+  "图3.1 系统总体架构图": "D:\\OJ-project\\paper\\tmp-mermaid\\01-图3-1-系统总体架构图.png",
+  "图3.2 系统功能结构图": "D:\\OJ-project\\paper\\tmp-mermaid\\02-图3-2-系统功能结构图.png",
+  "图3.3 在线判题业务流程图": "D:\\OJ-project\\paper\\tmp-mermaid\\03-图3-3-在线判题业务流程图.png",
+  "图3.4 竞赛管理业务流程图": "D:\\OJ-project\\paper\\tmp-mermaid\\04-图3-4-竞赛管理业务流程图.png",
+  "图3.5 系统全量E-R图": "D:\\OJ-project\\paper\\tmp-mermaid\\05-图3-5-系统全量E-R图.png",
+  "图3.6 核心判题链路E-R图": "D:\\OJ-project\\paper\\tmp-mermaid\\06-图3-6-核心判题链路E-R图.png",
+  "登录页面": "D:\\OJ-project\\paper\\screenshots\\login.png",
+  "注册页面": "D:\\OJ-project\\paper\\screenshots\\register.png",
+  "个人中心页面": "D:\\OJ-project\\paper\\screenshots\\profile.png",
+  "题库中心页面": "D:\\OJ-project\\paper\\screenshots\\problems.png",
+  "题目详情页面": "D:\\OJ-project\\paper\\screenshots\\problem-detail.png",
+  "代码工坊页面": "D:\\OJ-project\\paper\\screenshots\\studio.png",
+  "赛事中枢页面": "D:\\OJ-project\\paper\\screenshots\\contests.png",
+  "竞赛详情与排行榜页面": "D:\\OJ-project\\paper\\screenshots\\contest-ranking.png",
+  "交流广场页面": "D:\\OJ-project\\paper\\screenshots\\discuss.png",
+  "消息中心页面": "D:\\OJ-project\\paper\\screenshots\\messages.png",
+  "教师工作台页面": "D:\\OJ-project\\paper\\screenshots\\teacher-workbench.png",
+  "管理员控制台页面": "D:\\OJ-project\\paper\\screenshots\\admin-console.png"
+}

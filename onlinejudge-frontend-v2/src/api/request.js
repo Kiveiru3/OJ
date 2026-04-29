@@ -18,6 +18,10 @@ function clearSessionAndRedirect() {
   }
 }
 
+function hasLoginToken() {
+  return !!localStorage.getItem('token')
+}
+
 request.interceptors.request.use((config) => {
   const token = localStorage.getItem('token')
   if (token) {
@@ -34,7 +38,7 @@ request.interceptors.response.use(
     }
     if (res.code !== 200) {
       const message = res.message || 'Request failed'
-      if (res.code === 401) clearSessionAndRedirect()
+      if (res.code === 401 && hasLoginToken()) clearSessionAndRedirect()
       return Promise.reject(new Error(message))
     }
     return res
@@ -42,7 +46,7 @@ request.interceptors.response.use(
   (error) => {
     const status = error?.response?.status
     const message = error?.response?.data?.message || error.message || 'Network error'
-    if (status === 401) clearSessionAndRedirect()
+    if (status === 401 && hasLoginToken()) clearSessionAndRedirect()
     return Promise.reject(new Error(message))
   }
 )

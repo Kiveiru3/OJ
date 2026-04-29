@@ -35,8 +35,7 @@
           <AppBadge :tone="difficultyTone(item.difficulty)">{{ difficultyText(item.difficulty) }}</AppBadge>
         </div>
         <div class="mt-4 flex gap-2">
-          <RouterLink :to="`/studio?problemId=${item.id}`"><AppButton size="sm">去做题</AppButton></RouterLink>
-          <RouterLink :to="`/discuss?problemId=${item.id}`"><AppButton size="sm" variant="secondary">查看题解</AppButton></RouterLink>
+          <AppButton size="sm" @click="startSolve(item.id)">去做题</AppButton>
           <AppButton size="sm" variant="secondary" @click="preview(item)">预览题面</AppButton>
         </div>
       </AppCard>
@@ -90,13 +89,19 @@
 
 <script setup>
 import { onMounted, reactive, ref } from 'vue'
-import { RouterLink } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { problemApi } from '@/api'
 import AppBadge from '@/components/ui/AppBadge.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import AppCard from '@/components/ui/AppCard.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
 import ProblemRichContent from '@/components/problem/ProblemRichContent.vue'
+import { useUserStore } from '@/stores/useUserStore'
+import { requireLoginAction } from '@/utils/authAction'
+
+const router = useRouter()
+const route = useRoute()
+const userStore = useUserStore()
 
 const loading = ref(false)
 const problems = ref([])
@@ -121,6 +126,17 @@ function difficultyTone(v) {
 
 function isSolved(item) {
   return item?.solved === true || item?.isSolved === true || item?.userSolved === true || item?.userStatus === 'ACCEPTED'
+}
+
+async function startSolve(problemId) {
+  const ok = await requireLoginAction({
+    userStore,
+    router,
+    redirect: route.fullPath || '/problems',
+    actionText: '开始做题'
+  })
+  if (!ok) return
+  router.push({ path: '/studio', query: { problemId: String(problemId) } })
 }
 
 async function load() {

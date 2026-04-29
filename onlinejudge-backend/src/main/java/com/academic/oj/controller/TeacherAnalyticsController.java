@@ -49,19 +49,19 @@ public class TeacherAnalyticsController {
 
     private String buildCsv(TeacherAnalyticsVO vo) {
         StringBuilder builder = new StringBuilder();
-        builder.append("Metric,Value\n");
-        builder.append("Students,").append(value(vo.getTotalStudents())).append('\n');
-        builder.append("Teachers,").append(value(vo.getTotalTeachers())).append('\n');
-        builder.append("Problems,").append(value(vo.getTotalProblems())).append('\n');
-        builder.append("Submissions,").append(value(vo.getTotalSubmissions())).append('\n');
-        builder.append("Accepted,").append(value(vo.getAcceptedSubmissions())).append('\n');
-        builder.append("AcceptanceRate,").append(value(vo.getAcceptanceRate())).append("%\n");
-        builder.append("Contests,").append(value(vo.getTotalContests())).append('\n');
-        builder.append("ActiveContests,").append(value(vo.getActiveContests())).append('\n');
-        builder.append("DiscussionPosts,").append(value(vo.getDiscussionPosts())).append('\n');
-        builder.append("DiscussionComments,").append(value(vo.getDiscussionComments())).append("\n\n");
+        builder.append("指标,数值\n");
+        builder.append("学生总数,").append(value(vo.getTotalStudents())).append('\n');
+        builder.append("教师总数,").append(value(vo.getTotalTeachers())).append('\n');
+        builder.append("题目总数,").append(value(vo.getTotalProblems())).append('\n');
+        builder.append("提交总数,").append(value(vo.getTotalSubmissions())).append('\n');
+        builder.append("通过总数,").append(value(vo.getAcceptedSubmissions())).append('\n');
+        builder.append("通过率,").append(value(vo.getAcceptanceRate())).append("%\n");
+        builder.append("竞赛总数,").append(value(vo.getTotalContests())).append('\n');
+        builder.append("进行中竞赛,").append(value(vo.getActiveContests())).append('\n');
+        builder.append("讨论帖数,").append(value(vo.getDiscussionPosts())).append('\n');
+        builder.append("评论数,").append(value(vo.getDiscussionComments())).append("\n\n");
 
-        builder.append("Date,TotalSubmissions,AcceptedSubmissions,AcceptanceRate\n");
+        builder.append("日期,总提交数,通过数,通过率\n");
         if (vo.getDailySubmissionTrend() != null) {
             vo.getDailySubmissionTrend().forEach(item -> builder
                     .append(csvEscape(item.getDate())).append(',')

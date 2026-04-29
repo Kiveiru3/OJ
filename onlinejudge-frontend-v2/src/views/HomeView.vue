@@ -1,111 +1,175 @@
-<template>
+﻿<template>
   <section class="space-y-6">
-    <AppCard padding="lg" class="overflow-hidden bg-gradient-to-br from-slate-900 to-slate-700 text-white">
+    <AppCard padding="lg" class="overflow-hidden border-slate-200 bg-[#f7f8fa] text-slate-900">
       <div class="grid gap-6 md:grid-cols-[1.2fr_0.8fr]">
         <div class="space-y-4">
-          <AppBadge tone="info">实时数据驱动</AppBadge>
-          <h1 class="text-3xl font-bold leading-tight md:text-4xl">在线评测教学平台<br>一体化前端中枢</h1>
-          <p class="max-w-2xl text-sm text-slate-200 md:text-base">当前页面数据由后端实时接口返回，已接入登录鉴权、题库、竞赛、讨论和提交链路。</p>
+          <AppBadge tone="neutral">在线评测教学平台</AppBadge>
+          <h1 class="text-3xl font-bold leading-tight text-slate-900 md:text-4xl">题库练习、竞赛组织、自动评测一体化</h1>
           <div class="flex flex-wrap gap-3">
-            <RouterLink to="/problems"><AppButton>进入题库中心</AppButton></RouterLink>
-            <RouterLink to="/studio"><AppButton variant="secondary">前往代码工坊</AppButton></RouterLink>
+            <RouterLink to="/problems"><AppButton>浏览题库</AppButton></RouterLink>
+            <RouterLink to="/contests"><AppButton variant="secondary">查看竞赛</AppButton></RouterLink>
+            <RouterLink v-if="!userStore.isLoggedIn" to="/login"><AppButton variant="ghost">登录后开始做题</AppButton></RouterLink>
+            <RouterLink v-else to="/studio"><AppButton variant="ghost">进入做题工作台</AppButton></RouterLink>
           </div>
         </div>
+
         <div class="grid grid-cols-2 gap-3 self-end">
-          <div class="rounded-lg bg-white/10 p-4"><div class="text-xs text-slate-300">题库总量</div><div class="mt-1 text-2xl font-semibold">{{ dashboard.problemTotal }}</div></div>
-          <div class="rounded-lg bg-white/10 p-4"><div class="text-xs text-slate-300">竞赛总场次</div><div class="mt-1 text-2xl font-semibold">{{ dashboard.contestTotal }}</div></div>
-          <div class="rounded-lg bg-white/10 p-4"><div class="text-xs text-slate-300">讨论帖总量</div><div class="mt-1 text-2xl font-semibold">{{ dashboard.discussionTotal }}</div></div>
-          <div class="rounded-lg bg-white/10 p-4"><div class="text-xs text-slate-300">我的提交</div><div class="mt-1 text-2xl font-semibold">{{ dashboard.submissionTotal }}</div></div>
+          <div class="rounded-lg border border-line bg-white p-4">
+            <div class="text-xs text-soft">题目总量</div>
+            <div class="mt-1 text-2xl font-semibold text-slate-900">{{ dashboard.problemTotal }}</div>
+          </div>
+          <div class="rounded-lg border border-line bg-white p-4">
+            <div class="text-xs text-soft">竞赛场次</div>
+            <div class="mt-1 text-2xl font-semibold text-slate-900">{{ dashboard.contestTotal }}</div>
+          </div>
+          <div class="rounded-lg border border-line bg-white p-4">
+            <div class="text-xs text-soft">讨论帖子</div>
+            <div class="mt-1 text-2xl font-semibold text-slate-900">{{ dashboard.discussionTotal }}</div>
+          </div>
+          <div class="rounded-lg border border-line bg-white p-4">
+            <div class="text-xs text-soft">我的提交</div>
+            <div class="mt-1 text-2xl font-semibold text-slate-900">{{ userStore.isLoggedIn ? dashboard.submissionTotal : '-' }}</div>
+          </div>
         </div>
       </div>
     </AppCard>
 
-    <div class="grid gap-4 md:grid-cols-3">
+    <div class="grid gap-4 md:grid-cols-1">
       <AppCard>
         <div class="text-sm text-soft">当前身份</div>
         <div class="mt-2 text-2xl font-bold text-slate-900">{{ roleText }}</div>
-        <div class="mt-1 text-sm text-soft">{{ userName }}</div>
-      </AppCard>
-      <AppCard>
-        <div class="text-sm text-soft">系统公告</div>
-        <div class="mt-2 text-lg font-semibold text-slate-900">{{ app.announcement }}</div>
-      </AppCard>
-      <AppCard>
-        <div class="text-sm text-soft">登录状态</div>
-        <div class="mt-2 text-2xl font-bold text-emerald-600">在线</div>
-        <div class="mt-1 text-sm text-soft">Token 已加载</div>
       </AppCard>
     </div>
 
+    <div class="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
+      <AppCard>
+        <div class="flex items-center justify-between">
+          <h2 class="section-title">积分排名 Top 20</h2>
+          <AppButton size="sm" variant="secondary" :disabled="rankingLoading" @click="loadPointRanking">刷新</AppButton>
+        </div>
+        <div v-if="rankingLoading" class="mt-3 grid gap-2">
+          <div v-for="n in 8" :key="`ranking-skeleton-${n}`" class="skeleton h-10 rounded-lg" />
+        </div>
+        <div v-else class="mt-3 overflow-x-auto">
+          <table class="min-w-full text-left text-sm">
+            <thead>
+              <tr class="border-b border-line text-soft">
+                <th class="px-2 py-2">排名</th>
+                <th class="px-2 py-2">用户</th>
+                <th class="px-2 py-2">已解题</th>
+                <th class="px-2 py-2">积分</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="item in pointRanking" :key="item.userId" class="border-b border-line/70">
+                <td class="px-2 py-2">{{ item.rank }}</td>
+                <td class="px-2 py-2"><UserIdentity :user="item" avatar-size="xs" /></td>
+                <td class="px-2 py-2">{{ item.solvedCount || 0 }}</td>
+                <td class="px-2 py-2 font-semibold text-slate-900">{{ item.points || 0 }}</td>
+              </tr>
+              <tr v-if="!pointRanking.length">
+                <td colspan="4" class="px-2 py-6 text-center text-soft">暂时还没有积分数据</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </AppCard>
+
+      <AppCard>
+        <h2 class="section-title">我的学习看板</h2>
+        <p class="section-subtitle">登录后自动显示你的积分与最近提交状态。</p>
+
+        <div v-if="!userStore.isLoggedIn" class="mt-4 rounded-lg border border-dashed border-line p-4 text-sm text-soft">
+          你当前是访客，点击右上角登录后可查看个人积分、提交趋势与参赛记录。
+        </div>
+
+        <div v-else class="mt-4 space-y-3">
+          <div class="grid gap-3 sm:grid-cols-2">
+            <div class="rounded-lg border border-line p-4">
+              <div class="text-xs text-soft">我的积分</div>
+              <div class="mt-1 text-2xl font-semibold text-slate-900">{{ myPoint.points || 0 }}</div>
+            </div>
+            <div class="rounded-lg border border-line p-4">
+              <div class="text-xs text-soft">积分排名</div>
+              <div class="mt-1 text-2xl font-semibold text-slate-900">#{{ myPoint.rank || '-' }}</div>
+            </div>
+            <div class="rounded-lg border border-line p-4">
+              <div class="text-xs text-soft">已解题目</div>
+              <div class="mt-1 text-2xl font-semibold text-emerald-600">{{ myPoint.solvedCount || 0 }}</div>
+            </div>
+            <div class="rounded-lg border border-line p-4">
+              <div class="text-xs text-soft">最近状态</div>
+              <div class="mt-2">
+                <AppBadge :tone="statusTone(personalBoard.latestStatus)">{{ statusText(personalBoard.latestStatus) }}</AppBadge>
+              </div>
+            </div>
+          </div>
+
+          <div class="rounded-lg border border-line p-4">
+            <div class="mb-3 flex items-center justify-between">
+              <h3 class="text-sm font-semibold text-slate-800">最近提交</h3>
+              <RouterLink to="/studio" class="text-xs text-slate-600 underline">去做题</RouterLink>
+            </div>
+            <div v-if="recentSubmissionList.length" class="space-y-2">
+              <div v-for="item in recentSubmissionList" :key="item.id" class="rounded-md bg-slate-50 p-3">
+                <div class="flex items-center justify-between text-sm">
+                  <span class="font-medium text-slate-800">#{{ item.id }} · 题目 #{{ item.problemId }}</span>
+                  <AppBadge :tone="statusTone(item.status)">{{ statusText(item.status) }}</AppBadge>
+                </div>
+                <div class="mt-1 text-xs text-soft">{{ formatDateTime(item.submitTime) }}</div>
+              </div>
+            </div>
+            <div v-else class="text-sm text-soft">暂无提交记录</div>
+          </div>
+        </div>
+      </AppCard>
+    </div>
+
+    <AppCard>
+      <div class="flex items-center justify-between gap-3">
+        <div>
+          <h2 class="section-title">热门讨论推荐</h2>
+          <p class="section-subtitle">按点赞热度优先排序，适合快速进入高价值讨论。</p>
+        </div>
+        <RouterLink to="/discuss"><AppButton size="sm" variant="secondary">查看全部讨论</AppButton></RouterLink>
+      </div>
+      <div class="mt-4 grid gap-3 lg:grid-cols-3">
+        <RouterLink
+          v-for="item in hotDiscussions"
+          :key="item.id"
+          :to="`/discuss/${item.id}`"
+          class="rounded-[18px] border border-line bg-white p-4 text-inherit no-underline transition hover:border-slate-300"
+        >
+          <div class="flex items-center justify-between gap-3">
+            <AppBadge tone="neutral">讨论 #{{ item.id }}</AppBadge>
+            <span class="rounded-full bg-rose-50 px-2.5 py-1 text-[11px] font-medium text-rose-700">点赞 {{ item.likeCount || 0 }}</span>
+          </div>
+          <div class="mt-3 line-clamp-2 text-base font-semibold text-slate-900">{{ item.title }}</div>
+          <div class="mt-2 line-clamp-3 text-sm leading-6 text-soft">{{ item.contentPreview || '欢迎参与讨论' }}</div>
+          <div class="mt-4 flex flex-wrap items-center gap-3 text-xs text-soft">
+            <UserIdentity :user="item" avatar-size="xs" />
+            <span>浏览 {{ item.viewCount || 0 }}</span>
+          </div>
+        </RouterLink>
+        <div
+          v-if="!hotDiscussions.length"
+          class="rounded-[22px] border border-dashed border-line bg-white/80 p-6 text-sm text-soft lg:col-span-3"
+        >
+          暂无推荐讨论，发布或点赞帖子后会在这里展示。
+        </div>
+      </div>
+    </AppCard>
+
     <AppCard v-if="isAdmin">
-      <h2 class="section-title">接口健康检查</h2>
-      <p class="section-subtitle">管理员可见：用于快速定位关键接口异常</p>
+      <h2 class="section-title">系统健康检查（管理员可见）</h2>
+      <p class="section-subtitle">用于快速确认关键接口是否正常返回。</p>
       <div class="mt-4 grid gap-3 md:grid-cols-2">
         <div v-for="item in checks" :key="item.name" class="rounded-lg border border-line p-4">
           <div class="flex items-center justify-between">
             <div class="text-sm font-semibold text-slate-800">{{ item.name }}</div>
-            <AppBadge :tone="item.ok ? 'success' : 'danger'">{{ item.ok ? 'OK' : 'FAIL' }}</AppBadge>
+            <AppBadge :tone="item.ok ? 'success' : 'danger'">{{ item.ok ? '正常' : '异常' }}</AppBadge>
           </div>
           <div class="mt-1 text-xs text-soft">{{ item.detail }}</div>
-        </div>
-      </div>
-    </AppCard>
-
-    <AppCard v-else>
-      <h2 class="section-title">个人进度看板</h2>
-      <p class="section-subtitle">学生/教师可见：更聚焦学习与训练进度</p>
-
-      <div class="mt-4 grid gap-3 md:grid-cols-4">
-        <div class="rounded-lg border border-line p-4">
-          <div class="text-xs text-soft">今日提交</div>
-          <div class="mt-1 text-2xl font-semibold text-slate-900">{{ personalBoard.todaySubmissionCount }}</div>
-        </div>
-        <div class="rounded-lg border border-line p-4">
-          <div class="text-xs text-soft">近期通过</div>
-          <div class="mt-1 text-2xl font-semibold text-emerald-600">{{ personalBoard.acceptedCount }}</div>
-        </div>
-        <div class="rounded-lg border border-line p-4">
-          <div class="text-xs text-soft">即将开始竞赛</div>
-          <div class="mt-1 text-2xl font-semibold text-slate-900">{{ personalBoard.upcomingContestCount }}</div>
-        </div>
-        <div class="rounded-lg border border-line p-4">
-          <div class="text-xs text-soft">最近状态</div>
-          <div class="mt-2">
-            <AppBadge :tone="personalBoard.latestStatusTone">{{ statusText(personalBoard.latestStatus) }}</AppBadge>
-          </div>
-        </div>
-      </div>
-
-      <div class="mt-4 grid gap-4 md:grid-cols-2">
-        <div class="rounded-lg border border-line p-4">
-          <div class="mb-3 flex items-center justify-between">
-            <h3 class="text-sm font-semibold text-slate-800">最近提交</h3>
-            <RouterLink to="/studio" class="text-xs text-slate-600 underline">去代码工坊</RouterLink>
-          </div>
-          <div v-if="recentSubmissionList.length" class="space-y-2">
-            <div v-for="item in recentSubmissionList" :key="item.id" class="rounded-md bg-slate-50 p-3">
-              <div class="flex items-center justify-between text-sm">
-                <span class="font-medium text-slate-800">#{{ item.id }} · 题目 #{{ item.problemId }}</span>
-                <AppBadge :tone="statusTone(item.status)">{{ statusText(item.status) }}</AppBadge>
-              </div>
-              <div class="mt-1 text-xs text-soft">{{ formatDateTime(item.submitTime) }}</div>
-            </div>
-          </div>
-          <div v-else class="text-sm text-soft">暂无提交记录</div>
-        </div>
-
-        <div class="rounded-lg border border-line p-4">
-          <div class="mb-3 flex items-center justify-between">
-            <h3 class="text-sm font-semibold text-slate-800">即将开始竞赛</h3>
-            <RouterLink to="/contests" class="text-xs text-slate-600 underline">去赛事中枢</RouterLink>
-          </div>
-          <div v-if="upcomingContestList.length" class="space-y-2">
-            <div v-for="item in upcomingContestList" :key="item.id" class="rounded-md bg-slate-50 p-3">
-              <div class="text-sm font-medium text-slate-800">{{ item.title }}</div>
-              <div class="mt-1 text-xs text-soft">开始时间：{{ formatDateTime(item.startTime) }}</div>
-            </div>
-          </div>
-          <div v-else class="text-sm text-soft">暂无即将开始的竞赛</div>
         </div>
       </div>
     </AppCard>
@@ -118,11 +182,10 @@ import { RouterLink } from 'vue-router'
 import AppBadge from '@/components/ui/AppBadge.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import AppCard from '@/components/ui/AppCard.vue'
+import UserIdentity from '@/components/ui/UserIdentity.vue'
 import { contestApi, discussionApi, problemApi, submissionApi } from '@/api'
-import { useAppStore } from '@/stores/useAppStore'
 import { useUserStore } from '@/stores/useUserStore'
 
-const app = useAppStore()
 const userStore = useUserStore()
 
 const dashboard = reactive({
@@ -140,15 +203,19 @@ const checks = ref([
 ])
 
 const personalBoard = reactive({
-  todaySubmissionCount: 0,
-  acceptedCount: 0,
-  upcomingContestCount: 0,
-  latestStatus: '-',
-  latestStatusTone: 'neutral'
+  latestStatus: '-'
 })
 
 const recentSubmissionList = ref([])
-const upcomingContestList = ref([])
+
+const rankingLoading = ref(false)
+const pointRanking = ref([])
+const hotDiscussions = ref([])
+const myPoint = reactive({
+  rank: 0,
+  solvedCount: 0,
+  points: 0
+})
 
 const roleMap = {
   ADMIN: '管理员',
@@ -157,14 +224,10 @@ const roleMap = {
 }
 
 const isAdmin = computed(() => userStore.userInfo?.role === 'ADMIN')
-const roleText = computed(() => roleMap[userStore.userInfo?.role] || userStore.userInfo?.role || '未知')
-const userName = computed(() => userStore.userInfo?.nickname || userStore.userInfo?.username || '未命名用户')
-
-function toDate(value) {
-  if (!value) return null
-  const date = new Date(value)
-  return Number.isNaN(date.getTime()) ? null : date
-}
+const roleText = computed(() => {
+  if (!userStore.isLoggedIn) return '访客'
+  return roleMap[userStore.userInfo?.role] || userStore.userInfo?.role || '未知'
+})
 
 function formatDateTime(value) {
   if (!value) return '-'
@@ -192,71 +255,79 @@ function statusText(status) {
   return map[status] || status || '-'
 }
 
-function buildPersonalBoard(contestPage, submissionPage) {
-  const now = new Date()
-  const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-
-  const submissionRecords = Array.isArray(submissionPage?.records) ? submissionPage.records : []
-  recentSubmissionList.value = submissionRecords.slice(0, 6)
-  personalBoard.acceptedCount = submissionRecords.filter((item) => item.status === 'ACCEPTED').length
-  personalBoard.todaySubmissionCount = submissionRecords.filter((item) => {
-    const dt = toDate(item.submitTime)
-    return dt && dt >= startOfToday
-  }).length
-  personalBoard.latestStatus = submissionRecords[0]?.status || '-'
-  personalBoard.latestStatusTone = statusTone(personalBoard.latestStatus)
-
-  const contestRecords = Array.isArray(contestPage?.records) ? contestPage.records : []
-  const upcoming = contestRecords
-    .filter((item) => {
-      const dt = toDate(item.startTime)
-      return dt && dt > now
-    })
-    .sort((a, b) => toDate(a.startTime) - toDate(b.startTime))
-
-  personalBoard.upcomingContestCount = upcoming.length
-  upcomingContestList.value = upcoming.slice(0, 5)
+async function loadPointRanking() {
+  rankingLoading.value = true
+  try {
+    const res = await submissionApi.getPointRanking({ size: 20 })
+    pointRanking.value = Array.isArray(res?.data) ? res.data : []
+  } finally {
+    rankingLoading.value = false
+  }
 }
 
-async function loadDashboard() {
+async function loadPublicDashboard() {
   const reqs = [
     problemApi.getProblemList({ page: 1, size: 1 }),
-    contestApi.getContestList({ page: 1, size: 20 }),
-    discussionApi.getPostList({ page: 1, size: 1 }),
-    submissionApi.getSubmissionList({ page: 1, size: 20 })
+    contestApi.getContestList({ page: 1, size: 1 }),
+    discussionApi.getPostList({ page: 1, size: 3 })
   ]
-
-  const names = ['题库接口 /problem/list', '竞赛接口 /contest/list', '讨论接口 /discussion/list', '提交接口 /submission/list']
+  const names = ['题库接口 /problem/list', '竞赛接口 /contest/list', '讨论接口 /discussion/list']
   const results = await Promise.allSettled(reqs)
-
-  let contestPage = null
-  let submissionPage = null
 
   results.forEach((r, idx) => {
     if (r.status === 'fulfilled') {
-      const pageData = r.value?.data || {}
-      const total = Number(pageData?.total || 0)
+      const total = Number(r.value?.data?.total || 0)
       checks.value[idx] = { name: names[idx], ok: true, detail: `total=${total}` }
       if (idx === 0) dashboard.problemTotal = total
-      if (idx === 1) {
-        dashboard.contestTotal = total
-        contestPage = pageData
-      }
-      if (idx === 2) dashboard.discussionTotal = total
-      if (idx === 3) {
-        dashboard.submissionTotal = total
-        submissionPage = pageData
+      if (idx === 1) dashboard.contestTotal = total
+      if (idx === 2) {
+        dashboard.discussionTotal = total
+        hotDiscussions.value = Array.isArray(r.value?.data?.records) ? r.value.data.records.slice(0, 3) : []
       }
     } else {
       checks.value[idx] = { name: names[idx], ok: false, detail: r.reason?.message || '请求失败' }
     }
   })
+}
 
-  buildPersonalBoard(contestPage, submissionPage)
+async function loadPrivateDashboard() {
+  if (!userStore.isLoggedIn) {
+    dashboard.submissionTotal = 0
+    recentSubmissionList.value = []
+    myPoint.rank = 0
+    myPoint.solvedCount = 0
+    myPoint.points = 0
+    personalBoard.latestStatus = '-'
+    return
+  }
+
+  const submissionReq = submissionApi.getSubmissionList({ page: 1, size: 8 })
+  const pointReq = submissionApi.getMyPointSummary()
+  const [submissionRes, pointRes] = await Promise.allSettled([submissionReq, pointReq])
+
+  if (submissionRes.status === 'fulfilled') {
+    const pageData = submissionRes.value?.data || {}
+    dashboard.submissionTotal = Number(pageData.total || 0)
+    recentSubmissionList.value = Array.isArray(pageData.records) ? pageData.records.slice(0, 6) : []
+    personalBoard.latestStatus = recentSubmissionList.value[0]?.status || '-'
+    checks.value[3] = { name: '提交接口 /submission/list', ok: true, detail: `total=${dashboard.submissionTotal}` }
+  } else {
+    checks.value[3] = { name: '提交接口 /submission/list', ok: false, detail: submissionRes.reason?.message || '请求失败' }
+  }
+
+  if (pointRes.status === 'fulfilled') {
+    const data = pointRes.value?.data || {}
+    myPoint.rank = Number(data.rank || 0)
+    myPoint.solvedCount = Number(data.solvedCount || 0)
+    myPoint.points = Number(data.points || 0)
+  }
 }
 
 onMounted(async () => {
-  await userStore.ensureUserInfo().catch(() => null)
-  await loadDashboard()
+  if (userStore.isLoggedIn) {
+    await userStore.ensureUserInfo().catch(() => null)
+  }
+  await Promise.all([loadPublicDashboard(), loadPointRanking()])
+  await loadPrivateDashboard()
 })
 </script>

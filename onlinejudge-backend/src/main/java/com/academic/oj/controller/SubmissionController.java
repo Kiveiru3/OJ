@@ -6,6 +6,8 @@ import com.academic.oj.common.exception.BusinessException;
 import com.academic.oj.dto.SubmitDTO;
 import com.academic.oj.dto.SubmissionStatusDTO;
 import com.academic.oj.dto.SubmissionVO;
+import com.academic.oj.dto.UserPointRankingVO;
+import com.academic.oj.dto.UserPointSummaryVO;
 import com.academic.oj.entity.Submission;
 import com.academic.oj.service.RateLimitService;
 import com.academic.oj.service.SubmissionService;
@@ -59,6 +61,19 @@ public class SubmissionController {
         Integer safeSize = normalizeSize(size);
         Page<SubmissionVO> submissions = submissionService.getSubmissionList(userId, safePage, safeSize, problemId, status, language);
         return Result.success(submissions);
+    }
+
+    @GetMapping("/points/ranking")
+    public Result<List<UserPointRankingVO>> getPointRanking(
+            @RequestParam(defaultValue = "20") Integer size) {
+        int safeSize = size == null || size < 1 ? 20 : Math.min(size, 100);
+        return Result.success(submissionService.getPointRanking(safeSize));
+    }
+
+    @GetMapping("/points/me")
+    public Result<UserPointSummaryVO> getMyPointSummary() {
+        Long userId = getCurrentUserId();
+        return Result.success(submissionService.getMyPointSummary(userId));
     }
 
     @GetMapping("/my")

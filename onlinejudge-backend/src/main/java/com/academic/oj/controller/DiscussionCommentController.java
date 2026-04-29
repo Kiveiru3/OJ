@@ -7,6 +7,7 @@ import com.academic.oj.dto.DiscussionCommentSaveDTO;
 import com.academic.oj.dto.DiscussionCommentVO;
 import com.academic.oj.service.AdminOperationLogService;
 import com.academic.oj.service.DiscussionCommentService;
+import com.academic.oj.util.SecurityUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -28,7 +29,7 @@ public class DiscussionCommentController {
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer size) {
         Page<DiscussionCommentVO> result = discussionCommentService.getCommentList(
-                getCurrentUserId(), postId, normalizePage(page), normalizeSize(size));
+                getCurrentUserIdSafely(), postId, normalizePage(page), normalizeSize(size));
         return Result.success(result);
     }
 
@@ -67,6 +68,10 @@ public class DiscussionCommentController {
             throw new BusinessException(ResultCode.UNAUTHORIZED.getCode(), "Unauthorized");
         }
         return Long.parseLong(authentication.getName());
+    }
+
+    private Long getCurrentUserIdSafely() {
+        return SecurityUtils.getCurrentUserIdOrNull();
     }
 
     private Integer normalizePage(Integer page) {

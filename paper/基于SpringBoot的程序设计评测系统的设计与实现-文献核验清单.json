@@ -1,0 +1,122 @@
+[
+  {
+    "title": "ACM竞赛在线测评系统设计与实现",
+    "authors": "钟耀章, 桂琼",
+    "year": 2020,
+    "source": "无线互联科技",
+    "doi_or_url": "",
+    "citation_count_if_available": "",
+    "relevance_note": "用于说明在线评测系统在程序设计竞赛中的应用背景。",
+    "status": "from_opening_report_manual_verify_pending"
+  },
+  {
+    "title": "基于SpringBoot+Vue的教学评价专家抽课系统的设计与实现",
+    "authors": "安宇鑫",
+    "year": 2024,
+    "source": "电脑知识与技术",
+    "doi_or_url": "https://www.qikan.com.cn/article/dnjl20243209.html",
+    "citation_count_if_available": "",
+    "relevance_note": "用于论证 Spring Boot 与 Vue 组合在教学系统中的可行性。",
+    "status": "opening_report_and_web_index_verified"
+  },
+  {
+    "title": "基于Vue和Spring Boot的C语言程序在线测评系统的设计与实现",
+    "authors": "",
+    "year": 2023,
+    "source": "唐山师范学院学报",
+    "doi_or_url": "",
+    "citation_count_if_available": "",
+    "relevance_note": "用于说明在线评测系统在教学场景中的已有实践。",
+    "status": "from_opening_report_manual_verify_pending"
+  },
+  {
+    "title": "基于Spring Boot的课程评价系统设计与实现",
+    "authors": "",
+    "year": 2024,
+    "source": "计算机应用研究",
+    "doi_or_url": "",
+    "citation_count_if_available": "",
+    "relevance_note": "用于补充多角色教学系统设计思路。",
+    "status": "from_opening_report_manual_verify_pending"
+  },
+  {
+    "title": "编程考试系统代码质量度量及相似度检测子系统的设计与实现",
+    "authors": "范佳杰, 王金庆, 刘钦",
+    "year": 2020,
+    "source": "南京大学硕士论文",
+    "doi_or_url": "",
+    "citation_count_if_available": "",
+    "relevance_note": "用于说明程序评测与学术诚信扩展方向。",
+    "status": "from_opening_report_manual_verify_pending"
+  },
+  {
+    "title": "编译程序在线评测系统的实现",
+    "authors": "尤枫, 史晟辉, 赵瑞莲",
+    "year": 2010,
+    "source": "实验室研究与探索",
+    "doi_or_url": "",
+    "citation_count_if_available": "",
+    "relevance_note": "用于回顾在线评测系统核心判题机制的早期研究。",
+    "status": "from_opening_report_manual_verify_pending"
+  },
+  {
+    "title": "信息与文献 参考文献著录规则: GB/T 7714—2015",
+    "authors": "中华人民共和国国家质量监督检验检疫总局, 中国国家标准化管理委员会",
+    "year": 2015,
+    "source": "国家标准",
+    "doi_or_url": "",
+    "citation_count_if_available": "",
+    "relevance_note": "用于论文参考文献著录规则。",
+    "status": "verified_standard"
+  },
+  {
+    "title": "科学技术报告、学位论文和学术论文的编写格式: GB/T 7713—1987",
+    "authors": "中华人民共和国国家标准局",
+    "year": 1987,
+    "source": "国家标准",
+    "doi_or_url": "",
+    "citation_count_if_available": "",
+    "relevance_note": "用于论文整体写作格式依据。",
+    "status": "verified_standard"
+  },
+  {
+    "title": "Spring Boot Reference Documentation 2.7.18",
+    "authors": "The Spring Team",
+    "year": 2023,
+    "source": "Spring Official Documentation",
+    "doi_or_url": "https://docs.spring.io/spring-boot/docs/2.7.18/reference/html/",
+    "citation_count_if_available": "",
+    "relevance_note": "用于说明 Spring Boot 技术栈与自动配置机制。",
+    "status": "verified_official_doc"
+  },
+  {
+    "title": "Vue.js Guide",
+    "authors": "Vue.js Team",
+    "year": 2025,
+    "source": "Vue Official Documentation",
+    "doi_or_url": "https://vuejs.org/guide/introduction.html",
+    "citation_count_if_available": "",
+    "relevance_note": "用于说明 Vue 前端框架、组件化和响应式机制。",
+    "status": "verified_official_doc"
+  },
+  {
+    "title": "Docker Documentation",
+    "authors": "Docker Inc.",
+    "year": 2025,
+    "source": "Docker Official Documentation",
+    "doi_or_url": "https://docs.docker.com/",
+    "citation_count_if_available": "",
+    "relevance_note": "用于说明容器化隔离与镜像运行机制。",
+    "status": "verified_official_doc"
+  },
+  {
+    "title": "MyBatis-Plus Official Documentation",
+    "authors": "baomidou",
+    "year": 2025,
+    "source": "MyBatis-Plus Official Documentation",
+    "doi_or_url": "https://baomidou.com/",
+    "citation_count_if_available": "",
+    "relevance_note": "用于说明数据访问层封装与分页查询实现。",
+    "status": "verified_official_doc"
+  }
+]

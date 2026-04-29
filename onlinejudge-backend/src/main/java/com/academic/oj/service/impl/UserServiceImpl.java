@@ -6,14 +6,22 @@ import com.academic.oj.common.exception.BusinessException;
 import com.academic.oj.dto.LoginDTO;
 import com.academic.oj.dto.RegisterDTO;
 import com.academic.oj.dto.RoleProfileDTO;
+import com.academic.oj.dto.SubmissionVO;
 import com.academic.oj.dto.TokenDTO;
+import com.academic.oj.dto.UserDailySubmissionVO;
 import com.academic.oj.dto.UserInfoDTO;
 import com.academic.oj.dto.UserListDTO;
+import com.academic.oj.dto.UserProblemProgressVO;
+import com.academic.oj.dto.UserPublicProfileVO;
 import com.academic.oj.entity.AdminProfile;
+import com.academic.oj.entity.Problem;
+import com.academic.oj.entity.Submission;
 import com.academic.oj.entity.StudentProfile;
 import com.academic.oj.entity.TeacherProfile;
 import com.academic.oj.entity.User;
 import com.academic.oj.mapper.AdminProfileMapper;
+import com.academic.oj.mapper.ProblemMapper;
+import com.academic.oj.mapper.SubmissionMapper;
 import com.academic.oj.mapper.StudentProfileMapper;
 import com.academic.oj.mapper.TeacherProfileMapper;
 import com.academic.oj.mapper.UserMapper;
@@ -27,7 +35,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -38,6 +56,8 @@ public class UserServiceImpl implements UserService {
     private final StudentProfileMapper studentProfileMapper;
     private final TeacherProfileMapper teacherProfileMapper;
     private final AdminProfileMapper adminProfileMapper;
+    private final ProblemMapper problemMapper;
+    private final SubmissionMapper submissionMapper;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
@@ -130,6 +150,7 @@ public class UserServiceImpl implements UserService {
         userInfo.setUsername(user.getUsername());
         userInfo.setEmail(user.getEmail());
         userInfo.setNickname(user.getNickname());
+        userInfo.setAvatar(user.getAvatar());
         userInfo.setRole(user.getRole());
 
         return new TokenDTO(token, userInfo);
@@ -175,6 +196,7 @@ public class UserServiceImpl implements UserService {
         userInfo.setUsername(user.getUsername());
         userInfo.setEmail(user.getEmail());
         userInfo.setNickname(user.getNickname());
+        userInfo.setAvatar(user.getAvatar());
         userInfo.setRole(user.getRole());
         ensureRoleProfile(user.getId(), user.getRole());
 
@@ -217,6 +239,10 @@ public class UserServiceImpl implements UserService {
         if (userInfo.getNickname() != null) {
             user.setNickname(userInfo.getNickname());
         }
+        if (userInfo.getAvatar() != null) {
+            String avatar = userInfo.getAvatar().trim();
+            user.setAvatar(avatar.isEmpty() ? null : avatar);
+        }
 
         user.setUpdateTime(LocalDateTime.now());
         userMapper.updateById(user);
@@ -230,6 +256,61 @@ public class UserServiceImpl implements UserService {
         }
         ensureRoleProfile(user.getId(), user.getRole());
         return loadRoleProfile(user);
+    }
+
+    @Override
+    public UserPublicProfileVO getPublicProfile(Long targetUserId) {
+        User user = userMapper.selectById(targetUserId);
+        if (user == null) {
+            throw new BusinessException(ResultCode.NOT_FOUND.getCode(), "User not found");
+        }
+
+        ensureRoleProfile(user.getId(), user.getRole());
+        RoleProfileDTO roleProfile = loadRoleProfile(user);
+
+        List<Submission> submissions = submissionMapper.selectList(new LambdaQueryWrapper<Submission>()
+                .eq(Submission::getUserId, targetUserId)
+                .orderByDesc(Submission::getCreateTime)
+                .orderByDesc(Submission::getId));
+
+        Map<Long, String> problemTitleMap = loadProblemTitleMap(submissions);
+        List<SubmissionVO> recentSubmissions = submissions.stream()
+                .limit(30)
+                .map(item -> toSubmissionVO(item, problemTitleMap))
+                .toList();
+
+        List<UserProblemProgressVO> progressList = buildProblemProgress(submissions, problemTitleMap);
+        Set<Long> attemptedProblemSet = progressList.stream()
+                .map(UserProblemProgressVO::getProblemId)
+                .filter(id -> id != null)
+                .collect(Collectors.toSet());
+        Set<Long> solvedProblemSet = progressList.stream()
+                .filter(item -> Boolean.TRUE.equals(item.getPassed()))
+                .map(UserProblemProgressVO::getProblemId)
+                .filter(id -> id != null)
+                .collect(Collectors.toSet());
+
+        int totalSubmissions = submissions.size();
+        int acceptedSubmissions = (int) submissions.stream()
+                .filter(item -> Constants.STATUS_ACCEPTED.equals(item.getStatus()))
+                .count();
+
+        UserPublicProfileVO vo = new UserPublicProfileVO();
+        vo.setUserId(user.getId());
+        vo.setUsername(user.getUsername());
+        vo.setNickname(user.getNickname());
+        vo.setAvatar(user.getAvatar());
+        vo.setRole(user.getRole());
+        vo.setRoleProfile(roleProfile);
+        vo.setTotalSubmissions(totalSubmissions);
+        vo.setAcceptedSubmissions(acceptedSubmissions);
+        vo.setAttemptedProblems(attemptedProblemSet.size());
+        vo.setSolvedProblems(solvedProblemSet.size());
+        vo.setAcceptanceRate(calculateRate(acceptedSubmissions, totalSubmissions));
+        vo.setDailySubmissionActivity(buildDailySubmissionActivity(submissions));
+        vo.setProblemProgress(progressList);
+        vo.setRecentSubmissions(recentSubmissions);
+        return vo;
     }
 
     @Override
@@ -280,6 +361,7 @@ public class UserServiceImpl implements UserService {
             dto.setId(user.getId());
             dto.setUsername(user.getUsername());
             dto.setNickname(user.getNickname());
+            dto.setAvatar(user.getAvatar());
             dto.setEmail(user.getEmail());
             dto.setRole(user.getRole());
             dto.setStatus(user.getStatus());
@@ -329,6 +411,101 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(newPassword));
         user.setUpdateTime(LocalDateTime.now());
         userMapper.updateById(user);
+    }
+
+    private Map<Long, String> loadProblemTitleMap(List<Submission> submissions) {
+        if (submissions == null || submissions.isEmpty()) {
+            return Collections.emptyMap();
+        }
+        Set<Long> problemIds = submissions.stream()
+                .map(Submission::getProblemId)
+                .filter(id -> id != null)
+                .collect(Collectors.toSet());
+        if (problemIds.isEmpty()) {
+            return Collections.emptyMap();
+        }
+        return problemMapper.selectBatchIds(problemIds).stream()
+                .collect(Collectors.toMap(Problem::getId, Problem::getTitle, (a, b) -> a));
+    }
+
+    private List<UserProblemProgressVO> buildProblemProgress(List<Submission> submissions, Map<Long, String> problemTitleMap) {
+        if (submissions == null || submissions.isEmpty()) {
+            return Collections.emptyList();
+        }
+        Map<Long, UserProblemProgressVO> map = new LinkedHashMap<>();
+        for (Submission submission : submissions) {
+            if (submission.getProblemId() == null) {
+                continue;
+            }
+            UserProblemProgressVO item = map.get(submission.getProblemId());
+            if (item == null) {
+                item = new UserProblemProgressVO();
+                item.setProblemId(submission.getProblemId());
+                item.setProblemTitle(problemTitleMap.get(submission.getProblemId()));
+                item.setSubmitCount(0);
+                item.setAcceptedCount(0);
+                item.setLatestStatus(submission.getStatus());
+                item.setLastSubmitTime(submission.getCreateTime());
+                map.put(submission.getProblemId(), item);
+            }
+
+            item.setSubmitCount(item.getSubmitCount() + 1);
+            if (Constants.STATUS_ACCEPTED.equals(submission.getStatus())) {
+                item.setAcceptedCount(item.getAcceptedCount() + 1);
+            }
+        }
+
+        List<UserProblemProgressVO> list = new ArrayList<>(map.values());
+        list.forEach(item -> item.setPassed(item.getAcceptedCount() != null && item.getAcceptedCount() > 0));
+        list.sort(Comparator.comparing(UserProblemProgressVO::getLastSubmitTime,
+                Comparator.nullsLast(Comparator.reverseOrder())));
+        return list;
+    }
+
+    private SubmissionVO toSubmissionVO(Submission submission, Map<Long, String> problemTitleMap) {
+        SubmissionVO vo = new SubmissionVO();
+        vo.setId(submission.getId());
+        vo.setProblemId(submission.getProblemId());
+        vo.setProblemTitle(problemTitleMap.get(submission.getProblemId()));
+        vo.setLanguage(submission.getLanguage());
+        vo.setStatus(submission.getStatus());
+        vo.setExecuteTime(submission.getTimeUsed());
+        vo.setExecuteMemory(submission.getMemoryUsed());
+        vo.setErrorMessage(submission.getErrorMessage());
+        vo.setSubmitTime(submission.getCreateTime());
+        return vo;
+    }
+
+    private List<UserDailySubmissionVO> buildDailySubmissionActivity(List<Submission> submissions) {
+        if (submissions == null || submissions.isEmpty()) {
+            return Collections.emptyList();
+        }
+        Map<LocalDate, Integer> dateCountMap = new TreeMap<>();
+        for (Submission submission : submissions) {
+            if (submission == null || submission.getCreateTime() == null) {
+                continue;
+            }
+            LocalDate day = submission.getCreateTime().toLocalDate();
+            dateCountMap.put(day, dateCountMap.getOrDefault(day, 0) + 1);
+        }
+
+        if (dateCountMap.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return dateCountMap.entrySet().stream().map(entry -> {
+            UserDailySubmissionVO item = new UserDailySubmissionVO();
+            item.setDate(entry.getKey().toString());
+            item.setCount(entry.getValue());
+            return item;
+        }).toList();
+    }
+
+    private double calculateRate(int numerator, int denominator) {
+        if (denominator <= 0) {
+            return 0D;
+        }
+        double value = numerator * 100.0 / denominator;
+        return Math.round(value * 100.0) / 100.0;
     }
 
     private String normalizeRole(String role) {

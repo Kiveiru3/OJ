@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+﻿import { createRouter, createWebHistory } from 'vue-router'
 import MainLayout from '@/layouts/MainLayout.vue'
 import { useUserStore } from '@/stores/useUserStore'
 
@@ -19,12 +19,15 @@ const routes = [
     path: '/',
     component: MainLayout,
     children: [
-      { path: '', name: 'home', component: () => import('@/views/HomeView.vue'), meta: { requiresAuth: true } },
-      { path: 'problems', name: 'problems', component: () => import('@/views/ProblemHubView.vue'), meta: { requiresAuth: true } },
-      { path: 'contests', name: 'contests', component: () => import('@/views/ContestHubView.vue'), meta: { requiresAuth: true } },
-      { path: 'discuss', name: 'discuss', component: () => import('@/views/DiscussionPlazaView.vue'), meta: { requiresAuth: true } },
+      { path: '', name: 'home', component: () => import('@/views/HomeView.vue') },
+      { path: 'problems', name: 'problems', component: () => import('@/views/ProblemHubView.vue') },
+      { path: 'contests', name: 'contests', component: () => import('@/views/ContestHubView.vue') },
+      { path: 'discuss', name: 'discuss', component: () => import('@/views/DiscussionPlazaView.vue') },
+      { path: 'discuss/:id', name: 'discussDetail', component: () => import('@/views/DiscussionDetailView.vue') },
       { path: 'studio', name: 'studio', component: () => import('@/views/CodeStudioView.vue'), meta: { requiresAuth: true } },
+      { path: 'messages', name: 'messages', component: () => import('@/views/MessageCenterView.vue'), meta: { requiresAuth: true } },
       { path: 'profile', name: 'profile', component: () => import('@/views/ProfileView.vue'), meta: { requiresAuth: true } },
+      { path: 'users/:id', name: 'userHome', component: () => import('@/views/UserHomeView.vue'), meta: { requiresAuth: true } },
       {
         path: 'teacher-workbench',
         name: 'teacherWorkbench',

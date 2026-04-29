@@ -5,14 +5,21 @@ import com.academic.oj.common.ResultCode;
 import com.academic.oj.common.exception.BusinessException;
 import com.academic.oj.config.JudgeProperties;
 import com.academic.oj.dto.SubmitDTO;
+import com.academic.oj.dto.SubmissionCaseResultDTO;
 import com.academic.oj.dto.SubmissionStatusDTO;
 import com.academic.oj.dto.SubmissionVO;
+import com.academic.oj.dto.UserPointRankingVO;
+import com.academic.oj.dto.UserPointSummaryVO;
 import com.academic.oj.entity.JudgeResult;
 import com.academic.oj.entity.Problem;
 import com.academic.oj.entity.Submission;
+import com.academic.oj.entity.SubmissionCaseResult;
+import com.academic.oj.entity.User;
 import com.academic.oj.mapper.JudgeResultMapper;
 import com.academic.oj.mapper.ProblemMapper;
+import com.academic.oj.mapper.SubmissionCaseResultMapper;
 import com.academic.oj.mapper.SubmissionMapper;
+import com.academic.oj.mapper.UserMapper;
 import com.academic.oj.service.JudgeService;
 import com.academic.oj.service.SubmissionService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -27,7 +34,11 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.List;
 import java.util.Set;
@@ -40,8 +51,10 @@ import java.util.stream.Collectors;
 public class SubmissionServiceImpl implements SubmissionService {
 
     private final SubmissionMapper submissionMapper;
+    private final SubmissionCaseResultMapper submissionCaseResultMapper;
     private final JudgeResultMapper judgeResultMapper;
     private final ProblemMapper problemMapper;
+    private final UserMapper userMapper;
     private final JudgeService judgeService;
     private final JudgeProperties judgeProperties;
     @Resource(name = "taskExecutor")
@@ -150,6 +163,7 @@ public class SubmissionServiceImpl implements SubmissionService {
                 result = judgingSubmission;
             }
             submissionMapper.updateById(result);
+            persistCaseResults(result);
             persistJudgeResult(result, LocalDateTime.now());
             if (Constants.STATUS_ACCEPTED.equals(result.getStatus())) {
                 increaseProblemAcceptedCount(result.getProblemId());
@@ -159,6 +173,7 @@ public class SubmissionServiceImpl implements SubmissionService {
             judgingSubmission.setStatus(Constants.STATUS_RUNTIME_ERROR);
             judgingSubmission.setErrorMessage("Judge failed: " + e.getMessage());
             submissionMapper.updateById(judgingSubmission);
+            persistCaseResults(judgingSubmission);
             persistJudgeResult(judgingSubmission, LocalDateTime.now());
         }
     }
@@ -258,6 +273,54 @@ public class SubmissionServiceImpl implements SubmissionService {
     }
 
     @Override
+    public List<UserPointRankingVO> getPointRanking(Integer size) {
+        int safeSize = size == null || size < 1 ? 20 : Math.min(size, 100);
+        List<UserScoreAggregate> ranking = buildUserScoreAggregates();
+        if (ranking.isEmpty()) {
+            return Collections.emptyList();
+        }
+        int limit = Math.min(safeSize, ranking.size());
+        List<UserPointRankingVO> result = new ArrayList<>(limit);
+        for (int i = 0; i < limit; i++) {
+            UserScoreAggregate item = ranking.get(i);
+            UserPointRankingVO vo = new UserPointRankingVO();
+            vo.setRank(i + 1);
+            vo.setUserId(item.userId);
+            vo.setUsername(item.username);
+            vo.setNickname(item.nickname);
+            vo.setAvatar(item.avatar);
+            vo.setSolvedCount(item.solvedCount);
+            vo.setPoints(item.points);
+            result.add(vo);
+        }
+        return result;
+    }
+
+    @Override
+    public UserPointSummaryVO getMyPointSummary(Long userId) {
+        UserPointSummaryVO summary = new UserPointSummaryVO();
+        summary.setUserId(userId);
+        summary.setRank(0);
+        summary.setSolvedCount(0);
+        summary.setPoints(0);
+        if (userId == null) {
+            return summary;
+        }
+
+        List<UserScoreAggregate> ranking = buildUserScoreAggregates();
+        for (int i = 0; i < ranking.size(); i++) {
+            UserScoreAggregate item = ranking.get(i);
+            if (userId.equals(item.userId)) {
+                summary.setRank(i + 1);
+                summary.setSolvedCount(item.solvedCount);
+                summary.setPoints(item.points);
+                return summary;
+            }
+        }
+        return summary;
+    }
+
+    @Override
     public List<Submission> getSubmissionsByUserId(Long userId, Integer page, Integer size) {
         Page<Submission> pageObj = new Page<>(page, size);
         LambdaQueryWrapper<Submission> wrapper = new LambdaQueryWrapper<>();
@@ -292,6 +355,10 @@ public class SubmissionServiceImpl implements SubmissionService {
         submission.setMemoryUsed(null);
         submission.setErrorMessage(null);
         submissionMapper.updateById(submission);
+        submissionCaseResultMapper.delete(
+                new LambdaQueryWrapper<SubmissionCaseResult>()
+                        .eq(SubmissionCaseResult::getSubmissionId, submission.getId())
+        );
         persistJudgeResult(submission, null);
         scheduleJudge(submission);
     }
@@ -351,6 +418,7 @@ public class SubmissionServiceImpl implements SubmissionService {
         dto.setExecuteMemory(submission.getMemoryUsed());
         dto.setErrorMessage(submission.getErrorMessage());
         dto.setSubmitTime(submission.getCreateTime());
+        dto.setCaseResults(loadCaseResults(submission.getId()));
         return dto;
     }
 
@@ -430,6 +498,157 @@ public class SubmissionServiceImpl implements SubmissionService {
         } else {
             judgeResultMapper.updateById(entity);
         }
+    }
+
+    private void persistCaseResults(Submission submission) {
+        if (submission == null || submission.getId() == null) {
+            return;
+        }
+        submissionCaseResultMapper.delete(
+                new LambdaQueryWrapper<SubmissionCaseResult>()
+                        .eq(SubmissionCaseResult::getSubmissionId, submission.getId())
+        );
+        List<SubmissionCaseResultDTO> caseResults = submission.getCaseResults();
+        if (caseResults == null || caseResults.isEmpty()) {
+            return;
+        }
+        LocalDateTime now = LocalDateTime.now();
+        for (SubmissionCaseResultDTO item : caseResults) {
+            SubmissionCaseResult entity = new SubmissionCaseResult();
+            entity.setSubmissionId(submission.getId());
+            entity.setCaseNo(item.getCaseNo());
+            entity.setIsSample(item.getIsSample());
+            entity.setStatus(item.getStatus());
+            entity.setTimeUsed(item.getTimeUsed());
+            entity.setMemoryUsed(item.getMemoryUsed());
+            entity.setInputPreview(item.getInputPreview());
+            entity.setExpectedPreview(item.getExpectedPreview());
+            entity.setActualPreview(item.getActualPreview());
+            entity.setErrorMessage(item.getErrorMessage());
+            entity.setCreateTime(now);
+            entity.setUpdateTime(now);
+            submissionCaseResultMapper.insert(entity);
+        }
+    }
+
+    private List<SubmissionCaseResultDTO> loadCaseResults(Long submissionId) {
+        if (submissionId == null) {
+            return Collections.emptyList();
+        }
+        List<SubmissionCaseResult> entities = submissionCaseResultMapper.selectList(
+                new LambdaQueryWrapper<SubmissionCaseResult>()
+                        .eq(SubmissionCaseResult::getSubmissionId, submissionId)
+                        .orderByAsc(SubmissionCaseResult::getCaseNo)
+        );
+        if (entities == null || entities.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return entities.stream().map(item -> {
+            SubmissionCaseResultDTO dto = new SubmissionCaseResultDTO();
+            dto.setCaseNo(item.getCaseNo());
+            dto.setIsSample(item.getIsSample());
+            dto.setStatus(item.getStatus());
+            dto.setTimeUsed(item.getTimeUsed());
+            dto.setMemoryUsed(item.getMemoryUsed());
+            dto.setInputPreview(item.getInputPreview());
+            dto.setExpectedPreview(item.getExpectedPreview());
+            dto.setActualPreview(item.getActualPreview());
+            dto.setErrorMessage(item.getErrorMessage());
+            return dto;
+        }).toList();
+    }
+
+    private List<UserScoreAggregate> buildUserScoreAggregates() {
+        List<Submission> acceptedSubmissions = submissionMapper.selectList(
+                new LambdaQueryWrapper<Submission>()
+                        .eq(Submission::getStatus, Constants.STATUS_ACCEPTED)
+                        .select(Submission::getUserId, Submission::getProblemId, Submission::getCreateTime, Submission::getId)
+        );
+        if (acceptedSubmissions.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        Set<Long> problemIds = acceptedSubmissions.stream()
+                .map(Submission::getProblemId)
+                .filter(id -> id != null)
+                .collect(Collectors.toSet());
+        Map<Long, String> difficultyMap = problemIds.isEmpty() ? Collections.emptyMap()
+                : problemMapper.selectBatchIds(problemIds).stream()
+                .collect(Collectors.toMap(Problem::getId, Problem::getDifficulty, (a, b) -> a));
+
+        acceptedSubmissions.sort(Comparator
+                .comparing(Submission::getCreateTime, Comparator.nullsLast(Comparator.naturalOrder()))
+                .thenComparing(Submission::getId, Comparator.nullsLast(Comparator.naturalOrder())));
+
+        Map<Long, Set<Long>> solvedMap = new HashMap<>();
+        Map<Long, Integer> pointsMap = new HashMap<>();
+        for (Submission submission : acceptedSubmissions) {
+            if (submission.getUserId() == null || submission.getProblemId() == null) {
+                continue;
+            }
+            Set<Long> solvedProblems = solvedMap.computeIfAbsent(submission.getUserId(), key -> new HashSet<>());
+            if (!solvedProblems.add(submission.getProblemId())) {
+                continue;
+            }
+            String difficulty = difficultyMap.get(submission.getProblemId());
+            int add = difficultyPoints(difficulty);
+            pointsMap.put(submission.getUserId(), pointsMap.getOrDefault(submission.getUserId(), 0) + add);
+        }
+
+        if (pointsMap.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        Map<Long, User> userMap = userMapper.selectBatchIds(pointsMap.keySet()).stream()
+                .collect(Collectors.toMap(User::getId, user -> user, (a, b) -> a));
+
+        List<UserScoreAggregate> ranking = new ArrayList<>();
+        for (Map.Entry<Long, Integer> entry : pointsMap.entrySet()) {
+            Long userId = entry.getKey();
+            int points = entry.getValue();
+            int solvedCount = solvedMap.getOrDefault(userId, Collections.emptySet()).size();
+            User user = userMap.get(userId);
+            UserScoreAggregate item = new UserScoreAggregate();
+            item.userId = userId;
+            item.username = user == null ? null : user.getUsername();
+            item.nickname = user == null ? null : user.getNickname();
+            item.avatar = user == null ? null : user.getAvatar();
+            item.solvedCount = solvedCount;
+            item.points = points;
+            ranking.add(item);
+        }
+
+        ranking.sort(Comparator
+                .comparingInt((UserScoreAggregate item) -> item.points).reversed()
+                .thenComparingInt((UserScoreAggregate item) -> item.solvedCount).reversed()
+                .thenComparing(item -> item.userId, Comparator.nullsLast(Comparator.naturalOrder())));
+        return ranking;
+    }
+
+    private int difficultyPoints(String difficulty) {
+        if (difficulty == null) {
+            return 15;
+        }
+        String v = difficulty.trim().toUpperCase();
+        if ("EASY".equals(v)) {
+            return 10;
+        }
+        if ("MEDIUM".equals(v)) {
+            return 20;
+        }
+        if ("HARD".equals(v)) {
+            return 40;
+        }
+        return 15;
+    }
+
+    private static class UserScoreAggregate {
+        private Long userId;
+        private String username;
+        private String nickname;
+        private String avatar;
+        private int solvedCount;
+        private int points;
     }
 }
 

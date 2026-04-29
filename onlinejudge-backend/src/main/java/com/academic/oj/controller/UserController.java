@@ -7,6 +7,7 @@ import com.academic.oj.dto.ChangePasswordDTO;
 import com.academic.oj.dto.RoleProfileDTO;
 import com.academic.oj.dto.UserInfoDTO;
 import com.academic.oj.dto.UserListDTO;
+import com.academic.oj.dto.UserPublicProfileVO;
 import com.academic.oj.service.AdminOperationLogService;
 import com.academic.oj.service.UserService;
 import com.academic.oj.util.SecurityUtils;
@@ -34,6 +35,11 @@ public class UserController {
     public Result<RoleProfileDTO> getMyRoleProfile() {
         Long userId = getCurrentUserId();
         return Result.success(userService.getRoleProfile(userId));
+    }
+
+    @GetMapping("/public/{id}")
+    public Result<UserPublicProfileVO> getPublicProfile(@PathVariable Long id) {
+        return Result.success(userService.getPublicProfile(id));
     }
 
     @PutMapping("/role-profile")

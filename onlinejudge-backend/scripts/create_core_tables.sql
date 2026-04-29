@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` VARCHAR(255) NOT NULL,
   `email` VARCHAR(128) NULL,
   `nickname` VARCHAR(64) NULL,
+  `avatar` TEXT NULL,
   `role` VARCHAR(16) NOT NULL DEFAULT 'STUDENT',
   `status` TINYINT NOT NULL DEFAULT 1,
   `deleted` TINYINT NOT NULL DEFAULT 0,

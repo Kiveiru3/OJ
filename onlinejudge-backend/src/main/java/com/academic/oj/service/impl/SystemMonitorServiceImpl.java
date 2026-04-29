@@ -4,6 +4,7 @@ import com.academic.oj.common.Constants;
 import com.academic.oj.dto.SystemMonitorVO;
 import com.academic.oj.entity.AdminOperationLog;
 import com.academic.oj.entity.Contest;
+import com.academic.oj.entity.Problem;
 import com.academic.oj.entity.Submission;
 import com.academic.oj.entity.User;
 import com.academic.oj.mapper.AdminOperationLogMapper;
@@ -39,6 +40,7 @@ public class SystemMonitorServiceImpl implements SystemMonitorService {
     public SystemMonitorVO getMonitor() {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime todayStart = LocalDate.now().atStartOfDay();
+        LocalDateTime sevenDaysAgo = now.minusDays(7);
         LocalDateTime logs24hStart = now.minusHours(24);
 
         long totalUsers = safeLong(userMapper.selectCount(new LambdaQueryWrapper<User>()));
@@ -46,8 +48,16 @@ public class SystemMonitorServiceImpl implements SystemMonitorService {
                 .eq(User::getStatus, 1)));
         long newUsersToday = safeLong(userMapper.selectCount(new LambdaQueryWrapper<User>()
                 .ge(User::getCreateTime, todayStart)));
+        long newStudents7d = safeLong(userMapper.selectCount(new LambdaQueryWrapper<User>()
+                .eq(User::getRole, "STUDENT")
+                .ge(User::getCreateTime, sevenDaysAgo)));
+        long newTeachers7d = safeLong(userMapper.selectCount(new LambdaQueryWrapper<User>()
+                .eq(User::getRole, "TEACHER")
+                .ge(User::getCreateTime, sevenDaysAgo)));
 
-        long totalProblems = safeLong(problemMapper.selectCount(new LambdaQueryWrapper<>()));
+        long totalProblems = safeLong(problemMapper.selectCount(new LambdaQueryWrapper<Problem>()));
+        long newProblems7d = safeLong(problemMapper.selectCount(new LambdaQueryWrapper<Problem>()
+                .ge(Problem::getCreateTime, sevenDaysAgo)));
         long totalSubmissions = safeLong(submissionMapper.selectCount(new LambdaQueryWrapper<>()));
         long acceptedSubmissions = safeLong(submissionMapper.selectCount(new LambdaQueryWrapper<Submission>()
                 .eq(Submission::getStatus, Constants.STATUS_ACCEPTED)));
@@ -85,8 +95,11 @@ public class SystemMonitorServiceImpl implements SystemMonitorService {
         vo.setTotalUsers(totalUsers);
         vo.setEnabledUsers(enabledUsers);
         vo.setNewUsersToday(newUsersToday);
+        vo.setNewStudents7d(newStudents7d);
+        vo.setNewTeachers7d(newTeachers7d);
 
         vo.setTotalProblems(totalProblems);
+        vo.setNewProblems7d(newProblems7d);
         vo.setTotalSubmissions(totalSubmissions);
         vo.setAcceptedSubmissions(acceptedSubmissions);
         vo.setPendingSubmissions(pendingSubmissions);

@@ -15,6 +15,7 @@ public class DiscussionComment {
     private Long id;
     private Long postId;
     private Long userId;
+    private Long parentCommentId;
     private String content;
     @TableLogic
     private Integer deleted;

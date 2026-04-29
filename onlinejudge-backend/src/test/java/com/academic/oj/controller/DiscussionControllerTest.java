@@ -60,6 +60,28 @@ class DiscussionControllerTest {
         verify(adminOperationLogService).record(5L, "DISCUSSION", "DELETE_POST", "POST", 88L, "admin delete post");
     }
 
+    @Test
+    void likePostShouldRecordAuditLog() {
+        setAuth(9L, "STUDENT");
+
+        String result = (String) discussionController.likePost(101L).getData();
+
+        assertEquals("Liked", result);
+        verify(discussionService).likePost(9L, 101L);
+        verify(adminOperationLogService).record(9L, "DISCUSSION", "LIKE_POST", "POST", 101L, "like post");
+    }
+
+    @Test
+    void unlikePostShouldRecordAuditLog() {
+        setAuth(9L, "STUDENT");
+
+        String result = (String) discussionController.unlikePost(101L).getData();
+
+        assertEquals("Unliked", result);
+        verify(discussionService).unlikePost(9L, 101L);
+        verify(adminOperationLogService).record(9L, "DISCUSSION", "UNLIKE_POST", "POST", 101L, "unlike post");
+    }
+
     private void setAuth(Long userId, String role) {
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                 userId.toString(),

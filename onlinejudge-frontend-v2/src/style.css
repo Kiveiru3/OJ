@@ -5,7 +5,7 @@
 :root {
   font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Inter', sans-serif;
   color: #0f1115;
-  background: #f3f5f9;
+  background: #f5f6f8;
 }
 
 * {
@@ -21,14 +21,11 @@ body,
 
 body {
   background:
-    radial-gradient(1200px 600px at -10% -10%, rgba(14, 165, 233, 0.08), transparent 45%),
-    radial-gradient(900px 480px at 110% -20%, rgba(59, 130, 246, 0.08), transparent 45%),
-    linear-gradient(180deg, #f7f9fc 0%, #eef2f8 100%);
+    linear-gradient(180deg, #f7f7f8 0%, #f3f4f6 100%);
 }
 
 .glass-panel {
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.96);
 }
 
 .prose-readable {
@@ -46,7 +43,7 @@ body {
 
 .section-subtitle {
   margin-top: 6px;
-  color: #6b7280;
+  color: #667085;
   font-size: 13px;
 }
 

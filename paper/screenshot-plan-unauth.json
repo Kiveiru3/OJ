@@ -1,0 +1,28 @@
+{
+  "base_url": "http://127.0.0.1:4173",
+  "output_dir": "screenshots",
+  "image_map_output": "screenshot-image-map-unauth.json",
+  "headless": true,
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "entries": [
+    {
+      "label": "登录页面",
+      "url": "/login",
+      "filename": "login.png",
+      "full_page": true,
+      "actions": [],
+      "wait_for_timeout_ms": 1200
+    },
+    {
+      "label": "注册页面",
+      "url": "/register",
+      "filename": "register.png",
+      "full_page": true,
+      "actions": [],
+      "wait_for_timeout_ms": 1200
+    }
+  ]
+}

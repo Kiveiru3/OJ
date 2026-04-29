@@ -18,6 +18,14 @@ public class DiscussionPost {
     private String content;
     private Long problemId;
     private Integer viewCount;
+    private Integer likeCount;
+    /**
+     * 0-pending, 1-approved, 2-rejected
+     */
+    private Integer auditStatus;
+    private Long auditUserId;
+    private String auditRemark;
+    private LocalDateTime auditTime;
     @TableLogic
     private Integer deleted;
     private LocalDateTime createTime;

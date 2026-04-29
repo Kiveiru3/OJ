@@ -1,11 +1,14 @@
 package com.academic.oj.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.academic.oj.dto.SubmissionCaseResultDTO;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 提交记录实体
@@ -24,5 +27,7 @@ public class Submission {
     private Integer memoryUsed;  // MB
     private String errorMessage;
     private LocalDateTime createTime;
+    @TableField(exist = false)
+    private List<SubmissionCaseResultDTO> caseResults;
 }
 

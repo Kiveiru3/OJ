@@ -1,0 +1,26 @@
+erDiagram
+    USER ||--o{ SUBMISSION : submits
+    USER ||--o{ JUDGE_RESULT : owns
+    USER ||--o{ CONTEST : creates
+    USER ||--o{ DISCUSSION_POST : publishes
+    USER ||--o{ DISCUSSION_COMMENT : writes
+    USER ||--o| STUDENT_PROFILE : owns
+    USER ||--o| TEACHER_PROFILE : owns
+    USER ||--o| ADMIN_PROFILE : owns
+    USER ||--o{ USER_FOLLOW : follows
+    USER ||--o{ PRIVATE_MESSAGE : sends_or_receives
+
+    PROBLEM ||--o{ TEST_CASE : has
+    PROBLEM ||--o{ SUBMISSION : receives
+    PROBLEM ||--o{ JUDGE_RESULT : targets
+    PROBLEM ||--o{ CONTEST_PROBLEM : selected
+    PROBLEM ||--o{ DISCUSSION_POST : related
+
+    SUBMISSION ||--|| JUDGE_RESULT : judged_as
+
+    CONTEST ||--o{ CONTEST_PROBLEM : includes
+    CONTEST ||--o{ CONTEST_PARTICIPANT : has
+    CONTEST ||--o{ CONTEST_SCORE : ranks
+
+    DISCUSSION_POST ||--o{ DISCUSSION_COMMENT : contains
+    DISCUSSION_COMMENT ||--o{ DISCUSSION_COMMENT : replies

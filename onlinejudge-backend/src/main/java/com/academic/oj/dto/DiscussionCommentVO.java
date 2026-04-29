@@ -9,8 +9,10 @@ public class DiscussionCommentVO {
     private Long id;
     private Long postId;
     private Long userId;
+    private Long parentCommentId;
     private String username;
     private String nickname;
+    private String avatar;
     private String role;
     private String content;
     private Boolean editable;

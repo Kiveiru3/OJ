@@ -1,0 +1,149 @@
+{
+  "source_file": "D:\\BaiduNetdiskDownload\\need\\唐山学院毕业设计（论文）写作指南及模板.docx",
+  "styles": {
+    "body_cn": {
+      "font": "黑体",
+      "size_pt": 16.0,
+      "bold": false,
+      "alignment": "left",
+      "first_line_indent_pt": 24.0,
+      "line_spacing": 1.5,
+      "space_before_pt": 0.0,
+      "space_after_pt": 0.0,
+      "page_break_before": false,
+      "sample_count": 201
+    },
+    "heading1": {
+      "font": "黑体",
+      "size_pt": 12.0,
+      "bold": false,
+      "alignment": "left",
+      "first_line_indent_pt": 0.0,
+      "line_spacing": null,
+      "space_before_pt": 0.0,
+      "space_after_pt": 0.0,
+      "page_break_before": false,
+      "sample_count": 10
+    },
+    "heading2": {
+      "font": "宋体",
+      "size_pt": 12.0,
+      "bold": false,
+      "alignment": "left",
+      "first_line_indent_pt": 0.0,
+      "line_spacing": null,
+      "space_before_pt": 0.0,
+      "space_after_pt": 0.0,
+      "page_break_before": false,
+      "sample_count": 18
+    },
+    "heading3": {
+      "font": "宋体",
+      "size_pt": 12.0,
+      "bold": false,
+      "alignment": "left",
+      "first_line_indent_pt": 0.0,
+      "line_spacing": null,
+      "space_before_pt": 0.0,
+      "space_after_pt": 0.0,
+      "page_break_before": false,
+      "sample_count": 74
+    },
+    "references_heading": {
+      "font": null,
+      "size_pt": null,
+      "bold": false,
+      "alignment": "left",
+      "first_line_indent_pt": 0.0,
+      "line_spacing": null,
+      "space_before_pt": 0.0,
+      "space_after_pt": 0.0,
+      "page_break_before": false,
+      "sample_count": 3
+    },
+    "ack_heading": {
+      "font": null,
+      "size_pt": null,
+      "bold": false,
+      "alignment": "left",
+      "first_line_indent_pt": 0.0,
+      "line_spacing": null,
+      "space_before_pt": 0.0,
+      "space_after_pt": 0.0,
+      "page_break_before": false,
+      "sample_count": 2
+    },
+    "figure_caption": {
+      "font": "黑体",
+      "size_pt": null,
+      "bold": false,
+      "alignment": "left",
+      "first_line_indent_pt": 24.0,
+      "line_spacing": null,
+      "space_before_pt": 0.0,
+      "space_after_pt": 0.0,
+      "page_break_before": false,
+      "sample_count": 9
+    },
+    "table_caption": {
+      "font": "黑体",
+      "size_pt": null,
+      "bold": false,
+      "alignment": "left",
+      "first_line_indent_pt": 24.0,
+      "line_spacing": null,
+      "space_before_pt": 0.0,
+      "space_after_pt": 0.0,
+      "page_break_before": false,
+      "sample_count": 12
+    },
+    "body_en": {
+      "font": "宋体",
+      "size_pt": null,
+      "bold": false,
+      "alignment": "left",
+      "first_line_indent_pt": 24.0,
+      "line_spacing": null,
+      "space_before_pt": 0.0,
+      "space_after_pt": 0.0,
+      "page_break_before": false,
+      "sample_count": 4
+    },
+    "references_body": {
+      "font": null,
+      "size_pt": null,
+      "bold": false,
+      "alignment": "left",
+      "first_line_indent_pt": 0.0,
+      "line_spacing": null,
+      "space_before_pt": 0.0,
+      "space_after_pt": 0.0,
+      "page_break_before": false,
+      "sample_count": 16
+    },
+    "keywords_cn": {
+      "font": "黑体",
+      "size_pt": null,
+      "bold": false,
+      "alignment": "left",
+      "first_line_indent_pt": 0.0,
+      "line_spacing": null,
+      "space_before_pt": 0.0,
+      "space_after_pt": 0.0,
+      "page_break_before": false,
+      "sample_count": 1
+    },
+    "abstract_heading_en": {
+      "font": "Arial Unicode MS",
+      "size_pt": null,
+      "bold": false,
+      "alignment": "left",
+      "first_line_indent_pt": 0.0,
+      "line_spacing": null,
+      "space_before_pt": 0.0,
+      "space_after_pt": 0.0,
+      "page_break_before": false,
+      "sample_count": 1
+    }
+  }
+}

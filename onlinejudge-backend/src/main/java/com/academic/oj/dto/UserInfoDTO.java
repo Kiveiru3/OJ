@@ -8,6 +8,7 @@ public class UserInfoDTO {
     private String username;
     private String email;
     private String nickname;
+    private String avatar;
     private String role;
 }
 

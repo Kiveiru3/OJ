@@ -37,9 +37,9 @@
 
 ## P2（答辩交付）
 
-- [x] 核心接口自动化冒烟测试
-  - 完成：`onlinejudge-frontend/scripts/smoke_test.js`
-  - 完成：覆盖重判接口与批量导入接口
+- [x] 新版前端可交付校验
+  - 完成：`onlinejudge-frontend-v2` 构建与业务页面联调
+  - 完成：前端主链路切换到 Vite 新版实现
 - [x] 最小部署与演示文档
   - 完成：`docs/最小部署与演示文档.md`
   - 覆盖：MySQL + Redis + Backend + Frontend + Docker 判题 + 演示流程 + 常见故障处理

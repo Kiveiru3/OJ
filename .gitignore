@@ -25,8 +25,14 @@ yarn-error.log*
 pnpm-debug.log*
 
 # --- Generated Artifacts ---
-onlinejudge-frontend/dist/
-onlinejudge-frontend/scripts/data/*_report.json
+onlinejudge-frontend-v2/dist/
+tmp_docx_split/
+scripts/__pycache__/
+
+# --- Local Python tooling ---
+.venv/
+.venv-docx/
+__pycache__/
 
 # --- OS Files ---
 .DS_Store

@@ -2,6 +2,7 @@ package com.academic.oj.service.impl;
 
 import com.academic.oj.common.Constants;
 import com.academic.oj.config.JudgeProperties;
+import com.academic.oj.dto.SubmissionCaseResultDTO;
 import com.academic.oj.entity.Problem;
 import com.academic.oj.entity.Submission;
 import com.academic.oj.entity.TestCase;
@@ -125,6 +126,8 @@ public class JudgeServiceImpl implements JudgeService {
             int memoryLimitMb = resolveMemoryLimit(problem);
             int maxTimeUsedMs = 1;
             int caseIndex = 0;
+            List<SubmissionCaseResultDTO> caseResults = new ArrayList<>();
+            submission.setCaseResults(caseResults);
             for (TestCase testCase : testCases) {
                 caseIndex++;
                 ProcessBuilder runPb = new ProcessBuilder(
@@ -137,21 +140,35 @@ public class JudgeServiceImpl implements JudgeService {
                 ProcessExecutionResult runResult = executeProcess(runPb, safeInput(testCase.getInput()), timeoutMs);
                 if (runResult.timedOut()) {
                     submission.setStatus(Constants.STATUS_TIME_LIMIT_EXCEEDED);
-                    submission.setErrorMessage("Time limit exceeded on test case #" + caseIndex);
+                    caseResults.add(buildCaseResult(caseIndex, testCase, Constants.STATUS_TIME_LIMIT_EXCEEDED,
+                            (int) Math.max(1L, runResult.elapsedMs()), null,
+                            testCase.getOutput(), null,
+                            "超过时间限制 " + timeoutMs + "ms"));
+                    submission.setErrorMessage(buildTimeLimitMessage(caseIndex, testCase, timeoutMs));
                     return submission;
                 }
                 if (runResult.exitCode() != 0) {
                     submission.setStatus(Constants.STATUS_RUNTIME_ERROR);
-                    submission.setErrorMessage(runResult.output());
+                    caseResults.add(buildCaseResult(caseIndex, testCase, Constants.STATUS_RUNTIME_ERROR,
+                            (int) Math.max(1L, runResult.elapsedMs()), null,
+                            testCase.getOutput(), runResult.output(),
+                            preview(runResult.output(), 300)));
+                    submission.setErrorMessage(buildRuntimeErrorMessage(caseIndex, testCase, runResult.output()));
                     return submission;
                 }
                 maxTimeUsedMs = Math.max(maxTimeUsedMs, (int) Math.max(1L, runResult.elapsedMs()));
 
                 if (!isAnswerAccepted(testCase.getOutput(), runResult.output())) {
                     submission.setStatus(Constants.STATUS_WRONG_ANSWER);
-                    submission.setErrorMessage("Expected: " + OutputComparator.preview(testCase.getOutput(), 300) + ", Got: " + OutputComparator.preview(runResult.output(), 300));
+                    caseResults.add(buildCaseResult(caseIndex, testCase, Constants.STATUS_WRONG_ANSWER,
+                            (int) Math.max(1L, runResult.elapsedMs()), null,
+                            testCase.getOutput(), runResult.output(), "输出不匹配"));
+                    submission.setErrorMessage(buildWrongAnswerMessage(caseIndex, testCase, runResult.output()));
                     return submission;
                 }
+                caseResults.add(buildCaseResult(caseIndex, testCase, Constants.STATUS_ACCEPTED,
+                        (int) Math.max(1L, runResult.elapsedMs()), null,
+                        testCase.getOutput(), runResult.output(), null));
             }
 
             markAccepted(submission, problem, maxTimeUsedMs);
@@ -202,6 +219,8 @@ public class JudgeServiceImpl implements JudgeService {
             long timeoutMs = resolveTimeLimit(problem);
             int maxTimeUsedMs = 1;
             int caseIndex = 0;
+            List<SubmissionCaseResultDTO> caseResults = new ArrayList<>();
+            submission.setCaseResults(caseResults);
             for (TestCase testCase : testCases) {
                 caseIndex++;
                 ProcessBuilder runPb = new ProcessBuilder(execFile.getAbsolutePath());
@@ -209,21 +228,35 @@ public class JudgeServiceImpl implements JudgeService {
                 ProcessExecutionResult runResult = executeProcess(runPb, safeInput(testCase.getInput()), timeoutMs);
                 if (runResult.timedOut()) {
                     submission.setStatus(Constants.STATUS_TIME_LIMIT_EXCEEDED);
-                    submission.setErrorMessage("Time limit exceeded on test case #" + caseIndex);
+                    caseResults.add(buildCaseResult(caseIndex, testCase, Constants.STATUS_TIME_LIMIT_EXCEEDED,
+                            (int) Math.max(1L, runResult.elapsedMs()), null,
+                            testCase.getOutput(), null,
+                            "超过时间限制 " + timeoutMs + "ms"));
+                    submission.setErrorMessage(buildTimeLimitMessage(caseIndex, testCase, timeoutMs));
                     return submission;
                 }
                 if (runResult.exitCode() != 0) {
                     submission.setStatus(Constants.STATUS_RUNTIME_ERROR);
-                    submission.setErrorMessage(runResult.output());
+                    caseResults.add(buildCaseResult(caseIndex, testCase, Constants.STATUS_RUNTIME_ERROR,
+                            (int) Math.max(1L, runResult.elapsedMs()), null,
+                            testCase.getOutput(), runResult.output(),
+                            preview(runResult.output(), 300)));
+                    submission.setErrorMessage(buildRuntimeErrorMessage(caseIndex, testCase, runResult.output()));
                     return submission;
                 }
                 maxTimeUsedMs = Math.max(maxTimeUsedMs, (int) Math.max(1L, runResult.elapsedMs()));
 
                 if (!isAnswerAccepted(testCase.getOutput(), runResult.output())) {
                     submission.setStatus(Constants.STATUS_WRONG_ANSWER);
-                    submission.setErrorMessage("Expected: " + OutputComparator.preview(testCase.getOutput(), 300) + ", Got: " + OutputComparator.preview(runResult.output(), 300));
+                    caseResults.add(buildCaseResult(caseIndex, testCase, Constants.STATUS_WRONG_ANSWER,
+                            (int) Math.max(1L, runResult.elapsedMs()), null,
+                            testCase.getOutput(), runResult.output(), "输出不匹配"));
+                    submission.setErrorMessage(buildWrongAnswerMessage(caseIndex, testCase, runResult.output()));
                     return submission;
                 }
+                caseResults.add(buildCaseResult(caseIndex, testCase, Constants.STATUS_ACCEPTED,
+                        (int) Math.max(1L, runResult.elapsedMs()), null,
+                        testCase.getOutput(), runResult.output(), null));
             }
 
             markAccepted(submission, problem, maxTimeUsedMs);
@@ -252,6 +285,8 @@ public class JudgeServiceImpl implements JudgeService {
             long timeoutMs = resolveTimeLimit(problem);
             int maxTimeUsedMs = 1;
             int caseIndex = 0;
+            List<SubmissionCaseResultDTO> caseResults = new ArrayList<>();
+            submission.setCaseResults(caseResults);
             for (TestCase testCase : testCases) {
                 caseIndex++;
                 ProcessBuilder runPb = new ProcessBuilder(
@@ -262,21 +297,35 @@ public class JudgeServiceImpl implements JudgeService {
                 ProcessExecutionResult runResult = executeProcess(runPb, safeInput(testCase.getInput()), timeoutMs);
                 if (runResult.timedOut()) {
                     submission.setStatus(Constants.STATUS_TIME_LIMIT_EXCEEDED);
-                    submission.setErrorMessage("Time limit exceeded on test case #" + caseIndex);
+                    caseResults.add(buildCaseResult(caseIndex, testCase, Constants.STATUS_TIME_LIMIT_EXCEEDED,
+                            (int) Math.max(1L, runResult.elapsedMs()), null,
+                            testCase.getOutput(), null,
+                            "超过时间限制 " + timeoutMs + "ms"));
+                    submission.setErrorMessage(buildTimeLimitMessage(caseIndex, testCase, timeoutMs));
                     return submission;
                 }
                 if (runResult.exitCode() != 0) {
                     submission.setStatus(Constants.STATUS_RUNTIME_ERROR);
-                    submission.setErrorMessage(runResult.output());
+                    caseResults.add(buildCaseResult(caseIndex, testCase, Constants.STATUS_RUNTIME_ERROR,
+                            (int) Math.max(1L, runResult.elapsedMs()), null,
+                            testCase.getOutput(), runResult.output(),
+                            preview(runResult.output(), 300)));
+                    submission.setErrorMessage(buildRuntimeErrorMessage(caseIndex, testCase, runResult.output()));
                     return submission;
                 }
                 maxTimeUsedMs = Math.max(maxTimeUsedMs, (int) Math.max(1L, runResult.elapsedMs()));
 
                 if (!isAnswerAccepted(testCase.getOutput(), runResult.output())) {
                     submission.setStatus(Constants.STATUS_WRONG_ANSWER);
-                    submission.setErrorMessage("Expected: " + OutputComparator.preview(testCase.getOutput(), 300) + ", Got: " + OutputComparator.preview(runResult.output(), 300));
+                    caseResults.add(buildCaseResult(caseIndex, testCase, Constants.STATUS_WRONG_ANSWER,
+                            (int) Math.max(1L, runResult.elapsedMs()), null,
+                            testCase.getOutput(), runResult.output(), "输出不匹配"));
+                    submission.setErrorMessage(buildWrongAnswerMessage(caseIndex, testCase, runResult.output()));
                     return submission;
                 }
+                caseResults.add(buildCaseResult(caseIndex, testCase, Constants.STATUS_ACCEPTED,
+                        (int) Math.max(1L, runResult.elapsedMs()), null,
+                        testCase.getOutput(), runResult.output(), null));
             }
 
             markAccepted(submission, problem, maxTimeUsedMs);
@@ -345,6 +394,58 @@ public class JudgeServiceImpl implements JudgeService {
 
     private String safeInput(String input) {
         return input == null ? "" : input;
+    }
+
+    private String buildTimeLimitMessage(int caseIndex, TestCase testCase, long timeoutMs) {
+        return "测试点 " + caseName(caseIndex, testCase) + " 超时（>" + timeoutMs + "ms）\n"
+                + "输入预览: " + preview(testCase == null ? null : testCase.getInput(), 200);
+    }
+
+    private String buildRuntimeErrorMessage(int caseIndex, TestCase testCase, String runtimeOutput) {
+        return "测试点 " + caseName(caseIndex, testCase) + " 运行错误\n"
+                + "输入预览: " + preview(testCase == null ? null : testCase.getInput(), 200) + "\n"
+                + "错误输出: " + preview(runtimeOutput, 300);
+    }
+
+    private String buildWrongAnswerMessage(int caseIndex, TestCase testCase, String actualOutput) {
+        return "测试点 " + caseName(caseIndex, testCase) + " 答案错误\n"
+                + "输入预览: " + preview(testCase == null ? null : testCase.getInput(), 200) + "\n"
+                + "期望输出: " + preview(testCase == null ? null : testCase.getOutput(), 300) + "\n"
+                + "你的输出: " + preview(actualOutput, 300);
+    }
+
+    private String caseName(int caseIndex, TestCase testCase) {
+        String type = Integer.valueOf(1).equals(testCase == null ? null : testCase.getIsSample()) ? "样例" : "隐藏";
+        return "#" + caseIndex + "（" + type + "）";
+    }
+
+    private String preview(String text, int maxLen) {
+        String value = safeTrim(text);
+        if (value.isEmpty()) {
+            return "<空>";
+        }
+        return OutputComparator.preview(value, maxLen);
+    }
+
+    private SubmissionCaseResultDTO buildCaseResult(int caseIndex,
+                                                    TestCase testCase,
+                                                    String status,
+                                                    Integer timeUsed,
+                                                    Integer memoryUsed,
+                                                    String expected,
+                                                    String actual,
+                                                    String errorMessage) {
+        SubmissionCaseResultDTO dto = new SubmissionCaseResultDTO();
+        dto.setCaseNo(caseIndex);
+        dto.setIsSample(Integer.valueOf(1).equals(testCase == null ? null : testCase.getIsSample()) ? 1 : 0);
+        dto.setStatus(status);
+        dto.setTimeUsed(timeUsed);
+        dto.setMemoryUsed(memoryUsed);
+        dto.setInputPreview(preview(testCase == null ? null : testCase.getInput(), 200));
+        dto.setExpectedPreview(preview(expected, 300));
+        dto.setActualPreview(preview(actual, 300));
+        dto.setErrorMessage(errorMessage);
+        return dto;
     }
 
     private long resolveCompileTimeoutMs() {

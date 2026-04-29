@@ -6,6 +6,7 @@ import com.academic.oj.dto.RoleProfileDTO;
 import com.academic.oj.dto.TokenDTO;
 import com.academic.oj.dto.UserInfoDTO;
 import com.academic.oj.dto.UserListDTO;
+import com.academic.oj.dto.UserPublicProfileVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 public interface UserService {
@@ -15,6 +16,7 @@ public interface UserService {
     void updatePassword(Long userId, String oldPassword, String newPassword);
     void updateUserInfo(Long userId, UserInfoDTO userInfo);
     RoleProfileDTO getRoleProfile(Long userId);
+    UserPublicProfileVO getPublicProfile(Long targetUserId);
     void updateRoleProfile(Long userId, RoleProfileDTO profileDTO);
     Page<UserListDTO> getUserList(Integer page, Integer size, String keyword, String role, Integer status);
     void adminUpdateUser(Long operatorId, Long targetUserId, String role, Integer status);

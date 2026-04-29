@@ -1,0 +1,117 @@
+{
+  "base_url": "http://127.0.0.1:4173",
+  "output_dir": "screenshots",
+  "image_map_output": "screenshot-image-map-auth.json",
+  "headless": true,
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "mock_api": true,
+  "local_storage": {
+    "token": "debug-token",
+    "userInfo": "{\"id\": 1, \"username\": \"admin\", \"nickname\": \"???\", \"role\": \"ADMIN\"}"
+  },
+  "entries": [
+    {
+      "label": "??????",
+      "url": "/profile",
+      "filename": "profile.png",
+      "full_page": true,
+      "actions": [],
+      "wait_for_timeout_ms": 1500,
+      "wait_until": "domcontentloaded",
+      "timeout_ms": 45000
+    },
+    {
+      "label": "??????",
+      "url": "/problems",
+      "filename": "problems.png",
+      "full_page": true,
+      "actions": [],
+      "wait_for_timeout_ms": 1500,
+      "wait_until": "domcontentloaded",
+      "timeout_ms": 45000
+    },
+    {
+      "label": "??????",
+      "url": "/studio?problemId=1001",
+      "filename": "problem-detail.png",
+      "full_page": true,
+      "actions": [],
+      "wait_for_timeout_ms": 1500,
+      "wait_until": "domcontentloaded",
+      "timeout_ms": 45000
+    },
+    {
+      "label": "??????",
+      "url": "/studio",
+      "filename": "studio.png",
+      "full_page": true,
+      "actions": [],
+      "wait_for_timeout_ms": 1500,
+      "wait_until": "domcontentloaded",
+      "timeout_ms": 45000
+    },
+    {
+      "label": "??????",
+      "url": "/contests",
+      "filename": "contests.png",
+      "full_page": true,
+      "actions": [],
+      "wait_for_timeout_ms": 1500,
+      "wait_until": "domcontentloaded",
+      "timeout_ms": 45000
+    },
+    {
+      "label": "??????????",
+      "url": "/contests",
+      "filename": "contest-ranking.png",
+      "full_page": true,
+      "actions": [],
+      "wait_for_timeout_ms": 1800,
+      "wait_until": "domcontentloaded",
+      "timeout_ms": 45000
+    },
+    {
+      "label": "??????",
+      "url": "/discuss",
+      "filename": "discuss.png",
+      "full_page": true,
+      "actions": [],
+      "wait_for_timeout_ms": 1500,
+      "wait_until": "domcontentloaded",
+      "timeout_ms": 45000
+    },
+    {
+      "label": "??????",
+      "url": "/messages",
+      "filename": "messages.png",
+      "full_page": true,
+      "actions": [],
+      "wait_for_timeout_ms": 1500,
+      "wait_until": "domcontentloaded",
+      "timeout_ms": 45000
+    },
+    {
+      "label": "???????",
+      "url": "/teacher-workbench",
+      "filename": "teacher-workbench.png",
+      "full_page": true,
+      "actions": [],
+      "wait_for_timeout_ms": 1500,
+      "wait_until": "domcontentloaded",
+      "timeout_ms": 45000
+    },
+    {
+      "label": "????????",
+      "url": "/admin-console",
+      "filename": "admin-console.png",
+      "full_page": true,
+      "actions": [],
+      "wait_for_timeout_ms": 1500,
+      "wait_until": "domcontentloaded",
+      "timeout_ms": 45000
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "base_url": "http://127.0.0.1:4173",
+  "output_dir": "screenshots",
+  "image_map_output": "screenshot-image-map.json",
+  "headless": true,
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "entries": [
+    {
+      "label": "登录页面",
+      "url": "/login",
+      "filename": "login.png",
+      "full_page": true,
+      "actions": [],
+      "wait_for_timeout_ms": 1200
+    },
+    {
+      "label": "注册页面",
+      "url": "/register",
+      "filename": "register.png",
+      "full_page": true,
+      "actions": [],
+      "wait_for_timeout_ms": 1200
+    },
+    {
+      "label": "个人中心页面",
+      "url": "/profile",
+      "filename": "profile.png",
+      "full_page": true,
+      "actions": [],
+      "wait_for_timeout_ms": 1200
+    },
+    {
+      "label": "题库中心页面",
+      "url": "/problems",
+      "filename": "problems.png",
+      "full_page": true,
+      "actions": [],
+      "wait_for_timeout_ms": 1200
+    },
+    {
+      "label": "题目详情页面",
+      "url": "/studio?problemId=1001",
+      "filename": "problem-detail.png",
+      "full_page": true,
+      "actions": [],
+      "wait_for_timeout_ms": 1200
+    },
+    {
+      "label": "代码工坊页面",
+      "url": "/studio",
+      "filename": "studio.png",
+      "full_page": true,
+      "actions": [],
+      "wait_for_timeout_ms": 1200
+    },
+    {
+      "label": "赛事中枢页面",
+      "url": "/contests",
+      "filename": "contests.png",
+      "full_page": true,
+      "actions": [],
+      "wait_for_timeout_ms": 1200
+    },
+    {
+      "label": "竞赛详情与排行榜页面",
+      "url": "/contests",
+      "filename": "contest-ranking.png",
+      "full_page": true,
+      "actions": [],
+      "wait_for_timeout_ms": 1200
+    },
+    {
+      "label": "交流广场页面",
+      "url": "/discuss",
+      "filename": "discuss.png",
+      "full_page": true,
+      "actions": [],
+      "wait_for_timeout_ms": 1200
+    },
+    {
+      "label": "消息中心页面",
+      "url": "/messages",
+      "filename": "messages.png",
+      "full_page": true,
+      "actions": [],
+      "wait_for_timeout_ms": 1200
+    },
+    {
+      "label": "教师工作台页面",
+      "url": "/teacher-workbench",
+      "filename": "teacher-workbench.png",
+      "full_page": true,
+      "actions": [],
+      "wait_for_timeout_ms": 1200
+    },
+    {
+      "label": "管理员控制台页面",
+      "url": "/admin-console",
+      "filename": "admin-console.png",
+      "full_page": true,
+      "actions": [],
+      "wait_for_timeout_ms": 1200
+    }
+  ]
+}

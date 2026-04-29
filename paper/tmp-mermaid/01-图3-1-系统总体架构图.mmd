@@ -1,0 +1,10 @@
+flowchart LR
+    A["浏览器端用户"] --> B["Vue 3 + Vite 前端"]
+    B --> C["Spring Boot 后端接口层"]
+    C --> D["业务服务层"]
+    D --> E["MyBatis-Plus 持久层"]
+    E --> F["MySQL 数据库"]
+    D --> G["Redis"]
+    D --> H["本地判题执行器"]
+    D --> I["Docker 沙箱判题执行器"]
+    I --> J["Java / C++ / Python 容器镜像"]

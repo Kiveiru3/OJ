@@ -20,6 +20,7 @@ public class User {
     private String password;
     private String email;
     private String nickname;
+    private String avatar;
     private String role;  // ADMIN, TEACHER, STUDENT
     private Integer status;  // 0-禁用, 1-启用
     @TableLogic

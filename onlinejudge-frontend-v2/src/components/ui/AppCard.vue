@@ -1,5 +1,5 @@
 ﻿<template>
-  <article :class="['rounded-xl border border-line bg-white shadow-card transition-all duration-300 hover:shadow-hover', paddingClass]">
+  <article :class="['rounded-xl border border-line bg-white shadow-card transition-colors duration-200 hover:border-slate-300', paddingClass]">
     <slot />
   </article>
 </template>
