@@ -2,7 +2,6 @@
   <section class="space-y-6">
     <header>
       <h1 class="section-title">题库中心</h1>
-      <p class="section-subtitle">按卡片流展示题目，并支持搜索与难度筛选。</p>
     </header>
 
     <AppCard>

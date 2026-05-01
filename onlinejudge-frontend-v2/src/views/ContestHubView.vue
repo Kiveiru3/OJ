@@ -2,7 +2,6 @@
   <section class="space-y-6">
     <header>
       <h1 class="section-title">赛事中枢</h1>
-      <p class="section-subtitle">实时读取竞赛数据，支持报名、查看榜单与竞赛管理。</p>
     </header>
 
     <div class="grid gap-4 md:grid-cols-[1fr_120px_120px_140px]">

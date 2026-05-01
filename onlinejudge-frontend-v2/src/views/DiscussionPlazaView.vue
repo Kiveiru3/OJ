@@ -4,9 +4,8 @@
       <div class="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 class="section-title">讨论广场</h1>
-          <p class="section-subtitle">
-            交流题解、提问与经验，帖子按点赞热度优先推荐，再结合发布时间排序。
-            <span v-if="activeProblemId">当前按题目筛选：#{{ activeProblemId }}</span>
+          <p v-if="activeProblemId" class="section-subtitle">
+            当前按题目筛选：#{{ activeProblemId }}
           </p>
         </div>
         <div class="rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-medium text-amber-700">

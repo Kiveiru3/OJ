@@ -3,7 +3,6 @@
     <header class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
       <div>
         <h1 class="section-title">AI 助手</h1>
-        <p class="section-subtitle">围绕题目理解、调试思路和算法提示进行对话。</p>
       </div>
       <RouterLink v-if="problemId" :to="{ path: '/studio', query: { problemId: String(problemId) } }">
         <AppButton variant="secondary">

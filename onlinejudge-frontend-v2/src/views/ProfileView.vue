@@ -3,7 +3,6 @@
     <header class="flex flex-wrap items-end justify-between gap-3">
       <div>
         <h1 class="section-title">个人设置</h1>
-        <p class="section-subtitle">维护公开资料、角色档案和账户安全，修改后会同步到个人主页与社区展示。</p>
       </div>
 
       <div class="flex flex-wrap gap-2 text-xs">

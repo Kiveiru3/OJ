@@ -2,7 +2,6 @@
   <section class="space-y-6">
     <header>
       <h1 class="section-title">私信中心</h1>
-      <p class="section-subtitle">像 QQ / 微信一样查看会话并聊天。</p>
     </header>
 
     <AppCard padding="lg">
