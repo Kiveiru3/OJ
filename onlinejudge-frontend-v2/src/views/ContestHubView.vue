@@ -31,10 +31,19 @@
           <div>罚时：{{ event.penaltyPerWrong ?? 20 }} 分钟</div>
           <div v-if="event.status === 0" class="mt-1 text-amber-700">状态：隐藏</div>
         </div>
-        <div class="mt-4 flex gap-2">
+        <div class="mt-4 flex flex-wrap gap-2">
           <AppButton size="sm" @click="showRanking(event.id)">查看榜单</AppButton>
           <AppButton size="sm" variant="secondary" :disabled="event.joined || joining" @click="join(event.id)">
             {{ event.joined ? '已报名' : (userStore.isLoggedIn ? '报名' : '登录后报名') }}
+          </AppButton>
+          <AppButton
+            v-if="canManageContest"
+            size="sm"
+            variant="secondary"
+            :disabled="exportingContestId === event.id"
+            @click="exportRanking(event)"
+          >
+            {{ exportingContestId === event.id ? '导出中...' : '导出排名' }}
           </AppButton>
           <AppButton
             size="sm"
@@ -194,6 +203,7 @@ const size = ref(9)
 const showEditor = ref(false)
 const editingContestId = ref(0)
 const enteringContest = ref(false)
+const exportingContestId = ref(0)
 const showContestPanel = ref(false)
 const activeContest = ref({})
 const activeContestProblems = ref([])
@@ -459,6 +469,27 @@ async function join(id) {
 async function showRanking(id) {
   const res = await contestApi.getContestRanking(id, { page: 1, size: 10 })
   ranking.value = res.data?.records || []
+}
+
+async function exportRanking(event) {
+  const contestId = Number(event?.id || 0)
+  if (!contestId) return
+  exportingContestId.value = contestId
+  try {
+    const res = await contestApi.exportContestRanking(contestId)
+    const csv = String(res?.data || '')
+    const withBom = `\uFEFF${csv}`
+    const blob = new Blob([withBom], { type: 'text/csv;charset=utf-8;' })
+    const title = String(event?.title || `contest-${contestId}`).replace(/[\\/:*?"<>|]/g, '_')
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `${title}-排名.csv`
+    link.click()
+    URL.revokeObjectURL(url)
+  } finally {
+    exportingContestId.value = 0
+  }
 }
 
 function search() {

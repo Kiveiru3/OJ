@@ -126,6 +126,9 @@ export const contestApi = {
   },
   getContestRanking(id, params) {
     return request({ url: `/contest/${id}/ranking`, method: 'get', params })
+  },
+  exportContestRanking(id) {
+    return request({ url: `/contest/${id}/ranking/export`, method: 'get' })
   }
 }
 
