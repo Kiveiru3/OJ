@@ -4,6 +4,7 @@
       <div class="grid gap-6 md:grid-cols-[1.2fr_0.8fr]">
         <div class="space-y-4">
           <AppBadge tone="neutral">在线评测教学平台</AppBadge>
+          <h1 class="text-3xl font-bold leading-tight text-slate-900 md:text-4xl">题库练习、竞赛组织、自动评测一体化</h1>
           <div class="flex flex-wrap gap-3">
             <RouterLink to="/problems"><AppButton>浏览题库</AppButton></RouterLink>
             <RouterLink to="/contests"><AppButton variant="secondary">查看竞赛</AppButton></RouterLink>
