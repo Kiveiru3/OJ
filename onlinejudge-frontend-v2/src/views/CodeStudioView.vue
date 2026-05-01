@@ -2,9 +2,7 @@
   <section class="space-y-6">
     <header>
       <h1 class="section-title">代码工坊</h1>
-      <p class="section-subtitle">
-        {{ isContestMode ? '比赛模式：仅显示题面与评测状态。' : '在线做题、提交评测、查看题解讨论与历史提交。' }}
-      </p>
+      <p v-if="isContestMode" class="section-subtitle">比赛模式：仅显示题面与评测状态。</p>
     </header>
 
     <AppCard>
