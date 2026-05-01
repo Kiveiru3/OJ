@@ -12,7 +12,7 @@
           <option :value="30">最近 30 天</option>
         </select>
         <AppButton size="sm" variant="secondary" :disabled="loading" @click="loadData">刷新</AppButton>
-        <AppButton size="sm" :disabled="loading || exporting" @click="exportCsv">{{ exporting ? '导出中...' : '导出 CSV' }}</AppButton>
+        <AppButton size="sm" :disabled="loading || exporting" @click="exportCsv">{{ exporting ? '导出中...' : '导出数据' }}</AppButton>
       </div>
     </header>
 

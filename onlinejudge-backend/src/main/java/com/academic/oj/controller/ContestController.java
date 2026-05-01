@@ -146,7 +146,7 @@ public class ContestController {
 
     private String buildCsv(List<ContestRankingItemVO> ranking) {
         StringBuilder builder = new StringBuilder();
-        builder.append("Rank,UserId,Username,Nickname,Solved,Penalty,Submissions,LastAcceptedTime\n");
+        builder.append("排名,用户ID,用户名,昵称,解题数,罚时（分钟）,提交次数,最后通过时间\n");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         for (ContestRankingItemVO item : ranking) {
             builder.append(value(item.getRank())).append(',')
